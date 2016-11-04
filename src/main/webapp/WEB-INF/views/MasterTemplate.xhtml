@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+    <h:outputStylesheet library="css" name="material.green-lime.min.css"/>
+    <h:outputStylesheet library="css" name="global.css"/>
+
+    <script type="application/javascript" defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</h:head>
+
+<h:body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title"><ui:insert name="headerTitle"/></span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <ui:insert name="headerNavigation"/>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+            <span class="mdl-layout-title"><ui:insert name="headerTitle"/></span>
+            <nav class="mdl-navigation">
+                <ui:insert name="headerNavigation"/>
+            </nav>
+        </div>
+
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <ui:insert name="main"/>
+            </div>
+        </main>
+    </div>
+
+</h:body>
+</html>
