@@ -8,13 +8,13 @@ import org.hibernate.MappingException;
  * something exists before deleting it in the database.
  */
 public class MySQL5InnoDBDialect extends org.hibernate.dialect.MySQL5InnoDBDialect {
-    @Override
-    protected String getDropSequenceString(String sequenceName) throws MappingException {
-        return "drop sequence if exists " + sequenceName;
-    }
-
-    @Override
-    public boolean dropConstraints() {
-        return false;
-    }
+//    @Override
+//    protected String getDropSequenceString(String sequenceName) throws MappingException {
+//        return "drop sequence if exists " + sequenceName;
+//    }
+//
+//    @Override
+//    public boolean dropConstraints() {
+//        return false;
+//    }
 }

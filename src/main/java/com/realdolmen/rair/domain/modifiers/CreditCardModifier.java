@@ -5,15 +5,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-public class MarginModifier extends PriceModifier {
+public class CreditCardModifier extends PriceModifier {
 
-    private double marginPercentage;
+    private double creditCardDiscountPercentage = 5.0;
 
     @Override
     public BigDecimal modify(List<PriceModifier> modifiers, BigDecimal input) {
-        if (marginPercentage == 0) {
-            return input;
-        }
-        return input.add(multiplyPercentage(input, marginPercentage));
+        return input.min(multiplyPercentage(input, creditCardDiscountPercentage));
     }
 }

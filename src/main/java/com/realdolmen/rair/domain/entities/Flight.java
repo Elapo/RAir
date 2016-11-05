@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.Map;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f")
+})
 public class Flight {
 
     @Id
