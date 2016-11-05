@@ -1,4 +1,4 @@
-package com.realdolmen.rair.domain.entities;
+package com.realdolmen.rair.domain.entities.user;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 

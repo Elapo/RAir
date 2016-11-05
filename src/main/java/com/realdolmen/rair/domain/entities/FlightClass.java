@@ -1,4 +1,4 @@
-package com.realdolmen.rair.domain;
+package com.realdolmen.rair.domain.entities;
 
 public enum FlightClass {
     FIRST_CLASS("First Class"), BUSINESS_CLASS("Business Class"), PREMIUM_ECONOMY("Premium Economy"), ECONOMY_CLASS("Economy Class");

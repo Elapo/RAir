@@ -1,4 +1,6 @@
-package com.realdolmen.rair.domain.entities;
+package com.realdolmen.rair.domain.entities.user;
+
+import com.realdolmen.rair.domain.entities.Flight;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;

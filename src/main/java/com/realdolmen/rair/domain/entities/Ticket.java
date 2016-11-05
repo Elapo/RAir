@@ -1,6 +1,6 @@
 package com.realdolmen.rair.domain.entities;
 
-import com.realdolmen.rair.domain.FlightClass;
+import com.realdolmen.rair.domain.entities.user.RegularUser;
 
 import javax.persistence.*;
 
@@ -14,6 +14,7 @@ public class Ticket {
     @ManyToOne
     private Flight flight;
 
+    @Enumerated(EnumType.STRING)
     private FlightClass flightClass;
 
     @ManyToOne

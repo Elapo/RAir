@@ -1,6 +1,6 @@
 package com.realdolmen.rair.domain.entities;
 
-import com.realdolmen.rair.domain.FlightClass;
+import com.realdolmen.rair.domain.entities.user.Partner;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,10 +14,11 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date departureTime;
 
-    //TODO: Flight duration: Do or don't?
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date returnTime;
 
     @ManyToOne
     private Partner creator;

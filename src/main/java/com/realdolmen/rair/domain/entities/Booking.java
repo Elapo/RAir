@@ -1,5 +1,7 @@
 package com.realdolmen.rair.domain.entities;
 
+import com.realdolmen.rair.domain.modifiers.PriceModifier;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +21,9 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
+
+    @ManyToMany
+    private List<PriceModifier> priceModifiers;
 
     public Long getId() {
         return id;
