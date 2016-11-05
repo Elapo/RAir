@@ -1,6 +1,6 @@
 language: java
 sudo: false
-script: mvn -Pitest -DargLine="-DdatabaseEngine=h2" clean verify
+script: mvn -DargLine="-DdatabaseEngine=h2" clean verify
 cache:
   directories:
     - $HOME/.m2
