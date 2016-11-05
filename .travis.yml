@@ -1,5 +1,9 @@
 language: java
 sudo: false
+script: mvn -DargLine="-DdatabaseEngine=h2" clean verify
+notifications:
+  email: false
+  
 cache:
   directories:
     - $HOME/.m2
