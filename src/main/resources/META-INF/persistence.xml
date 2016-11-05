@@ -10,7 +10,7 @@
         <jta-data-source>java:/rd/datasources/RealDolmenDataSource</jta-data-source>
         <properties>
             <property name="hibernate.dialect" value="com.realdolmen.rair.data.MySQL5InnoDBDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
         </properties>
     </persistence-unit>
 
