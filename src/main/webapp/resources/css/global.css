@@ -34,13 +34,16 @@ html, body {
     border-radius: 3px 0 0 3px;
 }
 
-.searchBtn {}
+.searchBtn {
+    background-color: rgba(76,175,80,.7);
+    cursor: pointer;
+    color: rgb(66,66,66) !important;
+}
 
 .searchBtn:hover {
     background-color: rgba(76,175,80,.7);
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-    cursor: pointer;
-    color: rgb(66,66,66);
+    color: #000 !important;
 }
 
 .ui-inputfield:focus {
@@ -70,6 +73,15 @@ html, body {
     /*background: url('https://i.ytimg.com/vi/ZXsQAXx_ao0/maxresdefault.jpg') 50% 40% no-repeat #4CAF50;*/
     background: url('https://i.gyazo.com/43cf0cbca018c6d816d46aec68cc1be1.gif') 50% 40% no-repeat #4CAF50;
     background-size: cover;
+}
+
+.loginCard > .mdl-card__title {
+    color: #fff;
+    height: 75px;
+    /*background: url('https://i.ytimg.com/vi/ZXsQAXx_ao0/maxresdefault.jpg') 50% 40% no-repeat #4CAF50;*/
+    background: url("#{resource['images/RloginSm.png']}") 3% 50% no-repeat #fff;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+
 }
 
 section {
@@ -280,9 +292,15 @@ a {
     border-radius: 0 10px 30px 0;
 }
 
+@media (max-width: 839px) {
+    .searchForm {
+        margin-left: 16px;
+    }
+}
 
-
-
+.noBG {
+    background-color: rgba(0,0,0,0);
+}
 
 
 
