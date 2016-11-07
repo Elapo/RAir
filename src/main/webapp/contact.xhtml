@@ -9,7 +9,7 @@
 
 <ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
 
-    <ui:define name="title">#{msg.thankYouTitle}</ui:define>
+    <ui:define name="title">#{msg.contactTitle}</ui:define>
 
     <ui:define name="main">
         <!-- content here -->
@@ -59,7 +59,7 @@
                             </div>
                             <div class="mdl-card__actions mdl-card--border" style="text-align: center">
 
-                                <h:commandButton value="#{msg['sendSearch']}" actionListener="#{search.search}" styleClass="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
+                                <h:commandButton value="#{msg['sendSearch']}" actionListener="#{search.search}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
                             </div>
                             <div class="mdl-card__menu">
                                 <i class="material-icons" style="color: #fff">search</i>

@@ -9,6 +9,8 @@
 
 <ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
 
+    <ui:define name="title">#{msg.loginTitle}</ui:define>
+
     <ui:define name="main">
         <!-- content here -->
         <div class="mdl-grid mdl-grid--no-spacing container">
@@ -33,6 +35,7 @@
                             </div>
                             <div class="mdl-card__actions mdl-card--border" style="text-align: center">
                                 <h:commandButton value="#{msg['sendLogin']}" actionListener="#{search.search}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn"/>
+                                <!--TODO: Add register button-->
                             </div>
                             <div class="mdl-card__menu">
                                 <i class="material-icons" style="color: rgb(76,175,80);">lock_open</i>
