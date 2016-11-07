@@ -4,6 +4,9 @@ script: mvn -DargLine="-DdatabaseEngine=h2" clean verify
 notifications:
   email: false
   
+notifications:
+  slack: acaddemict:knomGpitG9iKLNW1chhOZQhw
+  
 cache:
   directories:
     - $HOME/.m2
