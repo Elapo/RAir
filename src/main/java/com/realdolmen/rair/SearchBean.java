@@ -12,27 +12,46 @@ import javax.inject.Named;
 @SessionScoped
 public class SearchBean implements Serializable {
 
+    //region CONSTANTS -
+
+    //endregion
+
+    //region Private Member Variables +
+
     private Date dateOfDeparture;
     private Date dateOfArrival;
+    private Integer ticketsAdults;
+    private Integer ticketsKids;
 
+    //endregion
 
-    private int ticketsAdults;
+    //region Private Properties -
 
-    private int ticketsKids;
+    //endregion
 
-    public int getTicketsAdults() {
+    //region Private Methods -
+
+    //endregion
+
+    //region Constructors -
+
+    //endregion
+
+    //region Public Properties +
+
+    public Integer getTicketsAdults() {
         return ticketsAdults;
     }
 
-    public void setTicketsAdults(int ticketsAdults) {
+    public void setTicketsAdults(Integer ticketsAdults) {
         this.ticketsAdults = ticketsAdults;
     }
 
-    public int getTicketsKids() {
+    public Integer getTicketsKids() {
         return ticketsKids;
     }
 
-    public void setTicketsKids(int ticketsKids) {
+    public void setTicketsKids(Integer ticketsKids) {
         this.ticketsKids = ticketsKids;
     }
 
@@ -52,9 +71,14 @@ public class SearchBean implements Serializable {
         this.dateOfArrival = dateOfArrival;
     }
 
+    //endregion
 
+    //region Public Methods +
 
     public void search() {
+        //TODO: formvalidatie
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "System Error"));
     }
+
+    //endregion
 }

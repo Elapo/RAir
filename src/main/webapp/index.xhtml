@@ -9,19 +9,6 @@
 
 <ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
 
-    <!--
-    <ui:define name="headerTitle"><h:link outcome="index" styleClass="mdl-navigation__link home" value="RAir" /></ui:define>
-
-
-    <ui:define name="headerNavigation">
-        <h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.login}" />
-        <h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.locations}" />
-        <h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.about}" />
-        <h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.contact}" />
-        <h:link outcome="languages" styleClass="mdl-navigation__link linkFont" value="#{msg.languages}" />
-    </ui:define>
-    -->
-
     <ui:define name="main">
         <!-- content here -->
         <section style="position:relative;">
@@ -59,15 +46,11 @@
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
                             <p:inputNumber id="input1" value="#{search.ticketsAdults}"  placeholder="#{msg.ticketsAdults}" maxValue="6" emptyValue="empty"/>
-                            <div class="mdl-tooltip mdl-tooltip--large" for="input1">
-                                <h:outputText value="#{msg['hoverTicketAdults']}"/>
-                            </div>
+                            <p:tooltip for="input1" value="#{msg['hoverTicketAdults']}" position="top"/>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
                             <p:inputNumber id="input2" value="#{search.ticketsKids}" placeholder="#{msg.ticketsKids}" maxValue="6" emptyValue="empty"/>
-                            <div class="mdl-tooltip mdl-tooltip--large" for="input2">
-                                <h:outputText value="#{msg['hoverTicketKids']}"/>
-                            </div>
+                            <p:tooltip for="input2" value="#{msg['hoverTicketKids']}" position="top"/>
                         </div>
                     </div>
                     <div class="mdl-card__actions mdl-card--border" style="text-align: center">
@@ -75,7 +58,7 @@
                         <h:commandButton value="#{msg['sendSearch']}" actionListener="#{search.search}" styleClass="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
                     </div>
                     <div class="mdl-card__menu">
-                        <i class="material-icons" style="color: white">search</i>
+                        <i class="material-icons" style="color: #fff">search</i>
                     </div>
                 </div>
             </h:form>
