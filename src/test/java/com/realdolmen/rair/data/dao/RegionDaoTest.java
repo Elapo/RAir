@@ -54,6 +54,7 @@ public class RegionDaoTest extends JpaPersistenceTest {
     public void remove() throws Exception {
         Region r = entityManager().getReference(Region.class, 1000L);
         rd.remove(r);
-        assertNull(entityManager().getReference(Region.class, 1000L));
+        assertNotNull(entityManager().getReference(Region.class, 1000L));
+        assertFalse(r.isActive());
     }
 }

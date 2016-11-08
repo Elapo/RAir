@@ -11,4 +11,8 @@ public class UserDao extends AbstractDao<User, Long> {
     protected Class<User> getDataType() {
         return User.class;
     }
+
+    public <T extends User> T find(Class<T> c, Long id) {
+        return (T) super.find(id);
+    }
 }

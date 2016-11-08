@@ -9,7 +9,8 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Booking.findByFlight", query = "SELECT b FROM Booking b WHERE b.flight = :flight")
+        @NamedQuery(name = "Booking.findByFlight", query = "SELECT b FROM Booking b WHERE b.flight = :flight"),
+        @NamedQuery(name="Booking.findByStatus", query = "SELECT b FROM Booking b WHERE b.status = :status")
 })
 public class Booking implements Toggle {
 
@@ -72,7 +73,28 @@ public class Booking implements Toggle {
     }
 
     @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
     public void deactivate() {
         active = false;
+    }
+
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
+    }
+
+    public List<PriceModifier> getPriceModifiers() {
+        return priceModifiers;
+    }
+
+    public void setPriceModifiers(List<PriceModifier> priceModifiers) {
+        this.priceModifiers = priceModifiers;
     }
 }

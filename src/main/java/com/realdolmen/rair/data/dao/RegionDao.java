@@ -20,4 +20,10 @@ public class RegionDao extends AbstractDao<Region, Long> {
 
         return true;
     }
+
+    @Override
+    public void remove(Region object) {
+        object.deactivate();
+        update(object);
+    }
 }

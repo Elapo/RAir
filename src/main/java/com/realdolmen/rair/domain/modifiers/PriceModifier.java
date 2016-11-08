@@ -28,7 +28,7 @@ public abstract class PriceModifier {
         return input.multiply(new BigDecimal(percentage)).divide(new BigDecimal(100), roundingMode);
     }
 
-    public Boolean getPercentBased() {
+    public Boolean isPercentBased() {
         return percentBased;
     }
 

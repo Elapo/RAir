@@ -21,6 +21,7 @@ public class FlightDao extends AbstractDao<Flight, Long> {
 
     @Override
     public void remove(Flight object) {
+        bookingDao.getBookingsByFlight(object).forEach(bookingDao::remove);
         object.getRoute().getFlights().remove(object);
         object.setRoute(null);
 
