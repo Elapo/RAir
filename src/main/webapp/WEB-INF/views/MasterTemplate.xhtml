@@ -8,15 +8,13 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/images/favicon-32x32.ico"/>
     <title><ui:insert name="title"/></title>
-
     <h:outputStylesheet library="css" name="material.green-lime.min.css"/>
     <h:outputStylesheet library="css" name="global.css"/>
-    <script type="application/javascript" defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </h:head>
 
 <h:body>
@@ -46,7 +44,6 @@
                     <span><h:link outcome="languages" styleClass="mdl-navigation__link linkFont" value="#{msg.languages} "><i class="material-icons" style="float: right;">language</i></h:link></span>
                 </nav>
             </div>
-
             <main class="mdl-layout__content">
                 <div class="page-content">
                     <ui:insert name="main"/>
@@ -54,5 +51,6 @@
             </main>
         </div>
     </f:view>
+    <script type="application/javascript" defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 </h:body>
 </html>

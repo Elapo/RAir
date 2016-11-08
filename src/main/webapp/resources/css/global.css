@@ -25,7 +25,7 @@ html, body {
 .moreInfoBtn {
     position: absolute;
     bottom: 30px;
-    right: 0px;
+    right: 0;
     background-color: rgba(76,175,80,.7);
     padding: 10px;
     z-index: 999999999999;
@@ -78,10 +78,16 @@ html, body {
 .loginCard > .mdl-card__title {
     color: #fff;
     height: 75px;
-    /*background: url('https://i.ytimg.com/vi/ZXsQAXx_ao0/maxresdefault.jpg') 50% 40% no-repeat #4CAF50;*/
     background: url("#{resource['images/RloginSm.png']}") 3% 50% no-repeat #fff;
     border-bottom: 1px solid rgba(0,0,0,.1);
 
+}
+
+.registerCard > .mdl-card__title {
+    color: #fff;
+    height: 75px;
+    background: url("#{resource['images/RloginSm.png']}") 3% 50% no-repeat #fff;
+    border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
 section {
@@ -89,15 +95,12 @@ section {
 }
 
 main {
-    background-image: url("http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/grid.png");
-    background-repeat: repeat;
-    background-attachment: fixed;
+    background: url("http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/grid.png") repeat fixed;
     padding-top: 5px;
 }
 
 .border {
-    border: solid #4CAF50;
-    border-width: 1px 1px 1px 1px;
+    border: 1px solid #4CAF50;
 }
 
 .paddingTop20 {
@@ -248,15 +251,13 @@ a {
 }
 
 .french {
-    background-image: url("https://taylorgraceauthor.files.wordpress.com/2015/11/6917465-french-flag-wallpaper.jpg");
-    background-position: center;
+    background: url("https://taylorgraceauthor.files.wordpress.com/2015/11/6917465-french-flag-wallpaper.jpg") center;
     background-size: cover;
     height: 250px;
 }
 
 .german {
-    background-image: url("http://il8.picdn.net/shutterstock/videos/11461223/thumb/1.jpg");
-    background-position: center;
+    background: url("http://il8.picdn.net/shutterstock/videos/11461223/thumb/1.jpg") center;
     background-size: cover;
     height: 250px;
 }
@@ -305,11 +306,20 @@ a {
 .registerLink {
     float: right !important;
     font-size: 12px;
+    text-decoration: underline !important;
 }
 
 .registerLink:hover {
-    background-color: #fff;
+    background-color: #fff !important;
     box-shadow: none;
+    color: #000;
+}
+
+.indexBanner {
+    height: 350px;
+    width: 100%;
+    background: url('http://cdn.paper4pc.com/images/amazing-view-wallpaper-5.jpg') no-repeat fixed 50% 15%;
+    background-size: cover;"
 }
 
 
@@ -318,16 +328,25 @@ a {
 
 
 
-.ribbon-green:before {
-    left: 0;
-}
-.ribbon-green:after {
-    right: 0;
-}​
+
+
+
+
+
+
+
+
 
 .comingSoon:before {
     right: 0;
 }
 .comingSoon:after {
+    right: 0;
+}​
+
+.ribbon-green:before {
+    left: 0;
+}
+.ribbon-green:after {
     right: 0;
 }​
