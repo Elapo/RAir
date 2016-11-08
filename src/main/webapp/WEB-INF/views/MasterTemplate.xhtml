@@ -5,48 +5,61 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-
+    <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/images/favicon-32x32.ico" />
     <h:outputStylesheet library="css" name="material.green-lime.min.css"/>
     <h:outputStylesheet library="css" name="global.css"/>
+
 
     <script type="application/javascript" defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </h:head>
 
 <h:body>
-
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-                <!-- Title -->
-                <span class="mdl-layout-title"><ui:insert name="headerTitle"/></span>
-                <!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer"></div>
-                <!-- Navigation. We hide it in small screens. -->
-                <nav class="mdl-navigation mdl-layout--large-screen-only">
-                    <ui:insert name="headerNavigation"/>
+    <f:view locale="#{language.locale}">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <!-- Title -->
+                    <span class="mdl-layout-title"><h:link outcome="index" styleClass="mdl-navigation__link home" value="RAir "><i class="material-icons">flight_takeoff</i></h:link></span>
+                    <!-- Add spacer, to align navigation to the right -->
+                    <div class="mdl-layout-spacer"></div>
+                    <!-- Navigation. We hide it in small screens. -->
+                    <nav class="mdl-navigation mdl-layout--large-screen-only">
+                        <!--<ui:insert name="headerNavigation"/>-->
+                        <span><h:link outcome="login" styleClass="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons">vpn_key</i></h:link></span>
+                        <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.about} "><i class="material-icons">info</i></h:link></span>
+                        <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.contact} "><i class="material-icons">contact_phone</i></h:link></span>
+                        <span><h:link outcome="languages" styleClass="mdl-navigation__link linkFont" value="#{msg.languages} "><i class="material-icons">language</i></h:link></span>
+                    </nav>
+                </div>
+            </header>
+            <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+                <h:link outcome="index" styleClass="mdl-navigation__link mdl-layout-title home" value="RAir"/>
+                <nav class="mdl-navigation">
+                    <!--<ui:insert name="headerNavigation"/>-->
+                    <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons" style="float: right;">vpn_key</i></h:link></span>
+                    <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.about} "><i class="material-icons" style="float: right;">info</i></h:link></span>
+                    <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.contact} "><i class="material-icons" style="float: right;">contact_phone</i></h:link></span>
+                    <span><h:link outcome="languages" styleClass="mdl-navigation__link linkFont" value="#{msg.languages} "><i class="material-icons" style="float: right;">language</i></h:link></span>
                 </nav>
             </div>
-        </header>
-        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
-            <span class="mdl-layout-title"><ui:insert name="headerTitle"/></span>
-            <nav class="mdl-navigation">
-                <ui:insert name="headerNavigation"/>
-            </nav>
+
+            <main class="mdl-layout__content">
+                <div class="page-content">
+                    <div class="mdl grid mdl-grid--no-spacing container">
+                        <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--3dp border">
+                            <ui:insert name="main"/>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
-
-        <main class="mdl-layout__content">
-            <div class="page-content">
-                <ui:insert name="main"/>
-            </div>
-        </main>
-    </div>
-
+    </f:view>
 </h:body>
 </html>

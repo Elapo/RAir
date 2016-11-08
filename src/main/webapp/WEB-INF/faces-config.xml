@@ -5,4 +5,14 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
               version="2.2">
 
+    <application>
+        <locale-config>
+            <default-locale>en_GB</default-locale>
+            <supported-locale>nl_BE</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>com.realdolmen.rair.languagebundles.language</base-name>
+            <var>msg</var>
+        </resource-bundle>
+    </application>
 </faces-config>
