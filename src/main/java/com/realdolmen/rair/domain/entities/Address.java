@@ -1,4 +1,4 @@
-package com.realdolmen.rair.domain.entities.user;
+package com.realdolmen.rair.domain.entities;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;

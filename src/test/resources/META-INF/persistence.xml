@@ -16,6 +16,7 @@
         <class>com.realdolmen.rair.domain.entities.Ticket</class>
         <class>com.realdolmen.rair.domain.entities.Region</class>
         <class>com.realdolmen.rair.domain.entities.user.User</class>
+        <class>com.realdolmen.rair.domain.entities.user.Admin</class>
         <class>com.realdolmen.rair.domain.entities.Route</class>
         <class>com.realdolmen.rair.domain.modifiers.PriceModifier</class>
         <class>com.realdolmen.rair.domain.modifiers.MarginModifier</class>

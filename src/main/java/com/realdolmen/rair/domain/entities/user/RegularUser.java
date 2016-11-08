@@ -8,8 +8,8 @@ import java.security.NoSuchAlgorithmException;
 @DiscriminatorValue("RU")
 public class RegularUser extends User {
 
-    protected RegularUser(String firstName, String lastName, String email, String phoneNumber, String password, Address address) throws NoSuchAlgorithmException {
-        super(firstName, lastName, email, phoneNumber, password, address);
+    RegularUser(String firstName, String lastName, String password, ContactInformation contactInformation) throws NoSuchAlgorithmException {
+        super(firstName, lastName, password, contactInformation);
     }
 
     public RegularUser() {

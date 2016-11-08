@@ -10,9 +10,25 @@
         - Add a logger category to the desired logger level (for example, org.hibernate.SQL to DEBUG)
 -->
 <configuration>
+
+    <timestamp key="byDay" datePattern="yyyyMMdd'T'HHmmss"/>
+
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>buildLog/log-${byDay}.txt</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -27,6 +43,7 @@
     <!--<logger name="org.hibernate.type" level="TRACE" />-->
 
     <root level="DEBUG">
+        <appender-ref ref="file" />
         <appender-ref ref="console"/>
     </root>
 </configuration>

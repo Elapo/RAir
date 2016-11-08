@@ -1,3 +1,80 @@
 <dataset>
-    <!-- Optional for manual data entry! -->
+
+    <regularuser firstName="Regular"
+                 id="1000"
+                 lastName="User"
+                 email="regular.user@domain.com"
+                 salt="88eome6kbc7k3bvptrtle64l35kgi8qsgu8i1bg3m88gret9u07"
+                 hash="5IU/UOSzc9f/ma/RUsA9StwK4sukLGE5t3FU5Tfy4Ss="
+                 phoneNumber="Unknown"
+                 street="street"
+                 number="1"
+                 city="somewhere"
+                 postalCode="8080"
+                 country="belgium"
+    />
+
+    <partner firstName="Partner"
+             lastName="User"
+             id="2000"
+             email="partner.user@domain.com"
+             salt="88eome6kbc7k3bvptrtle64l35kgi8qsgu8i1bg3m88gret9u07"
+             hash="5IU/UOSzc9f/ma/RUsA9StwK4sukLGE5t3FU5Tfy4Ss="
+             phoneNumber="Unknown"
+             street="street"
+             number="1"
+             city="somewhere"
+             postalCode="8080"
+             country="belgium"
+    />
+
+    <companyuser firstName="Company"
+                 lastName="User"
+                 id="3000"
+                 email="company.user@domain.com"
+                 salt="88eome6kbc7k3bvptrtle64l35kgi8qsgu8i1bg3m88gret9u07"
+                 hash="5IU/UOSzc9f/ma/RUsA9StwK4sukLGE5t3FU5Tfy4Ss="
+                 phoneNumber="Unknown"
+                 street="street"
+                 number="1"
+                 city="somewhere"
+                 postalCode="8080"
+                 country="belgium"
+    />
+
+    <admin firstName="Admin"
+           lastName="User"
+           id="4000"
+           email="admin.user@domain.com"
+           salt="88eome6kbc7k3bvptrtle64l35kgi8qsgu8i1bg3m88gret9u07"
+           hash="5IU/UOSzc9f/ma/RUsA9StwK4sukLGE5t3FU5Tfy4Ss="
+           phoneNumber="Unknown"
+           street="street"
+           number="1"
+           city="somewhere"
+           postalCode="8080"
+           country="belgium"
+    />
+
+    <region id="1000" name="West Europe"/>
+    <region id="2000" name="Central Europe"/>
+    <region id="3000" name="North Korea"/>
+
+    <airport name="Zaventem" id="1000" region_id="1000" street="street"
+             number="1"
+             city="somewhere"
+             postalCode="8080"
+             country="Belgium"/>
+
+    <airport name="Charleroi" id="2000" region_id="1000" street="street"
+             number="1"
+             city="somewhere"
+             postalCode="8080"
+             country="Belgium"/>
+
+    <route id="1000" airportA_id="1000" airportB_id="2000"/>
+
+    <flight id="1000" creator_id="2000" route_id="1000"/>
+
+    <route_flight route_id="1000" flights_id="1000" />
 </dataset>
