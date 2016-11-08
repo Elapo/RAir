@@ -16,7 +16,7 @@
         <section style="position:relative;">
             <div class="indexBanner"></div>
             <div class="ribbon-wrapper-green"><div class="ribbon-green mdl-shadow--3dp"><h:outputText value="#{msg.welcomeText}"/></div></div>
-            <h:outputText styleClass="moreInfoBtn mdl-shadow--2dp" value="#{msg['dreams']}" />
+            <h:outputText class="moreInfoBtn mdl-shadow--2dp" value="#{msg['dreams']}" />
         </section>
         <section class="paddingTop40 paddingBot40">
             <h:form action="#" id="form" class="searchForm">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="mdl-card__actions mdl-card--border" style="text-align: center">
 
-                        <h:commandButton value="#{msg['sendSearch']}" actionListener="#{search.search}" styleClass="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
+                        <h:commandButton value="#{msg['sendSearch']}" actionListener="#{search.search}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
                     </div>
                     <div class="mdl-card__menu">
                         <i class="material-icons" style="color: #fff">search</i>

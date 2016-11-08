@@ -80,7 +80,6 @@ html, body {
     height: 75px;
     background: url("#{resource['images/RloginSm.png']}") 3% 50% no-repeat #fff;
     border-bottom: 1px solid rgba(0,0,0,.1);
-
 }
 
 .registerCard > .mdl-card__title {
@@ -268,6 +267,7 @@ a {
 
 .mdl-card {
     border: 1px solid #4CAF50;
+    min-height: 0;
 }
 
 .mdl-card__title {

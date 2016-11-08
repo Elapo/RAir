@@ -12,13 +12,13 @@
     <ui:define name="title">#{msg.indexUserTitle}</ui:define>
 
     <ui:define name="main">
-        <!-- content here -->
+        <!-- TODO: add recover password link -->
         <div class="mdl-grid mdl-grid--no-spacing container">
             <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--3dp border">
                 <section style="position: relative;">
                     <div class="indexBanner"></div>
                     <div class="ribbon-wrapper-green"><div class="ribbon-green mdl-shadow--3dp"><h:outputText value="#{msg.welcomeText}"/></div></div>
-                    <h:outputText styleClass="moreInfoBtn mdl-shadow--2dp" value="#{msg['dreams']}" />
+                    <h:outputText class="moreInfoBtn mdl-shadow--2dp" value="#{msg['dreams']}" />
                 </section>
                 <section class="paddingTop40 paddingBot40">
                     <h:form action="#" id="form" class="searchForm">
