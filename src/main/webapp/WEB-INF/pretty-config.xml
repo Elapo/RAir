@@ -28,4 +28,9 @@
         <view-id value="languages.xhtml" />
     </url-mapping>
 
+    <url-mapping id="register">
+        <pattern value="/registration" />
+        <view-id value="register.xhtml" />
+    </url-mapping>
+
 </pretty-config>

@@ -302,6 +302,16 @@ a {
     background-color: rgba(0,0,0,0);
 }
 
+.registerLink {
+    float: right !important;
+    font-size: 12px;
+}
+
+.registerLink:hover {
+    background-color: #fff;
+    box-shadow: none;
+}
+
 
 
 
