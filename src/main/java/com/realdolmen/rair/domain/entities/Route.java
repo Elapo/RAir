@@ -10,7 +10,7 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Flight> flights;
 
     @ManyToOne

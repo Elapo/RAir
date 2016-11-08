@@ -8,9 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.security.NoSuchAlgorithmException;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @XmlRootElement
-@DiscriminatorColumn(columnDefinition = "DTYPE", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorColumn(columnDefinition = "DTYPE", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "users")
+@DiscriminatorValue("User")
 public abstract class User {
 
     @Id

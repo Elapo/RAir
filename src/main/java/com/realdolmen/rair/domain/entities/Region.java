@@ -1,5 +1,8 @@
 package com.realdolmen.rair.domain.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,7 +13,7 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Airport> airports;
 
     private String name;

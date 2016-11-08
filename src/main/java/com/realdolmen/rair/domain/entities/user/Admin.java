@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import java.security.NoSuchAlgorithmException;
 
 @Entity
-@DiscriminatorValue("AD")
+@DiscriminatorValue("Admin")
 public class Admin extends User {
     public Admin() {
     }

@@ -1,6 +1,6 @@
 <dataset>
 
-    <regularuser firstName="Regular"
+    <users DTYPE="Regular" firstName="Regular"
                  id="1000"
                  lastName="User"
                  email="regular.user@domain.com"
@@ -14,7 +14,7 @@
                  country="belgium"
     />
 
-    <partner firstName="Partner"
+    <users DTYPE="Partner" firstName="Partner"
              lastName="User"
              id="2000"
              email="partner.user@domain.com"
@@ -28,7 +28,7 @@
              country="belgium"
     />
 
-    <companyuser firstName="Company"
+    <users DTYPE="Company" firstName="Company"
                  lastName="User"
                  id="3000"
                  email="company.user@domain.com"
@@ -42,7 +42,7 @@
                  country="belgium"
     />
 
-    <admin firstName="Admin"
+    <users DTYPE="Admin" firstName="Admin"
            lastName="User"
            id="4000"
            email="admin.user@domain.com"
@@ -75,6 +75,8 @@
     <route id="1000" airportA_id="1000" airportB_id="2000"/>
 
     <flight id="1000" creator_id="2000" route_id="1000"/>
+
+    <booking id="1000" flight_id="1000" active="1" />
 
     <route_flight route_id="1000" flights_id="1000" />
 </dataset>
