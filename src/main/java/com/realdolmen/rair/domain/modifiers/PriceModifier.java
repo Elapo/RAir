@@ -14,6 +14,8 @@ public abstract class PriceModifier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Boolean percentBased = true;
+
 
     public abstract BigDecimal modify(List<PriceModifier> modifiers, BigDecimal input);
 
@@ -24,5 +26,17 @@ public abstract class PriceModifier {
 
     public BigDecimal multiplyPercentage(BigDecimal input, double percentage, RoundingMode roundingMode) {
         return input.multiply(new BigDecimal(percentage)).divide(new BigDecimal(100), roundingMode);
+    }
+
+    public Boolean getPercentBased() {
+        return percentBased;
+    }
+
+    public void setPercentBased(Boolean percentBased) {
+        this.percentBased = percentBased;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

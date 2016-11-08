@@ -17,6 +17,9 @@ public class FlightDao {
 
     @Transactional
     public void registerFlight(Flight flight) {
+        if(flight.getRoute() == null) {
+            throw new IllegalStateException("Flight must be assigned to a route!");
+        }
         em.persist(flight);
     }
 

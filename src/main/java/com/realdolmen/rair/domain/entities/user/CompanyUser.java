@@ -11,7 +11,7 @@ public class CompanyUser extends User {
     public CompanyUser() {
     }
 
-    CompanyUser(String firstName, String lastName, String email, String phoneNumber, String password, Address address) throws NoSuchAlgorithmException {
-        super(firstName, lastName, email, phoneNumber, password, address);
+    CompanyUser(String firstName, String lastName, String password, ContactInformation contactInformation) throws NoSuchAlgorithmException {
+        super(firstName, lastName, password, contactInformation);
     }
 }

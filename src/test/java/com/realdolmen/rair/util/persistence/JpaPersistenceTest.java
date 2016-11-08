@@ -1,11 +1,16 @@
 package com.realdolmen.rair.util.persistence;
 
+import org.junit.Rule;
+import org.junit.rules.TestName;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,14 +31,29 @@ public abstract class JpaPersistenceTest extends DataSetPersistenceTest {
     private EntityManager entityManager;
     private EntityTransaction transaction;
 
+    @Rule
+    public TestName testName = new TestName();
+
+    private Method currentMethod;
+
+    private NoTransaction noTransaction;
+
     @Override
     public final void initialize() throws Exception {
         logger.info("Creating EntityManagerFactory from persistence unit " + PERSISTENCE_UNIT_NAME);
         entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, properties());
         logger.info("Creating transacted EntityManager");
+        currentMethod = getClass().getMethod(testName.getMethodName());
+        noTransaction = currentMethod.getDeclaredAnnotation(NoTransaction.class);
         entityManager = entityManagerFactory.createEntityManager();
         transaction = entityManager.getTransaction();
-        transaction.begin();
+        if (noTransaction == null) {
+            transaction.begin();
+        }
+    }
+
+    public Method getCurrentMethod() {
+        return currentMethod;
     }
 
     @Override
@@ -46,6 +66,7 @@ public abstract class JpaPersistenceTest extends DataSetPersistenceTest {
     /**
      * Provides connection settings for the database. These settings will merge with the ones already in the test persistence.xml.
      * Subclasses can override this to customize.
+     *
      * @return Map of JPA properties.
      */
     protected Map<String, String> properties() {
@@ -59,22 +80,22 @@ public abstract class JpaPersistenceTest extends DataSetPersistenceTest {
 
     private void closeEntityManagerFactory() {
         logger.info("Closing EntityManagerFactory");
-        if(entityManagerFactory != null) {
+        if (entityManagerFactory != null) {
             entityManagerFactory.close();
         }
     }
 
     private void closeEntityManager() {
         logger.info("Closing EntityManager");
-        if(entityManager != null) {
+        if (entityManager != null) {
             entityManager.close();
         }
     }
 
     private void completeTransaction() {
         logger.info("Committing and closing transacted EntityManager");
-        if(transaction != null) {
-            if(transaction.getRollbackOnly()) {
+        if (transaction != null && noTransaction == null) {
+            if (transaction.getRollbackOnly()) {
                 transaction.rollback();
             } else {
                 transaction.commit();
@@ -84,8 +105,9 @@ public abstract class JpaPersistenceTest extends DataSetPersistenceTest {
 
     /**
      * Convenience for unit tests that assert entity counts.
+     *
      * @param entityClass The entity class for which to count records.
-     * @param <T> Type of the entity.
+     * @param <T>         Type of the entity.
      * @return The number of said entities found in the database.
      */
     protected <T> long count(Class<T> entityClass) {

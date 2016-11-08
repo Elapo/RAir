@@ -12,12 +12,15 @@ public class PasswordManager {
     private MessageDigest digest;
     private boolean initialized;
 
-    private static final int HASH_ITERATIONS = 5;
+    static final int HASH_ITERATIONS = 5;
 
     public enum HashMode {
-        RAW, HEX, BASE64;
+        RAW, BASE64;
 
-        public byte[] convert(byte[] hash) {
+        byte[] convert(byte[] hash) {
+            if (hash == null) {
+                throw new IllegalArgumentException("Hash cannot be null!");
+            }
             switch (this) {
                 case RAW:
                     return hash;
@@ -46,10 +49,17 @@ public class PasswordManager {
         if (!isInitialized()) {
             return null;
         }
-        return new BigInteger(32 * 8, SecureRandom.getInstanceStrong()).toString(32);
+        return new BigInteger(32 * 5, SecureRandom.getInstanceStrong()).toString(32);
     }
 
     public byte[] hashText(String salt, String input, int iterations, HashMode mode) {
+
+        if (input == null) {
+            throw new IllegalArgumentException("Input cannot be null!");
+        }
+        if (!isInitialized()) {
+            throw new IllegalStateException("Password Manager must be initialized first!");
+        }
         StringBuilder sb = new StringBuilder();
         if (salt != null) {
             sb.append(salt);

@@ -20,8 +20,8 @@ public class Partner extends User {
     public Partner() {
     }
 
-    Partner(String firstName, String lastName, String email, String phoneNumber, String password, Address address) throws NoSuchAlgorithmException {
-        super(firstName, lastName, email, phoneNumber, password, address);
+    Partner(String firstName, String lastName, String password, ContactInformation contactInformation) throws NoSuchAlgorithmException {
+        super(firstName, lastName, password, contactInformation);
     }
 
     public List<Flight> getOwnedFlights() {
