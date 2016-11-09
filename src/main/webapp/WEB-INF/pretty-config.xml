@@ -33,4 +33,10 @@
         <view-id value="register.xhtml" />
     </url-mapping>
 
+    <!--TODO: dont forget to add pretty:thankyou to the link that sends to thankyou page-->
+    <url-mapping id="thankyou">
+        <pattern value="/thanks" />
+        <view-id value="thankyou.xhtml" />
+    </url-mapping>
+
 </pretty-config>

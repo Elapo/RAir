@@ -5,18 +5,17 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/images/favicon-32x32.ico"/>
     <title><ui:insert name="title"/></title>
-
     <h:outputStylesheet library="css" name="material.green-lime.min.css"/>
     <h:outputStylesheet library="css" name="global.css"/>
-    <script type="application/javascript" defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </h:head>
 
 <h:body>
@@ -25,28 +24,35 @@
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
                     <!-- Title -->
-                    <span class="mdl-layout-title"><a href="#{request.contextPath}" class="mdl-navigation__link home">RAir<i class="material-icons">flight_takeoff</i></a></span>
+                    <span class="mdl-layout-title"><a href="#{request.contextPath}" class="mdl-navigation__link home">RAir <i class="material-icons">flight_takeoff</i></a></span>
                     <!-- Add spacer, to align navigation to the right -->
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation. We hide it in small screens. -->
                     <nav class="mdl-navigation mdl-layout--large-screen-only">
-                        <span><h:link outcome="pretty:login" styleClass="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons">vpn_key</i></h:link></span>
-                        <span><h:link outcome="pretty:about" styleClass="mdl-navigation__link linkFont" value="#{msg.about} "><i class="material-icons">info</i></h:link></span>
-                        <span><h:link outcome="pretty:contact" styleClass="mdl-navigation__link linkFont" value="#{msg.contact} "><i class="material-icons">contact_phone</i></h:link></span>
-                        <span><h:link outcome="pretty:languages" styleClass="mdl-navigation__link linkFont" value="#{msg.languages} "><i class="material-icons">language</i></h:link></span>
+                        <span><h:link outcome="pretty:login" class="mdl-navigation__link linkFont"><i class="material-icons">vpn_key</i> #{msg.login}</h:link></span>
+                        <span><h:link outcome="pretty:about" class="mdl-navigation__link linkFont"><i class="material-icons">info</i> #{msg.about}</h:link></span>
+                        <span><h:link outcome="pretty:contact" class="mdl-navigation__link linkFont"><i class="material-icons">contact_phone</i> #{msg.contact}</h:link></span>
+                        <button id="demo-menu-lower-right" class="mdl-navigation__link mdl-button mdl-js-button mdl-button--icon linkFont"><i class="material-icons">language</i></button>
+                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
+                            <h:form>
+                                <li class="mdl-menu__item"><span><h:graphicImage library="images" name="Belgium.png"/></span><h:commandLink action="#{language.changeLocale('nl', 'BE')}" value=" #{msg.pickLangNL}" style="color: rgb(66,66,66)"/></li>
+                                <li class="mdl-menu__item"><span><h:graphicImage library="images" name="United_Kingdom.png"/></span><h:commandLink action="#{language.changeLocale('en', 'GB')}" value=" #{msg.pickLangEN}" style="color: rgb(66,66,66)"/></li>
+                                <li disabled="true" class="mdl-menu__item"><span><h:graphicImage library="images" name="France.png"/></span><h:commandLink disabled="true" action="#" value=" #{msg.pickLangFR}"/></li>
+                                <li disabled="true" class="mdl-menu__item"><span><h:graphicImage library="images" name="Germany.png"/></span><h:commandLink disabled="true" action="#" value=" #{msg.pickLangGER}"/></li>
+                            </h:form>
+                        </ul>
                     </nav>
                 </div>
             </header>
             <div class="mdl-layout__drawer mdl-layout--small-screen-only">
-                <h:link outcome="index" styleClass="mdl-navigation__link mdl-layout-title home" value="RAir"/>
+                <h:link outcome="index" class="mdl-navigation__link mdl-layout-title home" value="RAir"/>
                 <nav class="mdl-navigation">
-                    <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons" style="float: right;">vpn_key</i></h:link></span>
-                    <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.about} "><i class="material-icons" style="float: right;">info</i></h:link></span>
-                    <span><h:link outcome="index" styleClass="mdl-navigation__link linkFont" value="#{msg.contact} "><i class="material-icons" style="float: right;">contact_phone</i></h:link></span>
-                    <span><h:link outcome="languages" styleClass="mdl-navigation__link linkFont" value="#{msg.languages} "><i class="material-icons" style="float: right;">language</i></h:link></span>
+                    <span><h:link outcome="index" class="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons" style="float: right;">vpn_key</i></h:link></span>
+                    <span><h:link outcome="index" class="mdl-navigation__link linkFont" value="#{msg.about} "><i class="material-icons" style="float: right;">info</i></h:link></span>
+                    <span><h:link outcome="index" class="mdl-navigation__link linkFont" value="#{msg.contact} "><i class="material-icons" style="float: right;">contact_phone</i></h:link></span>
+                    <span><h:link outcome="languages" class="mdl-navigation__link linkFont" value="#{msg.languages} "><i class="material-icons" style="float: right;">language</i></h:link></span>
                 </nav>
             </div>
-
             <main class="mdl-layout__content">
                 <div class="page-content">
                     <ui:insert name="main"/>
@@ -54,5 +60,6 @@
             </main>
         </div>
     </f:view>
+    <script type="application/javascript" defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 </h:body>
 </html>
