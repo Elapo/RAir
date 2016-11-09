@@ -11,9 +11,6 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Flight flight;
-
     @Enumerated(EnumType.STRING)
     private FlightClass flightClass;
 
@@ -29,14 +26,6 @@ public class Ticket {
 
     protected void setId(Long id) {
         this.id = id;
-    }
-
-    public Flight getFlight() {
-        return flight;
-    }
-
-    public void setFlight(Flight flight) {
-        this.flight = flight;
     }
 
     public FlightClass getFlightClass() {

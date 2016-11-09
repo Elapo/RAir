@@ -1,12 +1,13 @@
 package com.realdolmen.rair.data;
 
-import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+@ApplicationScoped
 public class PasswordManager {
 
     private MessageDigest digest;

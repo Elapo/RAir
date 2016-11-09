@@ -106,32 +106,6 @@ public class UserTest extends JpaPersistenceTest {
     }
 
     @Test
-    public void canDeleteUsers() throws Exception {
-        entityManager().remove(entityManager().getReference(RegularUser.class, 1000L));
-        entityManager().remove(entityManager().getReference(CompanyUser.class, 3000L));
-        entityManager().remove(entityManager().getReference(Admin.class, 4000L));
-    }
-
-    @Test
-    @NoTransaction
-    @Ignore
-    public void deletePartnerWithFlightsBoundToRouteNotAllowed() {
-        //TODO: Catch failure in some way
-        try {
-            entityManager().remove(entityManager().getReference(Partner.class, 2000L));
-        } catch (Exception re) {
-            if(re.getCause() instanceof ConstraintViolationException) {
-
-            } else {
-                fail("Exception was not ConstraintViolation");
-                re.printStackTrace();
-            }
-        }
-
-        fail("Bound flights should not be able to be deleted!");
-    }
-
-    @Test
     public void deletingPartnerRemovesAllOwnedFlights() throws Exception {
         Address address = new Address("Blank street", "15a", "Mystery", "9191", "Christmas Island");
         Partner ru = new Partner("John", "Doe", "JohnRocks64",

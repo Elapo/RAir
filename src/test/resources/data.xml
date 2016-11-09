@@ -1,6 +1,6 @@
 <dataset>
 
-    <regularuser firstName="Regular"
+    <users DTYPE="Regular" firstName="Regular"
                  id="1000"
                  lastName="User"
                  email="regular.user@domain.com"
@@ -14,7 +14,7 @@
                  country="belgium"
     />
 
-    <partner firstName="Partner"
+    <users DTYPE="Partner" firstName="Partner"
              lastName="User"
              id="2000"
              email="partner.user@domain.com"
@@ -28,7 +28,7 @@
              country="belgium"
     />
 
-    <companyuser firstName="Company"
+    <users DTYPE="Company" firstName="Company"
                  lastName="User"
                  id="3000"
                  email="company.user@domain.com"
@@ -42,7 +42,7 @@
                  country="belgium"
     />
 
-    <admin firstName="Admin"
+    <users DTYPE="Admin" firstName="Admin"
            lastName="User"
            id="4000"
            email="admin.user@domain.com"
@@ -75,6 +75,19 @@
     <route id="1000" airportA_id="1000" airportB_id="2000"/>
 
     <flight id="1000" creator_id="2000" route_id="1000"/>
+
+    <flight_class_base_price flight_id="1000" base_price="100" class="FIRST_CLASS" />
+    <flight_seats flight_id="1000" available_seats="45" class="FIRST_CLASS" />
+
+    <booking id="1000" flight_id="1000" active="1" />
+
+    <pricemodifier DTYPE="CreditCard" id="2000" percentBased="1" discount="5.0" margin="0" />
+    <pricemodifier DTYPE="Margin" id="1000" percentBased="1" margin="10.0" />
+
+    <ticket id="1000" flightClass="FIRST_CLASS" booking_id="1000" owner_id="1000" />
+
+    <booking_pricemodifier booking_id="1000" priceModifiers_id="2000" />
+    <booking_pricemodifier booking_id="1000" priceModifiers_id="1000" />
 
     <route_flight route_id="1000" flights_id="1000" />
 </dataset>

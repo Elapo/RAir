@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("PA")
+@DiscriminatorValue("Partner")
 public class Partner extends User {
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Flight> ownedFlights = new ArrayList<>();
+
+    private String wow;
 
     public Partner() {
     }

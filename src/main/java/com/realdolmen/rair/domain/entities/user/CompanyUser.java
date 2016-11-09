@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import java.security.NoSuchAlgorithmException;
 
 @Entity
-@DiscriminatorValue("CU")
+@DiscriminatorValue("Company")
 public class CompanyUser extends User {
 
     public CompanyUser() {

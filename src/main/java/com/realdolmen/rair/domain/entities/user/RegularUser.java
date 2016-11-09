@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import java.security.NoSuchAlgorithmException;
 
 @Entity
-@DiscriminatorValue("RU")
+@DiscriminatorValue("Regular")
 public class RegularUser extends User {
 
     RegularUser(String firstName, String lastName, String password, ContactInformation contactInformation) throws NoSuchAlgorithmException {

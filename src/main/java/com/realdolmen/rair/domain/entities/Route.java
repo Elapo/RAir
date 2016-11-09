@@ -4,13 +4,16 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Route.findByAirport", query = "SELECT r FROM Route r WHERE r.airportA = :airport OR r.airportB = :airport")
+})
 public class Route {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Flight> flights;
 
     @ManyToOne

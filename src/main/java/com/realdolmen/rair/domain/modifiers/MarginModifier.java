@@ -1,19 +1,33 @@
 package com.realdolmen.rair.domain.modifiers;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("Margin")
 public class MarginModifier extends PriceModifier {
 
-    private double marginPercentage;
+    private Double margin = 10.0;
 
     @Override
     public BigDecimal modify(List<PriceModifier> modifiers, BigDecimal input) {
-        if (marginPercentage == 0) {
+        if (margin == 0) {
             return input;
         }
-        return input.add(multiplyPercentage(input, marginPercentage));
+
+        if (isPercentBased())
+            return input.add(multiplyPercentage(input, margin));
+        else
+            return input.add(new BigDecimal(margin));
+    }
+
+    public Double getMargin() {
+        return margin;
+    }
+
+    public void setMargin(Double margin) {
+        this.margin = margin;
     }
 }

@@ -9,8 +9,7 @@ public enum FlightClass {
         prettyName = pretty;
     }
 
-    @Override
-    public String toString() {
+    public String pretty() {
         return prettyName;
     }
 }

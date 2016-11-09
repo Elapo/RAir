@@ -1,17 +1,20 @@
 package com.realdolmen.rair.domain.entities;
 
+import com.realdolmen.rair.data.dao.Toggle;
 import com.realdolmen.rair.domain.entities.user.Partner;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f")
+        @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f"),
+        @NamedQuery(name = "Flight.findAllByState", query = "SELECT f FROM Flight f WHERE f.active = :active")
 })
-public class Flight {
+public class Flight implements Toggle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,15 +34,19 @@ public class Flight {
 
     @ElementCollection
     @MapKeyColumn(name = "class")
-    @JoinTable(name="flight_seats")
+    @JoinTable(name = "flight_seats")
     @Column(name = "available_seats")
-    private Map<FlightClass, Integer> availableSeats;
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<FlightClass, Integer> availableSeats = new HashMap<>();
 
     @ElementCollection
     @MapKeyColumn(name = "class")
-    @JoinTable(name="flight_class_base_price")
+    @JoinTable(name = "flight_class_base_price")
     @Column(name = "base_price")
-    private Map<FlightClass, BigDecimal> basePrices;
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<FlightClass, BigDecimal> basePrices = new HashMap<>();
+
+    private Boolean active = true;
 
     public Long getId() {
         return id;
@@ -87,5 +94,20 @@ public class Flight {
 
     public void setBasePrices(Map<FlightClass, BigDecimal> basePrices) {
         this.basePrices = basePrices;
+    }
+
+    @Override
+    public void activate() {
+        active = true;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void deactivate() {
+        active = false;
     }
 }
