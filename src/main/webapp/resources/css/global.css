@@ -241,28 +241,8 @@ a {
     background-position: center;
 }
 
-.dutch {
-    background-image: url("http://il9.picdn.net/shutterstock/videos/12405374/thumb/1.jpg");
-}
-
-.english {
-    background-image: url("http://wallpapercave.com/wp/Paxa7aH.jpg");
-}
-
-.french {
-    background: url("https://taylorgraceauthor.files.wordpress.com/2015/11/6917465-french-flag-wallpaper.jpg") center;
-    background-size: cover;
-    height: 250px;
-}
-
-.german {
-    background: url("http://il8.picdn.net/shutterstock/videos/11461223/thumb/1.jpg") center;
-    background-size: cover;
-    height: 250px;
-}
-
-.german:hover, .french:hover {
-    cursor: not-allowed;
+.mdl-menu__item > span > img {
+    padding-bottom: 3px !important;
 }
 
 .mdl-card {
@@ -333,9 +313,12 @@ a {
 
 
 
-
-
-
+.ribbon-green:before {
+    left: 0;
+}
+.ribbon-green:after {
+    right: 0;
+}​
 
 .comingSoon:before {
     right: 0;
@@ -344,9 +327,3 @@ a {
     right: 0;
 }​
 
-.ribbon-green:before {
-    left: 0;
-}
-.ribbon-green:after {
-    right: 0;
-}​
