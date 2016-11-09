@@ -26,14 +26,14 @@ public class FlightController extends AbstractController {
     }
 
     public List<Flight> getActiveFlights() {
-
+        return flightDao.getActiveFlights();
     }
 
     public List<Flight> getAllFlights() {
-
+        return flightDao.getAllFlights();
     }
 
     public List<Flight> getInactiveFlights() {
-
+        return flightDao.getInactiveFlights();
     }
 }
