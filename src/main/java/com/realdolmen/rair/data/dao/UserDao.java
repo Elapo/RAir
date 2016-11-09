@@ -15,4 +15,8 @@ public class UserDao extends AbstractDao<User, Long> {
     public <T extends User> T find(Class<T> c, Long id) {
         return (T) super.find(id);
     }
+
+    public User find(String email) {
+        return  super.em().createNamedQuery("User.FindByEmail", User.class).setParameter("email", email).getSingleResult();
+    }
 }

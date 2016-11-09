@@ -15,6 +15,9 @@ import java.security.NoSuchAlgorithmException;
 @XmlRootElement
 //@DiscriminatorColumn(columnDefinition = "DTYPE", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "User.FindByEmail", query = "select u from User u where u.contactInformation.email = :email")
+})
 @DiscriminatorValue("User")
 public abstract class User implements Toggle, Authorizable {
 

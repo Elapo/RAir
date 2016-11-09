@@ -1,11 +1,21 @@
 package com.realdolmen.rair;
 
+import com.realdolmen.rair.domain.controllers.UserController;
 import com.realdolmen.rair.domain.entities.Address;
+import com.realdolmen.rair.domain.entities.user.ContactInformation;
+import com.realdolmen.rair.domain.entities.user.RegularUser;
+import com.realdolmen.rair.domain.entities.user.User;
 
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 @Named (value = "register")
+@RequestScoped
 public class RegisterBean {
 
     //region CONSTANTS -
@@ -14,18 +24,23 @@ public class RegisterBean {
 
     //region Private Member Variables +
 
+    @Inject
+    private UserController userController;
+
     private String lastName;
     private String firstName;
-    private Date birthDate;
-    private Enum selectedSex;
+
+    private Date birthDate = new Date();
+    private Sex selectedSex;
     private String email;
     private String phoneNumber;
     private Address address;
     private Sex sexEnum;
+    private String password;
 
     //endregion	 
 
-    //region Private Properties - 
+    //region Private Properties -
 
     //endregion
 
@@ -35,18 +50,29 @@ public class RegisterBean {
 
     //region Constructors +
 
-    public RegisterBean() {}
+    public RegisterBean() {
+        this.address = new Address();
+    }
 
     //endregion
 
     //region Public Properties +
 
-    public Enum getSelectedSex() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Sex getSelectedSex() {
         return selectedSex;
     }
 
-    public void setSelectedSex(Enum selectedSex) {
+    public void setSelectedSex(Sex selectedSex) {
         this.selectedSex = selectedSex;
+        System.out.println(selectedSex);
     }
 
     public Sex[] getSexEnum() {
@@ -103,10 +129,21 @@ public class RegisterBean {
 
     //endregion
 
-    //region Public Methods -
+    //region Public Methods +
 
-    public void register() {
-
+    public String register() {
+        User user = new RegularUser();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        try {
+            user.setPassword(password);
+        } catch (NoSuchAlgorithmException algo) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(algo.getMessage()));
+            return "register";
+        }
+        user.setContactInformation(new ContactInformation(email, phoneNumber, address));
+        userController.register(user);
+        return "booking?faces-redirect=true";
     }
 
     //endregion

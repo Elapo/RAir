@@ -1,6 +1,11 @@
 package com.realdolmen.rair;
 
+import com.realdolmen.rair.data.PasswordManager;
+import com.realdolmen.rair.data.dao.UserDao;
+import com.realdolmen.rair.domain.entities.user.User;
+
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named(value = "login")
@@ -12,6 +17,12 @@ public class LoginBean {
     //endregion
 
     //region Private Member Variables +
+
+    @Inject
+    private PasswordManager passwordManager;
+
+    @Inject
+    private UserDao userDao;
 
     private String password;
     private String email;
@@ -51,6 +62,14 @@ public class LoginBean {
     //endregion
 
     //region Public Methods - 
+
+    public void logUserIn() {
+        User user = userDao.find(email);
+        byte[] bytes = passwordManager.hashText(user.getSalt(), password);
+        if (new String(bytes).equals(user.getHash())) {
+
+        }
+    }
 
     //endregion
 
