@@ -26,10 +26,10 @@ public class Flight implements Toggle {
     @Temporal(TemporalType.TIMESTAMP)
     private Date returnTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Partner creator;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Route route;
 
     @ElementCollection

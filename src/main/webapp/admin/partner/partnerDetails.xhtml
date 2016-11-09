@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+    <f:viewParam name="partnerId" value="#{partnerDetailsBean.partnerId}"/>
+    <f:event type="preRenderView" listener="#{partnerDetailsBean.load()}"/>
+</f:metadata>
+
+<ui:composition template="../../WEB-INF/views/AdminTemplate.xhtml">
+
+    <ui:define name="title">#{msg.indexAdminTitle}</ui:define>
+    <ui:define name="currentTitle">Viewing partner</ui:define>
+
+
+    <ui:define name="main">
+        <div class="mdl-grid admin-content">
+            <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--6-col">
+                <div class="mdl-card__title mdl-color--green-300">
+                    <h2 class="mdl-card__title-text">Personal information</h2>
+                </div>
+                <div class="mdl-card--expand">
+                    #{partnerDetailsBean.partner.firstName} #{partnerDetailsBean.partner.lastName}
+                </div>
+                <div class="mdl-card__actions mdl-card--border mdl-textfield--align-right">
+                    <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Save</a>
+                </div>
+            </div>
+
+            <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--6-col">
+                <div class="mdl-card__title mdl-color--green-300">
+                    <h2 class="mdl-card__title-text">Contact information</h2>
+                </div>
+                <div class="mdl-card--expand">
+                    #{partnerDetailsBean.partner.firstName} #{partnerDetailsBean.partner.lastName}
+                </div>
+                <div class="mdl-card__actions mdl-card--border mdl-textfield--align-right">
+                    <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Save</a>
+                </div>
+            </div>
+
+            <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
+                <div class="mdl-card__title mdl-color--green-300">
+                    <h2 class="mdl-card__title-text">Owned flights</h2>
+                </div>
+                <div class="mdl-card--expand">
+                    #{partnerDetailsBean.partner.firstName} #{partnerDetailsBean.partner.lastName}
+                </div>
+                <div class="mdl-card__actions mdl-card--border mdl-textfield--align-right">
+                    <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Save</a>
+                </div>
+            </div>
+
+            <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
+                <div class="mdl-card__actions mdl-card--border">
+                    <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Save</a>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

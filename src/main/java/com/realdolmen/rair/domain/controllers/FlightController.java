@@ -5,6 +5,7 @@ import com.realdolmen.rair.domain.entities.Flight;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 @Named

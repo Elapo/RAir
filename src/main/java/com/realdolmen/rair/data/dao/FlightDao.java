@@ -42,14 +42,15 @@ public class FlightDao extends AbstractDao<Flight, Long> {
     }
 
     public List<Flight> getActiveFlights() {
-        return flightDao.getActiveFlights();
+        return em().createNamedQuery("Flight.findAllByState", Flight.class).setParameter("active", true).getResultList();
+
     }
 
     public List<Flight> getAllFlights() {
-        return flightDao.getAllFlights();
+        return em().createNamedQuery("Flight.findAll", Flight.class).getResultList();
     }
 
     public List<Flight> getInactiveFlights() {
-        return flightDao.getInactiveFlights();
+        return em().createNamedQuery("Flight.findAllByState", Flight.class).setParameter("active", false).getResultList();
     }
 }

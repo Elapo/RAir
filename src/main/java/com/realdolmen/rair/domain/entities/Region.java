@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class Region implements Toggle {
     private Long id;
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    private List<Airport> airports;
+    private List<Airport> airports = new ArrayList<>();
 
     private String name;
 

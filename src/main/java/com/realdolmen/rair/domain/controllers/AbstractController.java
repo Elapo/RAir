@@ -1,4 +1,6 @@
 package com.realdolmen.rair.domain.controllers;
 
-public abstract class AbstractController {
+import java.io.Serializable;
+
+public abstract class AbstractController implements Serializable {
 }

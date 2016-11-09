@@ -39,4 +39,15 @@
         <view-id value="thankyou.xhtml" />
     </url-mapping>
 
+    <!-- Admin -->
+    <url-mapping id="dashboard">
+        <pattern value="/admin/" />
+        <view-id value="dashboard.xhtml"/>
+    </url-mapping>
+
+    <url-mapping id="dashFlights">
+        <pattern value="/admin/flights" />
+        <view-id value="flights.xhtml"/>
+    </url-mapping>
+
 </pretty-config>

@@ -1,0 +1,22 @@
+
+.admin-content {
+    max-width: 1080px;
+}
+
+.admin-box {
+    align-items: center;
+}
+
+.admin-separator {
+    height: 32px;
+}
+
+a {
+    color: rgb(66, 66, 66);
+}
+
+.overflow-table {
+    overflow: auto;
+}
+
+
