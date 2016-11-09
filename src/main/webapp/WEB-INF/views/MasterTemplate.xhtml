@@ -35,8 +35,8 @@
                         <button id="demo-menu-lower-right" class="mdl-navigation__link mdl-button mdl-js-button mdl-button--icon linkFont"><i class="material-icons">language</i></button>
                         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
                             <h:form>
-                                <li class="mdl-menu__item"><span><h:graphicImage library="images" name="Belgium.png"/></span><h:commandLink action="#{language.changeLocale('nl', 'BE')}" value=" #{msg.pickLangNL}" style="color: rgb(66,66,66)"/></li>
-                                <li class="mdl-menu__item"><span><h:graphicImage library="images" name="United_Kingdom.png"/></span><h:commandLink action="#{language.changeLocale('en', 'GB')}" value=" #{msg.pickLangEN}" style="color: rgb(66,66,66)"/></li>
+                                <li class="mdl-menu__item lang"><span><h:graphicImage library="images" name="Belgium.png"/></span><h:commandLink action="#{language.changeLocale('nl', 'BE')}" value=" #{msg.pickLangNL}" style="color: rgb(66,66,66)"/></li>
+                                <li class="mdl-menu__item lang"><span><h:graphicImage library="images" name="United_Kingdom.png"/></span><h:commandLink action="#{language.changeLocale('en', 'GB')}" value=" #{msg.pickLangEN}" style="color: rgb(66,66,66)"/></li>
                                 <li disabled="true" class="mdl-menu__item"><span><h:graphicImage library="images" name="France.png"/></span><h:commandLink disabled="true" action="#" value=" #{msg.pickLangFR}"/></li>
                                 <li disabled="true" class="mdl-menu__item"><span><h:graphicImage library="images" name="Germany.png"/></span><h:commandLink disabled="true" action="#" value=" #{msg.pickLangGER}"/></li>
                             </h:form>

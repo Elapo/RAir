@@ -11,14 +11,14 @@
 }
 
 html, body {
-    font-family: Roboto, sans-serif;;
+    font-family: Roboto, sans-serif;
 }
 
 .linkFont {
     font-size: 18px;
 }
 
-.linkFont:hover, .home:hover {
+.linkFont:hover, .home:hover, .lang:hover {
     background-color: #83c985 !important;
 }
 
@@ -302,6 +302,17 @@ a {
     background-size: cover;"
 }
 
+.ui-chkbox-box.ui-state-active,
+.ui-chkbox-box.ui-state-focus.ui-state-active,
+.ui-radiobutton-box.ui-state-active,
+.ui-radiobutton-box.ui-state-focus.ui-state-active {
+    border: 1px solid #4CAF50 !important;
+    background: #83c985 !important;
+}
+
+.ui-widget {
+    font-family: Roboto, sans-serif !important;
+}
 
 
 
