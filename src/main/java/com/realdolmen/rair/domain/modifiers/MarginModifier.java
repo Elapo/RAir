@@ -1,10 +1,12 @@
 package com.realdolmen.rair.domain.modifiers;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("Margin")
 public class MarginModifier extends PriceModifier {
 
     private Double margin = 10.0;

@@ -16,16 +16,15 @@ public abstract class PriceModifier {
 
     private Boolean percentBased = true;
 
-
     public abstract BigDecimal modify(List<PriceModifier> modifiers, BigDecimal input);
 
 
     public BigDecimal multiplyPercentage(BigDecimal input, double percentage) {
-        return multiplyPercentage(input, percentage, RoundingMode.UNNECESSARY);
+        return multiplyPercentage(input, percentage, RoundingMode.HALF_UP);
     }
 
     public BigDecimal multiplyPercentage(BigDecimal input, double percentage, RoundingMode roundingMode) {
-        return input.multiply(new BigDecimal(percentage)).divide(new BigDecimal(100), roundingMode);
+        return input.multiply(new BigDecimal(percentage)).setScale(2, roundingMode).divide(new BigDecimal(100), roundingMode);
     }
 
     public Boolean isPercentBased() {

@@ -1,6 +1,8 @@
 package com.realdolmen.rair.domain.entities.user;
 
 import com.realdolmen.rair.data.PasswordManager;
+import com.realdolmen.rair.data.dao.Toggle;
+import com.realdolmen.rair.domain.Authorizable;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 //@DiscriminatorColumn(columnDefinition = "DTYPE", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "users")
 @DiscriminatorValue("User")
-public abstract class User {
+public abstract class User implements Toggle, Authorizable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +33,8 @@ public abstract class User {
     @XmlTransient
     @JsonIgnore
     private String salt;
+
+    private Boolean active = true;
 
     @Embedded
     private ContactInformation contactInformation;
@@ -134,5 +138,20 @@ public abstract class User {
         result = 31 * result + (contactInformation != null ? contactInformation.hashCode() : 0);
         result = 31 * result + (pm != null ? pm.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public void activate() {
+        active = true;
+    }
+
+    @Override
+    public void deactivate() {
+        active = false;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
     }
 }

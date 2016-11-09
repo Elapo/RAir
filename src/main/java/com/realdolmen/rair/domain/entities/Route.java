@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Route.findByAirport", query = "SELECT r FROM Route r WHERE r.airportA = :airport OR r.airportB = :airport")
+})
 public class Route {
 
     @Id
