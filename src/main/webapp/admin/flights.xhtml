@@ -52,13 +52,13 @@
                         <h:column>
                             <f:facet name="header">Classes</f:facet>
                             <c:forEach items="#{flight.availableSeats}" var="entry">
-                                #{entry.key},
+                                #{entry.key}
                             </c:forEach>
                         </h:column>
                     </h:dataTable>
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
-                    <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Add flight</a>
+                    <h:link href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect" outcome="addflight" value="Add flight"/>
                 </div>
             </div>
         </div>

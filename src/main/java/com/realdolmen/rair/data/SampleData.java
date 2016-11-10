@@ -44,7 +44,7 @@ public class SampleData {
         region.getAirports().add(airportA);
 
         Airport airportB = new Airport();
-        airportA.setName("Charleroi");
+        airportB.setName("Charleroi");
         region.getAirports().add(airportB);
 
         entityManager.persist(region);

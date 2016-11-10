@@ -12,9 +12,6 @@ public class FlightDao extends AbstractDao<Flight, Long> {
     @Inject
     private BookingDao bookingDao;
 
-    @Inject
-    private FlightDao flightDao;
-
     @Override
     protected Class<Flight> getDataType() {
         return Flight.class;

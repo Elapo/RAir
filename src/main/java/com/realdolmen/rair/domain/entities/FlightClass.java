@@ -9,7 +9,7 @@ public enum FlightClass {
         prettyName = pretty;
     }
 
-    public String pretty() {
+    public String getPrettyName() {
         return prettyName;
     }
 }

@@ -24,7 +24,7 @@ public class Flight implements Toggle {
     private Date departureTime;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date returnTime;
+    private Date arrivalTime;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Partner creator;
@@ -62,6 +62,14 @@ public class Flight implements Toggle {
 
     public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public Date getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(Date arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public Partner getCreator() {
