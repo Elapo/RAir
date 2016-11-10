@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: BCCAZ45
+  Date: 10/11/2016
+  Time: 13:02
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<cc:interface>
+    <cc:attribute name="modifier" required="true" shortDescription="The modifier to use as model."/>
+    <cc:attribute name="sessionBean"/>
+</cc:interface>
+<cc:implementation>
+
+    <!-- Credit card modifier -->
+    <p:panelGrid columns="2" styleClass="ui-noborder ui-panelgrid-blank"
+                 rendered="#{cc.attrs.modifier['class'].simpleName eq 'CreditCardModifier'}">
+        <p:outputLabel for="creditDiscount" value="Discount"/>
+        <p:inputNumber id="creditDiscount"
+                       value="#{cc.attrs.modifier['discount']}"
+                       decimalPlaces="2"
+                       symbol="#{cc.attrs.modifier['percentBased'] ? '%' : '€'}"
+                       symbolPosition="#{cc.attrs.modifier['percentBased'] ? 's' : 'p'}"
+                       maxlength="3" maxValue="999" inputStyle="width: 100%;"/>
+    </p:panelGrid>
+
+    <!-- Volume discount -->
+    <p:panelGrid columns="2" styleClass="ui-noborder ui-panelgrid-blank"
+                 rendered="#{cc.attrs.modifier['class'].simpleName eq 'VolumeDiscountModifier'}">
+        <p:outputLabel for="volumeDiscount" value="Discount"/>
+        <p:inputNumber id="volumeDiscount"
+                       value="#{cc.attrs.modifier['discount']}"
+                       decimalPlaces="2"
+                       symbol="#{cc.attrs.modifier['percentBased'] ? '%' : '€'}"
+                       symbolPosition="#{cc.attrs.modifier['percentBased'] ? 's' : 'p'}" inputStyle="width: 100%;"/>
+
+        <p:outputLabel for="volumeTicketNumber" value="# of tickets"/>
+        <p:inputNumber id="volumeTicketNumber"
+                       value="#{cc.attrs.modifier['numberOfTickets']}"
+                       decimalPlaces="0" inputStyle="width: 100%;"/>
+    </p:panelGrid>
+</cc:implementation>
+
+</html>

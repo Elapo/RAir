@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:rd="http://xmlns.jcp.org/jsf/composite/realdolmen">
 
 <ui:composition template="../WEB-INF/views/AdminTemplate.xhtml">
 
@@ -15,72 +16,146 @@
     <ui:define name="main">
         <h:form id="addFlight">
             <div class="mdl-grid admin-content">
+
+                <!-- Flight information -->
                 <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
                     <div class="mdl-card__title mdl-color--green-300">
                         <h2 class="mdl-card__title-text">Flight information</h2>
                     </div>
                     <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 mdl-grid">
+                        <p:messages autoUpdate="true"/>
                         <h:panelGrid columns="2" layout="tabular" style="width: 100%" cellpadding="30">
                             <h:panelGroup>
                                 <label for="departureTime">Departure Time</label>
-                                <br />
+                                <br/>
                                 <p:calendar id="departureTime" styleClass="stretch-calendar-input"/>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <label for="arrivalTime">Arrival Time</label>
-                                <br />
+                                <br/>
                                 <p:calendar id="arrivalTime" styleClass="stretch-calendar-input"/>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <label for="from">From</label>
-                                <br />
-                                <p:selectOneListbox id="from" styleClass="stretch" filter="true" filterMatchMode="contains" value="#{flightManagementBean.selectedRoute}">
-                                    <f:selectItems value="#{flightManagementBean.routes}" var="r" itemLabel="From #{r.airportA.name} to #{r.airportB.name}" itemValue="#{r}"/>
-                                </p:selectOneListbox>
+                                <br/>
+                                <p:selectOneMenu id="from" styleClass="stretch airport-menu" filter="true"
+                                                 filterMatchMode="contains"
+                                                 value="#{flightManagementBean.fromAirport}">
+                                    <f:selectItems value="#{flightManagementBean.airports}" var="r"
+                                                   itemLabel="#{r.name}" itemValue="#{r}"/>
+                                </p:selectOneMenu>
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <label for="to">To</label>
-                                <br />
-                                <p:selectOneListbox id="to" styleClass="stretch" filter="true" filterMatchMode="contains" value="#{flightManagementBean.selectedRoute}">
-                                    <f:selectItems value="#{flightManagementBean.routes}" var="r" itemLabel="From #{r.airportA.name} to #{r.airportB.name}" itemValue="#{r}"/>
-                                </p:selectOneListbox>
+                                <br/>
+                                <p:selectOneMenu id="to" styleClass="stretch" filter="true"
+                                                 filterMatchMode="contains"
+                                                 value="#{flightManagementBean.toAirport}">
+                                    <f:selectItems value="#{flightManagementBean.airports}" var="r"
+                                                   itemLabel="#{r.name}" itemValue="#{r}"/>
+                                </p:selectOneMenu>
                             </h:panelGroup>
                         </h:panelGrid>
                     </div>
-                    <div class="mdl-card__actions mdl-card--border">
-                        <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Cancel</a>
+                </div>
+
+                <!-- Number of seats -->
+                <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col">
+                    <div>
+                        <div class="mdl-card__title mdl-color--green-300">
+                            <h2 class="mdl-card__title-text">Available Seats</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
+                             style="width: auto;">
+                            <p:message for="flightClasses" tooltip="true" showSummary="true"
+                                       style="margin-bottom: 16px;"/>
+
+                            <h:dataTable value="#{flightManagementBean.flightClasses}" var="flightClass"
+                                         class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
+                                         headerClass="mdl-data-table__cell--non-numeric" style="width: 100%"
+                                         id="flightClasses">
+                                <h:column>
+                                    <f:facet name="header">Flight Class</f:facet>
+                                    #{flightClass.prettyName}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"># of seats</f:facet>
+                                    <p:spinner value="#{flightManagementBean.flightClassMap[flightClass]}"
+                                               min="0" max="1000" styleClass="seat-spinner"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price modifiers -->
+                <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
+                    <div class="mdl-card__title mdl-color--green-300">
+                        <h2 class="mdl-card__title-text">Price modifiers</h2>
+                    </div>
+
+                    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 mdl-grid overflow-table ui-fluid">
+                        <p:dataTable draggableRows="true" reflow="true"
+                                     var="modifier" id="modifierTable"
+                                     value="#{flightManagementBean.modifiers}" resizableColumns="true"
+                                     tableStyleClass="modifiers-table">
+                            <p:column headerText="Modifier" style="text-align: left;">
+                                #{modifier['class'].simpleName}
+                            </p:column>
+                            <p:column headerText="Percent?" styleClass="auto-size" style="text-align: center">
+                                <p:selectBooleanCheckbox value="#{modifier.percentBased}">
+                                    <p:ajax update="modifierTable"/>
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+                            <p:column headerText="Settings" style="text-align: left;">
+                                <rd:PriceModifier modifier="#{modifier}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <h:form id="modifierForm">
+                            <h:selectOneMenu value="#{flightManagementBean.addModifier}">
+                                <f:selectItems value="#{flightManagementBean.availableModifiers}" var="availableModifier" itemLabel="#{availableModifier.simpleName}"/>
+                            </h:selectOneMenu>
+                            <p:commandLink ajax="true" action="#{flightManagementBean.addModifier}" update="modifierTable" />
+                        </h:form>
+
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border mdl-textfield--align-right">
+                        <a href="#"
+                           class="mdl-button mdl-js-button mdl-js-ripple-effect ">Cancel</a>
                         <h:commandButton value="Add"
                                          styleClass="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary"
                                          action="#{flightManagementBean.doAdd()}"/>
                     </div>
-
                 </div>
 
+                <!-- Price -->
                 <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col">
-                    <div class="mdl-card__title mdl-color--green-300">
-                        <h2 class="mdl-card__title-text">Available Seats</h2>
-                    </div>
-                    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
-                         style="width: auto;">
-                        <p:message for="flightClasses" tooltip="true" showSummary="true" style="margin-bottom: 16px;"/>
+                    <div>
+                        <div class="mdl-card__title mdl-color--green-300">
+                            <h2 class="mdl-card__title-text">Price by class</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
+                             style="width: auto;">
+                            <p:message for="flightPrices" tooltip="true" showSummary="true"
+                                       style="margin-bottom: 16px;"/>
 
-                        <h:dataTable value="#{flightManagementBean.flightClasses}" var="flightClass"
-                                     class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
-                                     headerClass="mdl-data-table__cell--non-numeric" style="width: 100%"
-                                     id="flightClasses">
-                            <h:column>
-                                <f:facet name="header">Flight Class</f:facet>
-                                #{flightClass.prettyName}
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header"># of seats</f:facet>
-                                <p:inputNumber value="#{flightManagementBean.flightClassMap[flightClass]}"
-                                               symbol=" seats" symbolPosition="s" decimalPlaces="0"
-                                               placeholder="No seats"
-                                               maxlength="3" maxValue="999" inputStyle="width: 100%;"/>
-                            </h:column>
-                        </h:dataTable>
+                            <h:dataTable value="#{flightManagementBean.flightClasses}" var="flightClass"
+                                         class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
+                                         headerClass="mdl-data-table__cell--non-numeric" style="width: 100%"
+                                         id="flightPrices">
+                                <h:column>
+                                    <f:facet name="header">Flight Class</f:facet>
+                                    #{flightClass.prettyName}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Price</f:facet>
+                                    <p:inputNumber value="#{flightManagementBean.flightClassMap[flightClass]}"
+                                                   symbol="€" decimalPlaces="2" inputStyle="width: 100%;"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
                     </div>
                 </div>
             </div>

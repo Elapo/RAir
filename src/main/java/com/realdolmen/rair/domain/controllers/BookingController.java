@@ -27,16 +27,16 @@ public class BookingController extends AbstractController {
 
     public BigDecimal calculatePrice(Booking booking) {
         BigDecimal total = new BigDecimal(0);
-        for(Ticket ticket : booking.getTickets()) {
+        for (Ticket ticket : booking.getTickets()) {
             BigDecimal basePrice = booking.getFlight().getBasePrices().get(ticket.getFlightClass());
-            total = total.add(runThroughModifiers(basePrice, booking.getPriceModifiers()));
+            total = total.add(runThroughModifiers(basePrice, booking, booking.getPriceModifiers()));
         }
         return total;
     }
 
-    BigDecimal runThroughModifiers(BigDecimal input, List<PriceModifier> modifiers) {
-        for(PriceModifier mod : modifiers) {
-            input = mod.modify(modifiers, input);
+    BigDecimal runThroughModifiers(BigDecimal input, Booking booking, List<PriceModifier> modifiers) {
+        for (PriceModifier mod : modifiers) {
+            input = mod.modify(modifiers, booking.getFlight(), booking, input);
         }
         return input;
     }

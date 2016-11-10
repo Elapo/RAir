@@ -1,5 +1,8 @@
 package com.realdolmen.rair.domain.modifiers;
 
+import com.realdolmen.rair.domain.entities.Booking;
+import com.realdolmen.rair.domain.entities.Flight;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
@@ -12,7 +15,7 @@ public class MarginModifier extends PriceModifier {
     private Double margin = 10.0;
 
     @Override
-    public BigDecimal modify(List<PriceModifier> modifiers, BigDecimal input) {
+    public BigDecimal modify(List<PriceModifier> modifiers, Flight flight, Booking booking, BigDecimal input) {
         if (margin == 0) {
             return input;
         }
@@ -21,6 +24,11 @@ public class MarginModifier extends PriceModifier {
             return input.add(multiplyPercentage(input, margin));
         else
             return input.add(new BigDecimal(margin));
+    }
+
+    @Override
+    public String getPrettyName() {
+        return "Margin";
     }
 
     public Double getMargin() {

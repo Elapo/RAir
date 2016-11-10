@@ -86,5 +86,27 @@ input[type="color"]:focus,
 }
 
 .stretch {
+    width: 100% !important;
+}
+
+.modifiers-table {
+    table-layout: auto;
+}
+.modifiers-table .auto-size {
+    width: auto;
+}
+
+.seat-spinner input {
+    padding-right: 0 !important;
+    text-align: left;
+    width: 100%;
+}
+
+.seat-spinner {
+    padding-right: 23px !important;
+}
+
+.airport-menu .ui-selectonemenu-filter-container {
+    background-color: red;
     width: 100%;
 }

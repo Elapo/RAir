@@ -49,8 +49,9 @@ public class BookingControllerTest extends JpaPersistenceTest {
     @Test
     public void runThroughModifiers() throws Exception {
         List<PriceModifier> modifiers = Arrays.asList(new CreditCardModifier(), new MarginModifier());
+        Booking booking = entityManager().find(Booking.class, 1000L);
         BigDecimal base = new BigDecimal(100);
-        BigDecimal result = bc.runThroughModifiers(base, modifiers);
+        BigDecimal result = bc.runThroughModifiers(base, booking, modifiers);
 
         assertEquals(new BigDecimal(104.50).setScale(2), result);
     }
