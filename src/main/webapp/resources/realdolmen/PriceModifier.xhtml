@@ -47,6 +47,18 @@
                        value="#{cc.attrs.modifier['numberOfTickets']}"
                        decimalPlaces="0" inputStyle="width: 100%;"/>
     </p:panelGrid>
+
+    <!-- Margin modifier -->
+    <p:panelGrid columns="2" styleClass="ui-noborder ui-panelgrid-blank"
+                 rendered="#{cc.attrs.modifier['class'].simpleName eq 'MarginModifier'}">
+        <p:outputLabel for="marginDiscount" value="Discount"/>
+        <p:inputNumber id="marginDiscount"
+                       value="#{cc.attrs.modifier['discount']}"
+                       decimalPlaces="2"
+                       symbol="#{cc.attrs.modifier['percentBased'] ? '%' : '€'}"
+                       symbolPosition="#{cc.attrs.modifier['percentBased'] ? 's' : 'p'}"
+                       maxlength="3" maxValue="999" inputStyle="width: 100%;"/>
+    </p:panelGrid>
 </cc:implementation>
 
 </html>

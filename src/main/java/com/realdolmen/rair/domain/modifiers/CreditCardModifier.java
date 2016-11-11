@@ -23,11 +23,6 @@ public class CreditCardModifier extends PriceModifier implements ConditionalModi
             return input.subtract(new BigDecimal(discount));
     }
 
-    @Override
-    public String getPrettyName() {
-        return "Credit Card Discount";
-    }
-
     public double getDiscount() {
         return discount;
     }

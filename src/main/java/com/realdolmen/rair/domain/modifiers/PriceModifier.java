@@ -52,8 +52,6 @@ public abstract class PriceModifier {
         this.id = id;
     }
 
-    public abstract String getPrettyName();
-
     public Integer getIndex() {
         return index;
     }

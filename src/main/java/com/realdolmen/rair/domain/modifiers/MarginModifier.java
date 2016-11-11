@@ -26,11 +26,6 @@ public class MarginModifier extends PriceModifier {
             return input.add(new BigDecimal(margin));
     }
 
-    @Override
-    public String getPrettyName() {
-        return "Margin";
-    }
-
     public Double getMargin() {
         return margin;
     }

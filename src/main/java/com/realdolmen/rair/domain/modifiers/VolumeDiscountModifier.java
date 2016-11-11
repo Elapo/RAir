@@ -6,7 +6,7 @@ import com.realdolmen.rair.domain.entities.Flight;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class VolumeDiscountModifier extends PriceModifier {
+public class VolumeDiscountModifier extends PriceModifier implements ConditionalModifier {
 
     private int numberOfTickets = 5;
     private double discount = 5.0;
@@ -26,11 +26,6 @@ public class VolumeDiscountModifier extends PriceModifier {
         return input;
     }
 
-    @Override
-    public String getPrettyName() {
-        return "Volume Discount";
-    }
-
     public int getNumberOfTickets() {
         return numberOfTickets;
     }
@@ -45,5 +40,10 @@ public class VolumeDiscountModifier extends PriceModifier {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    @Override
+    public boolean include(Booking booking) {
+        return booking.getTickets() != null && booking.getTickets().size() >= numberOfTickets;
     }
 }
