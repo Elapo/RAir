@@ -60,9 +60,7 @@ public class Airport {
         Airport airport = (Airport) o;
 
         if (id != null ? !id.equals(airport.id) : airport.id != null) return false;
-        if (name != null ? !name.equals(airport.name) : airport.name != null) return false;
-        if (region != null ? !region.equals(airport.region) : airport.region != null) return false;
-        return address != null ? address.equals(airport.address) : airport.address == null;
+        return name != null ? name.equals(airport.name) : airport.name == null;
 
     }
 
@@ -70,8 +68,6 @@ public class Airport {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (region != null ? region.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }
 }

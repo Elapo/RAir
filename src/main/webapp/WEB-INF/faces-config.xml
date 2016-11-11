@@ -14,5 +14,9 @@
             <base-name>com.realdolmen.rair.languagebundles.language</base-name>
             <var>msg</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>com.realdolmen.rair.mappings</base-name>
+            <var>mappings</var>
+        </resource-bundle>
     </application>
 </faces-config>

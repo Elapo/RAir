@@ -37,18 +37,13 @@ public class FlightManagementBean implements Serializable {
     private AirportDao airportDao;
 
     private Map<FlightClass, Integer> flightClassMap = new HashMap<>();
-
-    @NotNull
     private Airport fromAirport;
-
-    @NotNull
     private Airport toAirport;
-
     private List<Airport> airports = new ArrayList<>();
-
     private List<PriceModifier> modifiers = new ArrayList<>();
-
     private List<Class<? extends PriceModifier>> availableModifiers = new ArrayList<>();
+
+    private Class<? extends PriceModifier> selectedNewModifier;
 
 
     public List<Flight> getAllFlights() {
@@ -66,9 +61,10 @@ public class FlightManagementBean implements Serializable {
         availableModifiers.add(VolumeDiscountModifier.class);
         availableModifiers.add(CreditCardModifier.class);
 
+        //Conditional
+        availableModifiers.add(MarginModifier.class);
+
         modifiers.add(new CreditCardModifier());
-        modifiers.add(new VolumeDiscountModifier());
-        modifiers.add(new VolumeDiscountModifier());
         modifiers.add(new VolumeDiscountModifier());
     }
 
@@ -86,7 +82,6 @@ public class FlightManagementBean implements Serializable {
 
     public String doAdd() {
         System.out.println(flightClassMap.get(FlightClass.FIRST_CLASS));
-
         FacesContext.getCurrentInstance().addMessage("addFlight:flightClasses", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wow!", "Super wow"));
         return "addflight";
     }
@@ -103,13 +98,20 @@ public class FlightManagementBean implements Serializable {
         return availableModifiers;
     }
 
-    private PriceModifier selectedNewModifier;
-    public void setSelectedNewModifier(PriceModifier pm) {
-        selectedNewModifier = pm;
+    public Class<? extends PriceModifier> getSelectedNewModifier() {
+        return selectedNewModifier;
+    }
+
+    public void setSelectedNewModifier(Class<? extends PriceModifier> selectedNewModifier) {
+        this.selectedNewModifier = selectedNewModifier;
     }
 
     public void addModifier() {
-        modifiers.add(selectedNewModifier);
+        try {
+            modifiers.add(selectedNewModifier.newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public Airport getToAirport() {

@@ -42,7 +42,9 @@
                                                  filterMatchMode="contains"
                                                  value="#{flightManagementBean.fromAirport}">
                                     <f:selectItems value="#{flightManagementBean.airports}" var="r"
-                                                   itemLabel="#{r.name}" itemValue="#{r}"/>
+                                                   itemLabel="#{r.name}" itemValue="#{r}"
+                                                   noSelectionValue="#{flightManagementBean.toAirport}"/>
+                                    <f:converter binding="#{airportConverter}" for="from"/>
                                 </p:selectOneMenu>
                             </h:panelGroup>
 
@@ -50,10 +52,12 @@
                                 <label for="to">To</label>
                                 <br/>
                                 <p:selectOneMenu id="to" styleClass="stretch" filter="true"
-                                                 filterMatchMode="contains"
+                                                 filterMatchMode="contains" validatorMessage="bad"
                                                  value="#{flightManagementBean.toAirport}">
                                     <f:selectItems value="#{flightManagementBean.airports}" var="r"
-                                                   itemLabel="#{r.name}" itemValue="#{r}"/>
+                                                   itemLabel="#{r.name}" itemValue="#{r}"
+                                                   noSelectionValue="#{flightManagementBean.toAirport}"/>
+                                    <f:converter binding="#{airportConverter}" for="to"/>
                                 </p:selectOneMenu>
                             </h:panelGroup>
                         </h:panelGrid>
@@ -101,22 +105,34 @@
                                      value="#{flightManagementBean.modifiers}" resizableColumns="true"
                                      tableStyleClass="modifiers-table">
                             <p:column headerText="Modifier" style="text-align: left;">
-                                #{modifier['class'].simpleName}
+                                #{mappings['modifier.name.'.concat(modifier['class'].simpleName)]}
                             </p:column>
+
                             <p:column headerText="Percent?" styleClass="auto-size" style="text-align: center">
                                 <p:selectBooleanCheckbox value="#{modifier.percentBased}">
                                     <p:ajax update="modifierTable"/>
                                 </p:selectBooleanCheckbox>
                             </p:column>
+
                             <p:column headerText="Settings" style="text-align: left;">
                                 <rd:PriceModifier modifier="#{modifier}"/>
                             </p:column>
                         </p:dataTable>
+
                         <h:form id="modifierForm">
-                            <h:selectOneMenu value="#{flightManagementBean.addModifier}">
-                                <f:selectItems value="#{flightManagementBean.availableModifiers}" var="availableModifier" itemLabel="#{availableModifier.simpleName}"/>
+                            <h:selectOneMenu value="#{flightManagementBean.selectedNewModifier}" id="selectModifier">
+
+                                <f:selectItems value="#{flightManagementBean.availableModifiers}"
+                                               var="availableModifier"
+                                               itemLabel="#{mappings['modifier.name.'.concat(availableModifier.simpleName)]}"
+                                               itemValue="#{availableModifier}"/>
+
+                                <f:converter converterId="com.realdolmen.convert.Class" for="selectModifier"/>
+
                             </h:selectOneMenu>
-                            <p:commandLink ajax="true" action="#{flightManagementBean.addModifier}" update="modifierTable" />
+                            <p:commandLink ajax="true" value="Add modifier"
+                                           action="#{flightManagementBean.addModifier()}"
+                                           update="addFlight:modifierTable"/>
                         </h:form>
 
                     </div>
