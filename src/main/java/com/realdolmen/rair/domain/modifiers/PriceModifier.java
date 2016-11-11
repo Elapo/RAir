@@ -17,6 +17,9 @@ public abstract class PriceModifier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "orderIndex")
+    private Integer index;
+
     private Boolean percentBased = true;
 
     public abstract BigDecimal modify(List<PriceModifier> modifiers, Flight flight, Booking booking, BigDecimal input);
@@ -50,4 +53,12 @@ public abstract class PriceModifier {
     }
 
     public abstract String getPrettyName();
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
 }

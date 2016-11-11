@@ -4,9 +4,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Airport {
+public class Airport implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,15 +60,12 @@ public class Airport {
 
         Airport airport = (Airport) o;
 
-        if (id != null ? !id.equals(airport.id) : airport.id != null) return false;
-        return name != null ? name.equals(airport.name) : airport.name == null;
+        return id != null ? id.equals(airport.id) : airport.id == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

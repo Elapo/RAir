@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:rd="http://xmlns.jcp.org/jsf/composite/realdolmen">
 
 <ui:composition template="../WEB-INF/views/AdminTemplate.xhtml">
@@ -23,27 +23,29 @@
                         <h2 class="mdl-card__title-text">Flight information</h2>
                     </div>
                     <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 mdl-grid">
-                        <p:messages autoUpdate="true"/>
+                        <p:messages autoUpdate="true" for="addFlight"/>
                         <h:panelGrid columns="2" layout="tabular" style="width: 100%" cellpadding="30">
                             <h:panelGroup>
                                 <label for="departureTime">Departure Time</label>
                                 <br/>
-                                <p:calendar id="departureTime" styleClass="stretch-calendar-input"/>
+                                <p:calendar id="departureTime" value="#{flightRegistration.flight.departureTime}"
+                                            styleClass="stretch-calendar-input"/>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <label for="arrivalTime">Arrival Time</label>
                                 <br/>
-                                <p:calendar id="arrivalTime" styleClass="stretch-calendar-input"/>
+                                <p:calendar id="arrivalTime" value="#{flightRegistration.flight.arrivalTime}"
+                                            styleClass="stretch-calendar-input"/>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <label for="from">From</label>
                                 <br/>
                                 <p:selectOneMenu id="from" styleClass="stretch airport-menu" filter="true"
                                                  filterMatchMode="contains"
-                                                 value="#{flightManagementBean.fromAirport}">
+                                                 value="#{flightRegistration.from}">
                                     <f:selectItems value="#{flightManagementBean.airports}" var="r"
                                                    itemLabel="#{r.name}" itemValue="#{r}"
-                                                   noSelectionValue="#{flightManagementBean.toAirport}"/>
+                                                   noSelectionValue="#{flightRegistration.from}"/>
                                     <f:converter binding="#{airportConverter}" for="from"/>
                                 </p:selectOneMenu>
                             </h:panelGroup>
@@ -53,10 +55,10 @@
                                 <br/>
                                 <p:selectOneMenu id="to" styleClass="stretch" filter="true"
                                                  filterMatchMode="contains" validatorMessage="bad"
-                                                 value="#{flightManagementBean.toAirport}">
+                                                 value="#{flightRegistration.to}">
                                     <f:selectItems value="#{flightManagementBean.airports}" var="r"
                                                    itemLabel="#{r.name}" itemValue="#{r}"
-                                                   noSelectionValue="#{flightManagementBean.toAirport}"/>
+                                                   noSelectionValue="#{flightRegistration.to}"/>
                                     <f:converter binding="#{airportConverter}" for="to"/>
                                 </p:selectOneMenu>
                             </h:panelGroup>
@@ -85,7 +87,7 @@
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"># of seats</f:facet>
-                                    <p:spinner value="#{flightManagementBean.flightClassMap[flightClass]}"
+                                    <p:spinner value="#{flightRegistration.flight.availableSeats[flightClass]}"
                                                min="0" max="1000" styleClass="seat-spinner"/>
                                 </h:column>
                             </h:dataTable>
@@ -99,10 +101,12 @@
                         <h2 class="mdl-card__title-text">Price modifiers</h2>
                     </div>
 
-                    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 mdl-grid overflow-table ui-fluid">
+                    <div class="mdl-card--expand"></div>
+
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600 mdl-grid overflow-table ui-fluid">
                         <p:dataTable draggableRows="true" reflow="true"
                                      var="modifier" id="modifierTable"
-                                     value="#{flightManagementBean.modifiers}" resizableColumns="true"
+                                     value="#{flightRegistration.priceModifiers}" resizableColumns="true"
                                      tableStyleClass="modifiers-table">
                             <p:column headerText="Modifier" style="text-align: left;">
                                 #{mappings['modifier.name.'.concat(modifier['class'].simpleName)]}
@@ -120,8 +124,10 @@
                         </p:dataTable>
 
                         <h:form id="modifierForm">
-                            <h:selectOneMenu value="#{flightManagementBean.selectedNewModifier}" id="selectModifier">
 
+                            <p:messages for="modifierForm"/>
+
+                            <h:selectOneMenu value="#{flightRegistration.selectedModifier}" id="selectModifier">
                                 <f:selectItems value="#{flightManagementBean.availableModifiers}"
                                                var="availableModifier"
                                                itemLabel="#{mappings['modifier.name.'.concat(availableModifier.simpleName)]}"
@@ -130,19 +136,24 @@
                                 <f:converter converterId="com.realdolmen.convert.Class" for="selectModifier"/>
 
                             </h:selectOneMenu>
-                            <p:commandLink ajax="true" value="Add modifier"
-                                           action="#{flightManagementBean.addModifier()}"
-                                           update="addFlight:modifierTable"/>
+                            <p:commandButton ajax="true" value="Add modifier"
+                                             action="#{flightRegistration.addModifier()}"
+                                             update="addFlight:modifierTable"/>
                         </h:form>
 
                     </div>
 
+                    <div class="mdl-card--expand"></div>
+
+                    <!-- Flight form action buttons -->
                     <div class="mdl-card__actions mdl-card--border mdl-textfield--align-right">
-                        <a href="#"
-                           class="mdl-button mdl-js-button mdl-js-ripple-effect ">Cancel</a>
+                        <h:commandButton value="Cancel"
+                                         styleClass="mdl-button mdl-js-button mdl-js-ripple-effect"
+                                         action="#{flightRegistration.reset()}"/>
+
                         <h:commandButton value="Add"
                                          styleClass="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary"
-                                         action="#{flightManagementBean.doAdd()}"/>
+                                         action="#{flightRegistration.registerFlight()}"/>
                     </div>
                 </div>
 
@@ -154,12 +165,14 @@
                         </div>
                         <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
                              style="width: auto;">
-                            <p:message for="flightPrices" tooltip="true" showSummary="true"
+                            <p:message for="flightPrices" tooltip="true"
                                        style="margin-bottom: 16px;"/>
 
-                            <h:dataTable value="#{flightManagementBean.flightClasses}" var="flightClass"
+                            <h:dataTable value="#{flightManagementBean.flightClasses}"
+                                         var="flightClass"
                                          class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
-                                         headerClass="mdl-data-table__cell--non-numeric" style="width: 100%"
+                                         headerClass="mdl-data-table__cell--non-numeric"
+                                         style="width: 100%"
                                          id="flightPrices">
                                 <h:column>
                                     <f:facet name="header">Flight Class</f:facet>
@@ -167,8 +180,12 @@
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Price</f:facet>
-                                    <p:inputNumber value="#{flightManagementBean.flightClassMap[flightClass]}"
-                                                   symbol="€" decimalPlaces="2" inputStyle="width: 100%;"/>
+                                    <p:inputNumber value="#{flightRegistration.flight.basePrices[flightClass]}"
+                                                   symbol="€"
+                                                   decimalPlaces="2"
+                                                   inputStyle="width: 100%;">
+                                        <f:converter binding="#{currencyConverter}"/>
+                                    </p:inputNumber>
                                 </h:column>
                             </h:dataTable>
                         </div>

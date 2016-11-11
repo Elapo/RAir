@@ -58,8 +58,9 @@ public class FlightManagementBean implements Serializable {
 
         airports = airportDao.findAll();
 
-        availableModifiers.add(VolumeDiscountModifier.class);
         availableModifiers.add(CreditCardModifier.class);
+
+        availableModifiers.add(VolumeDiscountModifier.class);
 
         //Conditional
         availableModifiers.add(MarginModifier.class);
@@ -136,5 +137,9 @@ public class FlightManagementBean implements Serializable {
 
     public void setModifiers(List<PriceModifier> modifiers) {
         this.modifiers = modifiers;
+    }
+
+    public AirportDao getAirportDao() {
+        return airportDao;
     }
 }

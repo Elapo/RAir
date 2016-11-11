@@ -27,6 +27,9 @@ public class Booking implements Toggle {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
     @ManyToOne
     private Flight flight;
 
@@ -96,5 +99,13 @@ public class Booking implements Toggle {
 
     public void setPriceModifiers(List<PriceModifier> priceModifiers) {
         this.priceModifiers = priceModifiers;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

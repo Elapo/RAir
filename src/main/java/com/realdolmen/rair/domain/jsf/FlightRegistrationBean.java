@@ -1,59 +1,61 @@
 package com.realdolmen.rair.domain.jsf;
 
+import com.realdolmen.rair.domain.entities.Airport;
+import com.realdolmen.rair.domain.entities.Booking;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.FlightClass;
+import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
+import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Named("flightRegistration")
 @SessionScoped
 public class FlightRegistrationBean implements Serializable {
 
-    private Map<FlightClass, Integer> seatsByClass = new HashMap<>();
-    private Map<FlightClass, BigDecimal> priceByClass = new HashMap<>();
-
     private Flight flight;
+
+    private Airport from;
+    private Airport to;
+
+    private Class<PriceModifier> selectedModifier;
+
+    private List<PriceModifier> priceModifiers;
 
     @PostConstruct
     private void init() {
         reset();
     }
 
-    public void reset() {
+    public String reset() {
         flight = new Flight();
         Arrays.stream(FlightClass.values()).forEach(c -> {
-            seatsByClass.put(c, 0);
-            priceByClass.put(c, new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP));
+            flight.getAvailableSeats().put(c, 0);
+            flight.getBasePrices().put(c, new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP));
         });
-    }
 
-    public String registerFlight() {
+        priceModifiers = new ArrayList<>();
+
         return null;
     }
 
-    public Map<FlightClass, Integer> getSeatsByClass() {
-        return seatsByClass;
-    }
-
-    public void setSeatsByClass(Map<FlightClass, Integer> seatsByClass) {
-        this.seatsByClass = seatsByClass;
-    }
-
-    public Map<FlightClass, BigDecimal> getPriceByClass() {
-        return priceByClass;
-    }
-
-    public void setPriceByClass(Map<FlightClass, BigDecimal> priceByClass) {
-        this.priceByClass = priceByClass;
+    public String registerFlight() {
+        ModifierPipeline pipeline = ModifierPipeline.loadIntoOrder(priceModifiers);
+        Booking booking = new Booking();
+        booking.setFlight(flight);
+        BigDecimal result = pipeline.pass(flight.getBasePrices().get(FlightClass.FIRST_CLASS), booking);
+        FacesContext.getCurrentInstance().addMessage("addFlight:flightPrices", new FacesMessage("First class price: €" + result.setScale(2, RoundingMode.HALF_UP)));
+        return null;
     }
 
     public Flight getFlight() {
@@ -62,5 +64,47 @@ public class FlightRegistrationBean implements Serializable {
 
     public void setFlight(Flight flight) {
         this.flight = flight;
+    }
+
+    public Airport getFrom() {
+        return from;
+    }
+
+    public void setFrom(Airport from) {
+        this.from = from;
+    }
+
+    public Airport getTo() {
+        return to;
+    }
+
+    public void setTo(Airport to) {
+        this.to = to;
+    }
+
+    public Class<PriceModifier> getSelectedModifier() {
+        return selectedModifier;
+    }
+
+    public void setSelectedModifier(Class<PriceModifier> selectedModifier) {
+        this.selectedModifier = selectedModifier;
+    }
+
+    public void addModifier() {
+        if(selectedModifier != null) {
+            try {
+                priceModifiers.add(selectedModifier.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                FacesContext.getCurrentInstance().addMessage("modifierForm", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot add!", "The modifier '" + selectedModifier.getSimpleName() + "' cannot be instantiated!"));
+            }
+        }
+    }
+
+    public List<PriceModifier> getPriceModifiers() {
+        return priceModifiers;
+    }
+
+    public void setPriceModifiers(List<PriceModifier> priceModifiers) {
+        this.priceModifiers = priceModifiers;
     }
 }

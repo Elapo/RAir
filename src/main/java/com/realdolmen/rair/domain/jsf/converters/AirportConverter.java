@@ -18,7 +18,7 @@ import javax.inject.Named;
 public class AirportConverter implements Converter {
 
     @Inject
-    private FlightDao flightDao;
+    private FlightManagementBean flightManagementBean;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
@@ -28,7 +28,7 @@ public class AirportConverter implements Converter {
 
         try {
             long id = Long.parseLong(s);
-            return flightDao.find(id);
+            return flightManagementBean.getAirportDao().find(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
