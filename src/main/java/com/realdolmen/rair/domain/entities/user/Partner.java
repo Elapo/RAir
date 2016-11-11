@@ -18,6 +18,7 @@ public class Partner extends User {
     private List<Flight> ownedFlights = new ArrayList<>();
 
     private String wow;
+    private String companyName;
 
     public Partner() {
     }
@@ -32,5 +33,13 @@ public class Partner extends User {
 
     public void setOwnedFlights(List<Flight> ownedFlights) {
         this.ownedFlights = ownedFlights;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

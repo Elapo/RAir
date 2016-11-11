@@ -22,8 +22,7 @@ public class SampleData {
     @PostConstruct
     public void startup() {
         Partner partner = new Partner();
-        partner.setFirstName("Partner");
-        partner.setLastName("Doe");
+        partner.setCompanyName("Jetair");
 
         entityManager.persist(partner);
 

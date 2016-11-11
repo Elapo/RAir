@@ -19,46 +19,62 @@
                     <h2 class="mdl-card__title-text">All flights</h2>
                 </div>
                 <div class="mdl-card__supporting-text mdl-color-text--grey-600 overflow-table">
-                    <h:dataTable value="#{flightManagementBean.allFlights}" var="flight"
+                    <p:dataTable value="#{flightManagementBean.allFlights}" var="flight" reflow="true"
                                  class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
-                                 headerClass="mdl-data-table__cell--non-numeric">
-                        <h:column>
+                                 headerClass="mdl-data-table__cell--non-numeric" style="text-align: center;"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <p:column>
                             <f:facet name="header">ID</f:facet>
                             #{flight.id}
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">Active</f:facet>
-                            #{flight.active}
-                        </h:column>
-                        <h:column>
+                            <p:selectBooleanCheckbox value="#{flight.active}"/>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">Created By</f:facet>
-                            <h:link value="#{flight.creator.firstName} #{flight.creator.lastName}"
-                                    outcome="partner/partnerDetails">
-                                <f:param name="partnerId" value="#{flight.creator.id}"/>
-                            </h:link>
-                        </h:column>
-                        <h:column>
+
+                            <c:choose>
+                                <c:when test="#{not empty flight.creator}">
+                                    <h:link value="#{flight.creator.companyName}"
+                                            outcome="partner/partnerDetails">
+                                        <f:param name="partnerId" value="#{flight.creator.id}"/>
+                                    </h:link>
+                                </c:when>
+                                <c:otherwise>Unknown</c:otherwise>
+                            </c:choose>
+
+
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">Departure Time</f:facet>
                             #{flight.departureTime}
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">From</f:facet>
                             #{flight.route.airportA.name}
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">To</f:facet>
                             #{flight.route.airportB.name}
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">Classes</f:facet>
+                            #{flight.availableSeats.size()}
                             <c:forEach items="#{flight.availableSeats}" var="entry">
-                                #{entry.key}
+
                             </c:forEach>
-                        </h:column>
-                    </h:dataTable>
+                        </p:column>
+                        <p:column headerText="Actions">
+                            <p:button value="View"/>
+                        </p:column>
+                    </p:dataTable>
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
-                    <h:link href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect" outcome="addflight" value="Add flight"/>
+                    <h:link href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect" outcome="addflight"
+                            value="Add flight"/>
                 </div>
             </div>
         </div>

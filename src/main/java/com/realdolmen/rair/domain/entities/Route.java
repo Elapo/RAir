@@ -6,7 +6,8 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Route.findByAirport", query = "SELECT r FROM Route r WHERE r.airportA = :airport OR r.airportB = :airport")
+        @NamedQuery(name = "Route.findByAirport", query = "SELECT r FROM Route r WHERE r.airportA = :airport OR r.airportB = :airport"),
+        @NamedQuery(name = "Route.findByStrictAirports", query = "SELECT r FROM Route r WHERE r.airportA = :from AND r.airportB = :to")
 })
 public class Route {
 
@@ -14,7 +15,7 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.PERSIST})
     private List<Flight> flights = new ArrayList<>();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})

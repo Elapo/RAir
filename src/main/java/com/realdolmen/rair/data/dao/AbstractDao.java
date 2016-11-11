@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 
 public abstract class AbstractDao<T, I> {
@@ -15,7 +16,7 @@ public abstract class AbstractDao<T, I> {
     @PersistenceContext
     private EntityManager em;
 
-    protected EntityManager em() {
+    public EntityManager em() {
         return em;
     }
 
@@ -42,6 +43,7 @@ public abstract class AbstractDao<T, I> {
 
     protected abstract Class<T> getDataType();
 
+    @Transactional
     public void insert(T object) {
         if (object == null) {
             throw new IllegalArgumentException("Object cannot be null!");
@@ -58,6 +60,7 @@ public abstract class AbstractDao<T, I> {
         }
     }
 
+    @Transactional
     public T update(T object) {
         if (object == null) {
             throw new IllegalArgumentException("Object cannot be null!");
@@ -69,6 +72,7 @@ public abstract class AbstractDao<T, I> {
         return em.merge(object);
     }
 
+    @Transactional
     public void remove(T object) {
         if (object == null) {
             throw new IllegalArgumentException("Object cannot be null!");

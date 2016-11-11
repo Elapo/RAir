@@ -51,9 +51,9 @@
     <!-- Margin modifier -->
     <p:panelGrid columns="2" styleClass="ui-noborder ui-panelgrid-blank"
                  rendered="#{cc.attrs.modifier['class'].simpleName eq 'MarginModifier'}">
-        <p:outputLabel for="marginDiscount" value="Discount"/>
+        <p:outputLabel for="marginDiscount" value="Margin"/>
         <p:inputNumber id="marginDiscount"
-                       value="#{cc.attrs.modifier['discount']}"
+                       value="#{cc.attrs.modifier['margin']}"
                        decimalPlaces="2"
                        symbol="#{cc.attrs.modifier['percentBased'] ? '%' : '€'}"
                        symbolPosition="#{cc.attrs.modifier['percentBased'] ? 's' : 'p'}"

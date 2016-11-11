@@ -11,6 +11,7 @@ import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
 import com.realdolmen.rair.domain.modifiers.MarginModifier;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 import com.realdolmen.rair.domain.modifiers.VolumeDiscountModifier;
+import org.hibernate.Hibernate;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -19,12 +20,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Named
 @SessionScoped
@@ -45,9 +44,15 @@ public class FlightManagementBean implements Serializable {
 
     private Class<? extends PriceModifier> selectedNewModifier;
 
+    public Date today() {
+        return new Date();
+    }
 
+    @Transactional
     public List<Flight> getAllFlights() {
-        return flightController.getAllFlights();
+        List<Flight> flights = flightController.getAllFlights();
+        flights.forEach(f -> Hibernate.initialize(f.getAvailableSeats()));
+        return flights;
     }
 
     @PostConstruct

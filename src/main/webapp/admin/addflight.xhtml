@@ -28,13 +28,20 @@
                             <h:panelGroup>
                                 <label for="departureTime">Departure Time</label>
                                 <br/>
-                                <p:calendar id="departureTime" value="#{flightRegistration.flight.departureTime}"
+                                <p:calendar mindate="#{flightManagementBean.today()}" pattern="MM/dd/yyyy HH:mm:ss"
+                                            timeInput="true" minHour="0" minMinute="0" timeControlType="slider"
+                                            showHour="true" showMinute="true"
+                                            id="departureTime" value="#{flightRegistration.flight.departureTime}"
                                             styleClass="stretch-calendar-input"/>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <label for="arrivalTime">Arrival Time</label>
                                 <br/>
-                                <p:calendar id="arrivalTime" value="#{flightRegistration.flight.arrivalTime}"
+                                <p:calendar id="arrivalTime" mindate="#{flightManagementBean.today()}"
+                                            value="#{flightRegistration.flight.arrivalTime}"
+                                            pattern="MM/dd/yyyy HH:mm:ss"
+                                            timeInput="true" minHour="0" minMinute="0" timeControlType="slider"
+                                            showHour="true" showMinute="true"
                                             styleClass="stretch-calendar-input"/>
                             </h:panelGroup>
                             <h:panelGroup>
@@ -88,7 +95,9 @@
                                 <h:column>
                                     <f:facet name="header"># of seats</f:facet>
                                     <p:spinner value="#{flightRegistration.flight.availableSeats[flightClass]}"
-                                               min="0" max="1000" styleClass="seat-spinner"/>
+                                               min="0" max="1000" styleClass="seat-spinner">
+                                        <f:converter binding="#{integerConverter}"/>
+                                    </p:spinner>
                                 </h:column>
                             </h:dataTable>
                         </div>
@@ -104,12 +113,20 @@
                     <div class="mdl-card--expand"></div>
 
                     <div class="mdl-card__supporting-text mdl-color-text--grey-600 mdl-grid overflow-table ui-fluid">
+
+                        <p:messages for="modifierForm" style="margin-bottom: 16px;"/>
+
                         <p:dataTable draggableRows="true" reflow="true"
                                      var="modifier" id="modifierTable"
                                      value="#{flightRegistration.priceModifiers}" resizableColumns="true"
                                      tableStyleClass="modifiers-table">
                             <p:column headerText="Modifier" style="text-align: left;">
-                                #{mappings['modifier.name.'.concat(modifier['class'].simpleName)]}
+                                <h:commandLink style="vertical-align: middle;"
+                                               action="#{flightRegistration.removeModifier(modifier)}">
+                                    <i class="material-icons" style="vertical-align: middle;">delete_forever</i>
+                                    <f:ajax execute="@this" render="addFlight:modifierTable"/>
+                                </h:commandLink>
+                                <span style="vertical-align: sub;">#{mappings['modifier.name.'.concat(modifier['class'].simpleName)]}</span>
                             </p:column>
 
                             <p:column headerText="Percent?" styleClass="auto-size" style="text-align: center">
@@ -125,20 +142,24 @@
 
                         <h:form id="modifierForm">
 
-                            <p:messages for="modifierForm"/>
+                            <div class="mdl-textfield--align-right" style="margin-top: 16px; width: 100%;">
+                                <h:selectOneMenu value="#{flightRegistration.selectedModifier}" id="selectModifier">
+                                    <f:selectItems value="#{flightManagementBean.availableModifiers}"
+                                                   var="availableModifier"
+                                                   itemLabel="#{mappings['modifier.name.'.concat(availableModifier.simpleName)]}"
+                                                   itemValue="#{availableModifier}"/>
 
-                            <h:selectOneMenu value="#{flightRegistration.selectedModifier}" id="selectModifier">
-                                <f:selectItems value="#{flightManagementBean.availableModifiers}"
-                                               var="availableModifier"
-                                               itemLabel="#{mappings['modifier.name.'.concat(availableModifier.simpleName)]}"
-                                               itemValue="#{availableModifier}"/>
+                                    <f:converter converterId="com.realdolmen.convert.Class" for="selectModifier"/>
 
-                                <f:converter converterId="com.realdolmen.convert.Class" for="selectModifier"/>
-
-                            </h:selectOneMenu>
-                            <p:commandButton ajax="true" value="Add modifier"
-                                             action="#{flightRegistration.addModifier()}"
-                                             update="addFlight:modifierTable"/>
+                                </h:selectOneMenu>
+                                <h:commandButton value="Add modifier"
+                                                 action="#{flightRegistration.addModifier()}"
+                                                 styleClass="mdl-button mdl-js-button mdl-js-ripple-effect"
+                                                 style="margin-left: 16px;">
+                                    <f:ajax execute="@form"
+                                            render="addFlight:modifierTable"/>
+                                </h:commandButton>
+                            </div>
                         </h:form>
 
                     </div>
@@ -165,7 +186,8 @@
                         </div>
                         <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
                              style="width: auto;">
-                            <p:message for="flightPrices" tooltip="true"
+                            <p:message for="flightPrices"
+                                       tooltip="true"
                                        style="margin-bottom: 16px;"/>
 
                             <h:dataTable value="#{flightManagementBean.flightClasses}"

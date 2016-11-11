@@ -1,5 +1,7 @@
 package com.realdolmen.rair.domain.jsf;
 
+import com.realdolmen.rair.domain.controllers.FlightController;
+import com.realdolmen.rair.domain.controllers.RouteController;
 import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Booking;
 import com.realdolmen.rair.domain.entities.Flight;
@@ -11,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -31,6 +34,12 @@ public class FlightRegistrationBean implements Serializable {
     private Class<PriceModifier> selectedModifier;
 
     private List<PriceModifier> priceModifiers;
+
+    @Inject
+    private FlightController flightController;
+
+    @Inject
+    private RouteController routeController;
 
     @PostConstruct
     private void init() {
@@ -54,8 +63,12 @@ public class FlightRegistrationBean implements Serializable {
         Booking booking = new Booking();
         booking.setFlight(flight);
         BigDecimal result = pipeline.pass(flight.getBasePrices().get(FlightClass.FIRST_CLASS), booking);
-        FacesContext.getCurrentInstance().addMessage("addFlight:flightPrices", new FacesMessage("First class price: €" + result.setScale(2, RoundingMode.HALF_UP)));
-        return null;
+//        FacesContext.getCurrentInstance().addMessage("addFlight:flightPrices", new FacesMessage("First class price: €" + result.setScale(2, RoundingMode.HALF_UP)));
+
+
+        flightController.registerFlight(from, to, flight);
+        reset();
+        return "pretty:dashFlights";
     }
 
     public Flight getFlight() {
@@ -98,6 +111,10 @@ public class FlightRegistrationBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage("modifierForm", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot add!", "The modifier '" + selectedModifier.getSimpleName() + "' cannot be instantiated!"));
             }
         }
+    }
+
+    public void removeModifier(PriceModifier modifier) {
+        priceModifiers.remove(modifier);
     }
 
     public List<PriceModifier> getPriceModifiers() {
