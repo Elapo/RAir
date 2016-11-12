@@ -1,14 +1,11 @@
 package com.realdolmen.rair.domain.jsf.converters;
 
 
-import com.realdolmen.rair.Sex;
+import com.realdolmen.rair.domain.entities.user.Sex;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 
 //@FacesConverter(forClass = Sex.class)

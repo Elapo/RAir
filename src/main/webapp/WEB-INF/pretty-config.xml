@@ -39,4 +39,9 @@
         <view-id value="thankyou.xhtml" />
     </url-mapping>
 
+    <url-mapping id="profile">
+        <pattern value="/profile" />
+        <view-id value="booking.xhtml" />
+    </url-mapping>
+
 </pretty-config>

@@ -29,12 +29,12 @@
                             </div>
                             <div class="mdl-card__supporting-text">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <h:inputText class="mdl-textfield__input" type="text" id="sample1"/>
+                                    <h:inputText class="mdl-textfield__input" type="text" id="sample1" value="#{search.fromLocation}"/>
                                     <label class="mdl-textfield__label" for="sample1"><h:outputText value="#{msg['startLocation']}"/></label>
                                     <p:tooltip for="sample1" value="#{msg['hoverFromLocation']}" position="bottom"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <h:inputText class="mdl-textfield__input" type="text" id="sample2"/>
+                                    <h:inputText class="mdl-textfield__input" type="text" id="sample2" required="true"/>
                                     <label class="mdl-textfield__label" for="sample2"><h:outputText value="#{msg['destination']}"/></label>
                                     <p:tooltip for="sample2" value="#{msg['hoverToLocation']}" position="bottom"/>
                                 </div>
@@ -43,7 +43,7 @@
                                     <p:tooltip for="cal1" value="#{msg['hoverDepartureDate']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <p:calendar id="cal2" type="text" value="#{search.dateOfArrival}" placeholder="#{msg['selectArrivalDate']}"/>
+                                    <p:calendar id="cal2" type="text" required="true" value="#{search.dateOfArrival}" placeholder="#{msg['selectArrivalDate']}"/>
                                     <p:tooltip for="cal2" value="#{msg['hoverArrivalDate']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
@@ -54,10 +54,31 @@
                                     <p:inputNumber id="input2" value="#{search.ticketsKids}" placeholder="#{msg.phTicketsKids}" maxValue="6" emptyValue="empty"/>
                                     <p:tooltip for="input2" value="#{msg['hoverTicketKids']}" position="top"/>
                                 </div>
+                                <div class="mdl-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                    <p:selectOneMenu id="input3" value="#{search.selectedFlightClass}" style="width: 86%; min-width: 0;">
+                                        <f:selectItem itemLabel="#{msg.selectFlightClass}" itemValue=""/>
+                                        <f:selectItems value="#{search.flightEnum}"
+                                                       var="class"
+                                                       itemLabel="#{class.pretty()}"
+                                                       itemValue="#{class}" />
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="input3" value="#{msg['hoverFlightClass']}" position="top"/>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+                                    <p:selectOneMenu id="input44" value="#{search.selectedPartner}" style="width: 86%; min-width: 0;" converter="#{partnerConverter}">
+                                        <!--<f:selectItem itemLabel="#{msg.selectPartner}" itemValue=""/ noSelectionOption="true">-->
+                                        <f:selectItems value="#{search.lstPartners}" var="partner" itemLabel="#{partner.prettyName()}" itemValue="#{partner.id}"/>
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="input44" value="#{msg['hoverPartner']}" position="top"/>
+                                </div>
                             </div>
+                            partner: #{search.selectedPartner}
+                            partnerId: #{search.selectedPartner.id}
+                            partnerssId: #{search.lstPartners.get(0).id}
+                            from: #{search.fromLocation}
+                            from: #{search.selectedFlightClass}
                             <div class="mdl-card__actions mdl-card--border" style="text-align: center">
-
-                                <h:commandButton value="#{msg['sendSearch']}" actionListener="#{search.search}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
+                                <h:commandButton value="#{msg['sendSearch']}" action="#{search.search}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
                             </div>
                             <div class="mdl-card__menu">
                                 <i class="material-icons" style="color: #fff">search</i>

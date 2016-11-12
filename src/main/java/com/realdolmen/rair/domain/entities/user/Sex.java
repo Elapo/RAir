@@ -1,4 +1,4 @@
-package com.realdolmen.rair;
+package com.realdolmen.rair.domain.entities.user;
 
 public enum Sex {
 

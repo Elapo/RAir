@@ -29,7 +29,23 @@
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation. We hide it in small screens. -->
                     <nav class="mdl-navigation mdl-layout--large-screen-only">
-                        <span><h:link outcome="pretty:login" class="mdl-navigation__link linkFont"><i class="material-icons">vpn_key</i> #{msg.login}</h:link></span>
+                        <h:panelGroup rendered="#{userSession.authorizer.checkUser('GUEST')}">
+                            <h:link outcome="pretty:login" class="mdl-navigation__link linkFont">
+                            <i class="material-icons">vpn_key</i> #{msg.login}
+                            </h:link>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
+                            <h:form>
+                                <h:commandLink action="#{login.logUserOut()}" class="mdl-navigation__link linkFont">
+                                    <i class="material-icons">power_settings_new</i> #{msg.logOut}
+                                </h:commandLink>
+                            </h:form>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
+                            <h:link outcome="pretty:profile" class="mdl-navigation__link linkFont">
+                                <i class="material-icons">perm_contact_calendar</i> #{msg.profile}
+                            </h:link>
+                        </h:panelGroup>
                         <span><h:link outcome="pretty:about" class="mdl-navigation__link linkFont"><i class="material-icons">info</i> #{msg.about}</h:link></span>
                         <span><h:link outcome="pretty:contact" class="mdl-navigation__link linkFont"><i class="material-icons">contact_phone</i> #{msg.contact}</h:link></span>
                         <button id="demo-menu-lower-right" class="mdl-navigation__link mdl-button mdl-js-button mdl-button--icon linkFont"><i class="material-icons">language</i></button>

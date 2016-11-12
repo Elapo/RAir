@@ -314,6 +314,28 @@ a {
     font-family: Roboto, sans-serif !important;
 }
 
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+    background: #4CAF50 !important;
+    color: #fff;
+}
+
+.ui-widget-content .ui-state-hover {
+    border: 1px solid #4CAF50 !important;
+    background: #83c985 !important;
+    font-weight: normal;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+    overflow: visible !important;
+}
+
+
+
+
+
+
 
 
 

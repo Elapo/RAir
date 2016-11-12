@@ -1,9 +1,10 @@
-package com.realdolmen.rair;
+package com.realdolmen.rair.domain.jsf;
 
 import com.realdolmen.rair.domain.controllers.UserController;
 import com.realdolmen.rair.domain.entities.Address;
 import com.realdolmen.rair.domain.entities.user.ContactInformation;
 import com.realdolmen.rair.domain.entities.user.RegularUser;
+import com.realdolmen.rair.domain.entities.user.Sex;
 import com.realdolmen.rair.domain.entities.user.User;
 
 import javax.enterprise.context.RequestScoped;
@@ -72,11 +73,10 @@ public class RegisterBean {
 
     public void setSelectedSex(Sex selectedSex) {
         this.selectedSex = selectedSex;
-        System.out.println(selectedSex);
     }
 
     public Sex[] getSexEnum() {
-        return Sex.values();
+        return this.sexEnum.values();
     }
 
     public String getLastName() {
@@ -143,7 +143,7 @@ public class RegisterBean {
         }
         user.setContactInformation(new ContactInformation(email, phoneNumber, address));
         userController.register(user);
-        return "booking?faces-redirect=true";
+        return "pretty:login";
     }
 
     //endregion

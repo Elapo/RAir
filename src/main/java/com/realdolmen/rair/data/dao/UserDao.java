@@ -1,8 +1,12 @@
 package com.realdolmen.rair.data.dao;
 
+import com.realdolmen.rair.domain.entities.user.Partner;
 import com.realdolmen.rair.domain.entities.user.User;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
 
 @ApplicationScoped
 public class UserDao extends AbstractDao<User, Long> {
@@ -18,5 +22,11 @@ public class UserDao extends AbstractDao<User, Long> {
 
     public User find(String email) {
         return  super.em().createNamedQuery("User.FindByEmail", User.class).setParameter("email", email).getSingleResult();
+    }
+
+    public <T extends User> List<T> findAll(Class<T> c) {
+        CriteriaQuery<T> cq = (CriteriaQuery<T>) findByCriteria();
+        TypedQuery<T> q = em().createQuery(cq);
+        return q.getResultList();
     }
 }
