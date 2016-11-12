@@ -12,6 +12,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Named(value = "login")
 @RequestScoped
@@ -32,8 +36,10 @@ public class LoginBean {
     @Inject
     private UserController userController;
 
-
+    @Size(min = 1, message = "- Password field can't be empty.")
     private String password;
+
+    @Pattern(message = "- E-mail is not a valid e-mail address.", regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")
     private String email;
 
     //endregion	 
@@ -70,7 +76,7 @@ public class LoginBean {
 
     //endregion
 
-    //region Public Methods - 
+    //region Public Methods +
 
     public void logUserIn() {
         User user;

@@ -12,6 +12,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
@@ -33,10 +35,15 @@ public class RegisterBean {
 
     private Date birthDate = new Date();
     private Sex selectedSex;
+
+    @Pattern(message = "- E-mail is not a valid e-mail address.", regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")
     private String email;
+
     private String phoneNumber;
     private Address address;
     private Sex sexEnum;
+
+    @Size(min = 5, message = "- Password is required and atleast exist out of 5 characters.")
     private String password;
 
     //endregion	 

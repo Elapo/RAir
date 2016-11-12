@@ -3,6 +3,7 @@ package com.realdolmen.rair.domain.jsf;
 import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.data.dao.UserDao;
 import com.realdolmen.rair.domain.controllers.FlightController;
+import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.FlightClass;
 import com.realdolmen.rair.domain.entities.user.Partner;
@@ -19,7 +20,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.validation.constraints.*;
 
 
 @Named(value = "search")
@@ -34,16 +38,35 @@ public class SearchBean implements Serializable {
 
     //  partner
 
-    private String fromLocation;
-    private String toLocation;
+    private Airport fromLocation;
+    private Airport toLocation;
+
+    @Future(message = "- Please select atleast 1 day later than now.")
+    @Temporal(value = TemporalType.DATE)
+    @NotNull(message = "- Please select a date of departure.")
     private Date dateOfDeparture;
+
+    @Future(message = "- The selected date of arrival has to be in the future.")
+    @Temporal(value = TemporalType.DATE)
     private Date dateOfArrival;
+
+    @NotNull(message = "- The field 'Tickets for Adults' is required.")
+    @Min(value = 1, message = "- Atleast 1 Adult ticket is required.")
+    @Max(value = 6, message = "- Maximum of 6 tickets for adults allowed, for more please contact our desk.")
     private Integer ticketsAdults;
+
+    @Max(value = 6, message = "- Maximum of 6 tickets for kids allowed, for more please contact our desk.")
     private Integer ticketsKids;
+
     private List<Flight> lstFlights;
     private FlightClass flightClass;
+
+    @NotNull(message = "- Please select a flightclass.")
     private FlightClass selectedFlightClass;
+
     private List<Partner> lstPartners;
+
+    @NotNull(message = "- Please select a company you would like to fly with.")
     private Partner selectedPartner;
 
     @Inject
@@ -61,6 +84,9 @@ public class SearchBean implements Serializable {
         Partner p = new Partner();
         p.setCompanyName("Bruce Wayne Co");
         userDao.insert(p);
+        Partner p2 = new Partner();
+        p2.setCompanyName("Fresh Prince of Bel-Air");
+        userDao.insert(p2);
         this.lstPartners = userDao.findAll(Partner.class);
     }
 
@@ -108,19 +134,19 @@ public class SearchBean implements Serializable {
         this.dateOfArrival = dateOfArrival;
     }
 
-    public String getFromLocation() {
+    public Airport getFromLocation() {
         return fromLocation;
     }
 
-    public void setFromLocation(String fromLocation) {
+    public void setFromLocation(Airport fromLocation) {
         this.fromLocation = fromLocation;
     }
 
-    public String getToLocation() {
+    public Airport getToLocation() {
         return toLocation;
     }
 
-    public void setToLocation(String toLocation) {
+    public void setToLocation(Airport toLocation) {
         this.toLocation = toLocation;
     }
 
@@ -151,8 +177,6 @@ public class SearchBean implements Serializable {
     public void setSelectedPartner(Partner selectedPartner) {
         this.selectedPartner = selectedPartner;
     }
-
-
 
     public List<Partner> getLstPartners() {
         return lstPartners;
