@@ -41,7 +41,7 @@
                                 </h:commandLink>
                             </h:form>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{userSession.authorizer.checkAdmin('ALLOWED') or userSession.authorizer.checkPartner('ALLOWED')}">
+                        <h:panelGroup rendered="#{userSession.authorizer.checkAdmin('ALLOWED') or userSession.authorizer.checkPartner('ALLOWED') or userSession.authorizer.checkCompanyUser('ALLOWED')}">
                             <h:form>
                                 <h:link outcome="dashboard" class="mdl-navigation__link linkFont">
                                     <i class="material-icons">settings</i> #{msg.adminDashboard}

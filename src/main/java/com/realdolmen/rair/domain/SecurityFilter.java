@@ -23,10 +23,9 @@ public class SecurityFilter implements Filter, Serializable {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         if (session == null || !session.isLoggedIn()) {
-            String contextPath = ((HttpServletRequest)servletRequest).getContextPath();
-            ((HttpServletResponse)servletResponse).sendRedirect(contextPath + "/login.xhtml");
+            String contextPath = ((HttpServletRequest) servletRequest).getContextPath();
+            ((HttpServletResponse) servletResponse).sendRedirect(contextPath + "/login.xhtml");
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

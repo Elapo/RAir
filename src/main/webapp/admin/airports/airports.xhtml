@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="../../WEB-INF/views/AdminTemplate.xhtml">
+
+    <ui:define name="title">Airports Overview</ui:define>
+    <ui:define name="currentTitle">Airports Overview</ui:define>
+
+    <ui:define name="main">
+        <div class="mdl-grid admin-content">
+            <h:panelGroup class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col" rendered="#{userSession.authorizer.checkCompanyUser('ALLOWED')}">
+                <div class="mdl-card__title mdl-card--expand mdl-color--green-300">
+                    <h2 class="mdl-card__title-text">Airports Overview</h2>
+                </div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600 overflow-table mdl-cell--12-col" style="width:auto;">
+                    <p:dataTable value="#{airportManagementBean.allAirports}" var="airport" reflow="true"
+                                 class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
+                                 headerClass="mdl-data-table__cell--non-numeric" style="text-align: center;"
+                                 tableStyle="table-layout: auto;"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <p:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{airport.id}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Active</f:facet>
+                            <h:form>
+                                <p:selectBooleanCheckbox value="#{airport.active}">
+                                    <p:ajax update="@this"/>
+                                </p:selectBooleanCheckbox>
+                            </h:form>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{airport.name}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Region</f:facet>
+                            #{airport.region.name}
+                        </p:column>
+                        <p:column headerText="Actions">
+                            <p:button value="View" outcome="airportDetails">
+                                <f:param name="airportId" value="#{airport.id}" />
+                            </p:button>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <h:link href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect" outcome="addAirport"
+                            value="Add airport"/>
+                </div>
+            </h:panelGroup>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

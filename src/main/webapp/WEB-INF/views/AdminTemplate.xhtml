@@ -31,10 +31,10 @@
             <div class="mdl-layout__drawer">
                 <span class="mdl-layout-title">Administration</span>
                 <nav class="mdl-navigation">
-                        <h:link class="mdl-navigation__link" value="Dashboard" outcome="dashboard"/>
-                        <h:link class="mdl-navigation__link" value="Flights" outcome="dashFlights"/>
-                        <h:link class="mdl-navigation__link" value="Regions" outcome="dashRegions"/>
-                        <h:link class="mdl-navigation__link" value="Statistics" outcome="dashStatistics"/>
+                    <h:link class="mdl-navigation__link" value="Dashboard" outcome="dashboard"/>
+                    <h:link class="mdl-navigation__link" value="Flights" outcome="dashFlights"/>
+                    <h:link class="mdl-navigation__link" value="Airports" rendered="#{userSession.authorizer.checkCompanyUser('ALLOWED')}" outcome="dashAirports"/>
+                    <h:link class="mdl-navigation__link" value="Statistics" outcome="dashStatistics"/>
                 </nav>
             </div>
             <main class="mdl-layout__content mdl-color--grey-100">

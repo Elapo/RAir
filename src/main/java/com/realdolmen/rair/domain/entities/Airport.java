@@ -1,5 +1,6 @@
 package com.realdolmen.rair.domain.entities;
 
+import com.realdolmen.rair.data.dao.Toggle;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "Airport.FindByName", query = "select u from Airport u where u.name = :name")
 })
-public class Airport implements Serializable {
+public class Airport implements Serializable, Toggle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,8 @@ public class Airport implements Serializable {
 
     @Embedded
     private Address address;
+
+    private Boolean active = true;
 
     public Long getId() {
         return id;
@@ -70,5 +73,25 @@ public class Airport implements Serializable {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public void activate() {
+        active = true;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void deactivate() {
+        active = false;
+    }
+
+    @Override
+    public void setActive(boolean flag) {
+        active = flag;
     }
 }

@@ -14,6 +14,8 @@ import java.io.Serializable;
 @SessionScoped
 public class SessionBean implements Serializable{
 
+    public static final boolean DEBUG_MODE = true;
+
     //region CONSTANTS -
 
     //endregion
@@ -45,6 +47,10 @@ public class SessionBean implements Serializable{
 
     public boolean isLoggedIn() {
         return authorizer != null && authorizer.getUser() != null;
+    }
+
+    public boolean getDebugMode() {
+        return DEBUG_MODE;
     }
 
     //endregion

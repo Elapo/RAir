@@ -13,12 +13,12 @@ public class VolumeDiscountModifier extends PriceModifier implements Conditional
 
     @Override
     public BigDecimal modify(List<PriceModifier> modifiers, Flight flight, Booking booking, BigDecimal input) {
-        if(isPercentBased()) {
-            if(booking.getTickets().size() >= numberOfTickets) {
+        if (isPercentBased()) {
+            if (booking.getTickets().size() >= numberOfTickets) {
                 return input.subtract(multiplyPercentage(input, discount));
             }
         } else {
-            if(booking.getTickets().size() >= numberOfTickets) {
+            if (booking.getTickets().size() >= numberOfTickets) {
                 return input.subtract(new BigDecimal(discount));
             }
         }
@@ -44,6 +44,26 @@ public class VolumeDiscountModifier extends PriceModifier implements Conditional
 
     @Override
     public boolean include(Booking booking) {
-        return booking.getTickets() != null && booking.getTickets().size() >= numberOfTickets;
+        return booking.getTickets() != null && booking.getTickets().size() >= numberOfTickets && isHighestApplicableDiscount(booking);
+    }
+
+    private boolean isHighestApplicableDiscount(Booking booking) {
+
+        VolumeDiscountModifier highestFound = this;
+
+        for (PriceModifier modifier : booking.getPriceModifiers()) {
+            if (modifier instanceof VolumeDiscountModifier) {
+                VolumeDiscountModifier other = (VolumeDiscountModifier) modifier;
+
+//                int nrOfTickets = booking.getTickets().size();
+                //TODO: test
+
+                if (other.getDiscount() > highestFound.getDiscount() && other.getNumberOfTickets() >= highestFound.getNumberOfTickets()) {
+                    highestFound = other;
+                }
+            }
+        }
+
+        return highestFound == this;
     }
 }

@@ -1,8 +1,10 @@
 package com.realdolmen.rair.data;
 
 import com.realdolmen.rair.domain.entities.*;
+import com.realdolmen.rair.domain.entities.user.CompanyUser;
 import com.realdolmen.rair.domain.entities.user.ContactInformation;
 import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.entities.user.RegularUser;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -27,14 +29,30 @@ public class SampleData {
         partner.setCompanyName("Jetair");
         ContactInformation ci = new ContactInformation("mail@jetair.be", null, null);
         partner.setContactInformation(ci);
+
+        CompanyUser cu = new CompanyUser();
+        cu.setFirstName("Company");
+        cu.setLastName("Worker");
+
+        cu.setContactInformation(new ContactInformation("worker@realdolmen.com", null, null));
+
+        RegularUser ru = new RegularUser();
+        ru.setFirstName("John");
+        ru.setLastName("Doe");
+        ru.setContactInformation(new ContactInformation("john.doe@gmail.com", null, new Address("Street", "Number", "City", "2942", "Belgium")));
+
         try {
             partner.setPassword("test");
+            cu.setPassword("test");
+            ru.setPassword("test");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return;
         }
 
         entityManager.persist(partner);
+        entityManager.persist(cu);
+        entityManager.persist(ru);
 
         Flight flight = new Flight();
         flight.setCreator(partner);

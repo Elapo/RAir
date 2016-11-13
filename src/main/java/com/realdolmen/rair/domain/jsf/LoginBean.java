@@ -99,6 +99,24 @@ public class LoginBean {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "User or Password is not correct."));
     }
 
+    public void loginAsPartner() {
+        email = "mail@jetair.be";
+        password = "test";
+        logUserIn();
+    }
+
+    public void loginAsCu() {
+        email = "worker@realdolmen.com";
+        password = "test";
+        logUserIn();
+    }
+
+    public void loginAsRu() {
+        email = "john.doe@gmail.com";
+        password = "test";
+        logUserIn();
+    }
+
     public void logUserOut() {
         userController.logOutUser();
     }
