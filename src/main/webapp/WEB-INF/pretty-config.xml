@@ -39,6 +39,7 @@
         <view-id value="thankyou.xhtml" />
     </url-mapping>
 
+
     <!-- Admin -->
     <url-mapping id="dashboard">
         <pattern value="/admin/" />
@@ -48,6 +49,11 @@
     <url-mapping id="dashFlights">
         <pattern value="/admin/flights" />
         <view-id value="flights.xhtml"/>
+    </url-mapping>
+
+    <url-mapping id="profile">
+        <pattern value="/profile" />
+        <view-id value="booking.xhtml" />
     </url-mapping>
 
 </pretty-config>

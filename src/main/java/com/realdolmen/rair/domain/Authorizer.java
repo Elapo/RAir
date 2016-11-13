@@ -1,12 +1,20 @@
 package com.realdolmen.rair.domain;
 
-import com.realdolmen.rair.domain.entities.user.User;
+import com.realdolmen.rair.domain.entities.user.*;
 
-public class Authorizer {
+import javax.inject.Named;
+import java.io.Serializable;
+
+@Named
+public class Authorizer implements Serializable {
     private User user;
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public AuthLevel check(Class<? extends Authorizable>... allowedTypes) {
@@ -31,7 +39,7 @@ public class Authorizer {
     public boolean check(AuthLevel requiredLevel, String... allowedTypes) {
         Class[] classes = new Class[allowedTypes.length];
         for (int i = 0; i < classes.length; i++) {
-            classes[i] = asClass(allowedTypes[i]);
+            classes[i] = asClass("com.realdolmen.rair.domain.entities.user." + allowedTypes[i]);
         }
         return check(classes) == requiredLevel;
 
@@ -46,5 +54,25 @@ public class Authorizer {
         }
 
         return null;
+    }
+
+    public boolean checkRegularUser(AuthLevel level) {
+        return check(level, RegularUser.class);
+    }
+
+    public boolean checkPartner(AuthLevel level) {
+        return check(level, Partner.class);
+    }
+
+    public boolean checkUser(AuthLevel level) {
+        return check(level, User.class);
+    }
+
+    public boolean checkCompanyUser(AuthLevel level) {
+        return check(level, CompanyUser.class);
+    }
+
+    public boolean checkAdmin(AuthLevel level) {
+        return check(level, Admin.class);
     }
 }

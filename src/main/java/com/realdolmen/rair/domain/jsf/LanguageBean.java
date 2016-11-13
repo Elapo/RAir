@@ -1,4 +1,4 @@
-package com.realdolmen.rair;
+package com.realdolmen.rair.domain.jsf;
 
 import java.io.Serializable;
 import java.util.*;
@@ -54,10 +54,9 @@ public class LanguageBean implements Serializable {
 
     //region Public Methods +
 
-    public String changeLocale(String code1, String code2){
+    public void changeLocale(String code1, String code2){
         this.locale = new Locale(code1, code2);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(this.locale);
-        return "index?faces-redirect=true";
     }
 
     //endregion

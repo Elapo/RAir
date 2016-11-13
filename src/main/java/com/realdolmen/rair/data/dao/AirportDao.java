@@ -11,4 +11,8 @@ public class AirportDao extends AbstractDao<Airport, Long> {
     protected Class<Airport> getDataType() {
         return Airport.class;
     }
+
+    public Airport findAirportByName(String name) {
+        return  super.em().createNamedQuery("Airport.FindByName", Airport.class).setParameter("name", name).getSingleResult();
+    }
 }

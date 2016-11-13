@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Airport.FindByName", query = "select u from Airport u where u.name = :name")
+})
 public class Airport implements Serializable {
 
     @Id

@@ -4,8 +4,8 @@ import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.Route;
+import org.hibernate.Hibernate;
 
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named
-public class FlightController extends AbstractController {
+public class FlightController extends AbstractController implements Serializable {
 
     @Inject
     private FlightDao flightDao;
@@ -45,6 +45,7 @@ public class FlightController extends AbstractController {
         return flightDao.getInactiveFlights();
     }
 
+    @Transactional
     public void registerFlight(Airport from, Airport to, Flight flight) {
         Route route = routeController.getRouteByAirports(from, to);
         if (route == null) {
@@ -54,6 +55,7 @@ public class FlightController extends AbstractController {
         flight.setRoute(flightDao.em().find(Route.class, route.getId()));
         registerFlight(flight);
 
+        Hibernate.initialize(route.getFlights());
         route.getFlights().add(flight);
         routeController.update(route);
     }
@@ -69,5 +71,9 @@ public class FlightController extends AbstractController {
 
     public Flight getFlight(long flightId) {
         return flightDao.find(flightId);
+    }
+
+    public List<Flight> getFlightsBySearch(Flight f) throws IllegalAccessException {
+        return flightDao.getFlightsBySearch(f);
     }
 }

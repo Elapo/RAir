@@ -68,7 +68,7 @@ public class FlightRegistrationBean implements Serializable {
 
         flightController.registerFlight(from, to, flight);
         reset();
-        return "pretty:dashFlights";
+        return "dashFlights";
     }
 
     public Flight getFlight() {

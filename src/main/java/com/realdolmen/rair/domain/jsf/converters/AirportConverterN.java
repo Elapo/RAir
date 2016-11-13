@@ -1,34 +1,30 @@
 package com.realdolmen.rair.domain.jsf.converters;
 
+import com.realdolmen.rair.data.dao.AirportDao;
 import com.realdolmen.rair.domain.entities.Airport;
-import com.realdolmen.rair.domain.jsf.flight.FlightManagementBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-//@FacesConverter("com.realdolmen.convert.Airport")
-//@Named
-public class AirportConverter implements Converter {
+@Named(value = "airportConverter")
+public class AirportConverterN implements Converter {
 
     @Inject
-    private FlightManagementBean flightManagementBean;
+    AirportDao airportDao;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
-        if (s == null) {
-            return null;
+        if (s != null && !s.equals("")) {
+            return airportDao.findAirportByName(s);
         }
 
-        try {
-            long id = Long.parseLong(s);
-            return flightManagementBean.getAirportDao().find(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return null;
     }
 
     @Override
@@ -38,7 +34,7 @@ public class AirportConverter implements Converter {
         }
 
         if(o instanceof Airport) {
-            return ((Airport) o).getId().toString();
+            return ((Airport) o).getName();
         }
         return o.toString();
     }

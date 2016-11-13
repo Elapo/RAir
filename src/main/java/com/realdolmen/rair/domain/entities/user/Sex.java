@@ -1,4 +1,4 @@
-package com.realdolmen.rair;
+package com.realdolmen.rair.domain.entities.user;
 
 public enum Sex {
 
@@ -10,8 +10,7 @@ public enum Sex {
         prettyName = pretty;
     }
 
-    @Override
-    public String toString() {
+    public String pretty() {
         return prettyName;
     }
 

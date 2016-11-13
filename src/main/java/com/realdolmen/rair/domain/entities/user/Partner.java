@@ -17,7 +17,6 @@ public class Partner extends User {
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Flight> ownedFlights = new ArrayList<>();
 
-    private String wow;
     private String companyName;
 
     public Partner() {
@@ -42,4 +41,9 @@ public class Partner extends User {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
+    public String prettyName() {
+        return companyName;
+    }
+
 }
