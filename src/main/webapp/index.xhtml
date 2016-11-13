@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
 
@@ -29,12 +29,12 @@
                             <div class="mdl-card__supporting-text">
                                 <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true" style="width: 100%"/>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <h:inputText class="mdl-textfield__input" type="text" id="sample1" value="#{search.fromLocation}" required="#{empty param['form:sample2']}" requiredMessage="From or To field is required."/>
+                                    <h:inputText class="mdl-textfield__input" type="text" id="sample1" value="#{search.fromLocation}" converter="#{airportConverter}" required="#{empty param['form:sample2']}" requiredMessage="From or To field is required."/>
                                     <label class="mdl-textfield__label" for="sample1"><h:outputText value="#{msg['startLocation']}"/></label>
                                     <p:tooltip for="sample1" value="#{msg['hoverFromLocation']}" position="bottom"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <h:inputText class="mdl-textfield__input" type="text" id="sample2" value="#{search.toLocation}" required="#{empty param['form:sample1']}" requiredMessage="From or To field is required."/>
+                                    <h:inputText class="mdl-textfield__input" type="text" id="sample2" value="#{search.toLocation}" converter="#{airportConverter}" required="#{empty param['form:sample1']}" requiredMessage="From or To field is required."/>
                                     <label class="mdl-textfield__label" for="sample2"><h:outputText value="#{msg['destination']}"/></label>
                                     <p:tooltip for="sample2" value="#{msg['hoverToLocation']}" position="bottom"/>
                                 </div>
@@ -60,14 +60,17 @@
                                         <f:selectItems value="#{search.flightEnum}"
                                                        var="class"
                                                        itemLabel="#{class.pretty()}"
-                                                       itemValue="#{class}" />
+                                                       itemValue="#{class}"/>
                                     </p:selectOneMenu>
                                     <p:tooltip for="input3" value="#{msg['hoverFlightClass']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone" style="display: block">
                                     <p:selectOneMenu id="input44" value="#{search.selectedPartner}" style="width: auto;" converter="#{partnerConverter}">
                                         <!--<f:selectItem itemLabel="#{msg.selectPartner}" itemValue=""/ noSelectionOption="true">-->
-                                        <f:selectItems value="#{search.lstPartners}" var="partner" itemLabel="#{partner.prettyName()}" itemValue="#{partner.id}"/>
+                                        <f:selectItems value="#{search.lstPartners}"
+                                                       var="partner"
+                                                       itemLabel="#{partner.prettyName()}"
+                                                       itemValue="#{partner}"/>
                                     </p:selectOneMenu>
                                     <p:tooltip for="input44" value="#{msg['hoverPartner']}" position="top"/>
                                 </div>
@@ -82,7 +85,7 @@
                             company: #{search.selectedPartner}
 
                             <div class="mdl-card__actions mdl-card--border" style="text-align: center">
-                                <h:commandButton value="#{msg['sendSearch']}" action="#{search.search}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
+                                <h:commandButton value="#{msg['sendSearch']}" action="#{search.search()}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
                             </div>
                             <div class="mdl-card__menu">
                                 <i class="material-icons" style="color: #fff">search</i>

@@ -9,6 +9,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Named(value = "partnerConverter")
 public class PartnerConverter implements Converter {
@@ -19,14 +21,12 @@ public class PartnerConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         System.out.println(value);
-        if (value == null) {
-            System.out.println("nullllll");
+        if (value == null && value.equals("")) {
             return null;
         }
         try {
             return userDao.find(Partner.class, Long.valueOf(value));
         } catch (Exception e) {
-            System.out.println("EXCEPTIONNNNNNNN");
             e.printStackTrace();
         }
         return null;
@@ -38,9 +38,9 @@ public class PartnerConverter implements Converter {
             return "PARTNER IS NULL";
         }
 
-        if (o instanceof Partner) return o.toString();
+        if (o instanceof Partner) return ((Partner) o).getId().toString();
 
-        return o.toString();
+        return null;
     }
 
 

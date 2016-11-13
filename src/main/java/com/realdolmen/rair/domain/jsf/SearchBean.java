@@ -1,11 +1,13 @@
 package com.realdolmen.rair.domain.jsf;
 
+import com.realdolmen.rair.data.dao.AirportDao;
 import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.data.dao.UserDao;
 import com.realdolmen.rair.domain.controllers.FlightController;
 import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.FlightClass;
+import com.realdolmen.rair.domain.entities.Route;
 import com.realdolmen.rair.domain.entities.user.Partner;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
@@ -44,11 +46,11 @@ public class SearchBean implements Serializable {
     @Future(message = "- Please select atleast 1 day later than now.")
     @Temporal(value = TemporalType.DATE)
     @NotNull(message = "- Please select a date of departure.")
-    private Date dateOfDeparture;
+    private Date dateOfDeparture = null;
 
     @Future(message = "- The selected date of arrival has to be in the future.")
     @Temporal(value = TemporalType.DATE)
-    private Date dateOfArrival;
+    private Date dateOfArrival = null;
 
     @NotNull(message = "- The field 'Tickets for Adults' is required.")
     @Min(value = 1, message = "- Atleast 1 Adult ticket is required.")
@@ -65,6 +67,7 @@ public class SearchBean implements Serializable {
     private FlightClass selectedFlightClass;
 
     private List<Partner> lstPartners;
+    private List<Airport> lstLocations;
 
     @NotNull(message = "- Please select a company you would like to fly with.")
     private Partner selectedPartner;
@@ -74,6 +77,9 @@ public class SearchBean implements Serializable {
 
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private AirportDao airportDao;
 
     //endregion
 
@@ -88,6 +94,10 @@ public class SearchBean implements Serializable {
         p2.setCompanyName("Fresh Prince of Bel-Air");
         userDao.insert(p2);
         this.lstPartners = userDao.findAll(Partner.class);
+
+        Airport a = new Airport();
+        a.setName("Brussel");
+        airportDao.insert(a);
     }
 
     //endregion
@@ -182,13 +192,49 @@ public class SearchBean implements Serializable {
         return lstPartners;
     }
 
+
+
     //endregion
 
     //region Public Methods +
 
-    public void search() {
+    public List<Flight> search() throws IllegalAccessException {
         //TODO: formvalidatie
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "System Error"));
+        /*FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "System Error"));
+
+        StringBuilder jpqlQuery = new StringBuilder("SELECT f FROM Flight f WHERE ");
+
+        List<String> conditions = new ArrayList<>();
+
+        if ( dateOfDeparture     != null ) conditions.add( "f.dateOfDeparture = :depTime"   );
+        *//*if ( dateOfArrival       != null ) conditions.add( "f.dateOfArrival = :arrTime"     );
+        if ( fromLocation        != null ) conditions.add( "f.fromLocation = :from"         );
+        if ( toLocation          != null ) conditions.add( "f.toLocation = :to"             );
+        if ( ticketsAdults       > 0     ) conditions.add( "f.ticketsAdults = :adults"      );
+        if ( ticketsKids         > 0     ) conditions.add( "f.ticketsKids = :kids"          );
+        if ( selectedFlightClass != null ) conditions.add( "f.selectedFlightClass = :class" );
+        if ( selectedPartner     != null ) conditions.add( "f.selectedPartner = :class"     );*//*
+
+        if (conditions.size() > 1) {
+            for(String condition : conditions) {
+
+                jpqlQuery.append(condition).append(" AND ");
+
+            }
+            jpqlQuery.substring(0, jpqlQuery.length() - 5);
+        }*/
+
+
+
+        Flight f = new Flight();
+        f.setDepartureTime(dateOfDeparture);
+        Route r = new Route();
+        r.setAirportA(fromLocation);
+        r.setAirportB(toLocation);
+        f.setRoute(r);
+        f.setCreator(selectedPartner);
+
+        return flightDao.getFlightsBySearch(f);
     }
 
     //endregion

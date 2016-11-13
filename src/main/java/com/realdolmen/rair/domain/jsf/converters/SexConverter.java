@@ -6,9 +6,10 @@ import com.realdolmen.rair.domain.entities.user.Sex;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.inject.Named;
 
 
-//@FacesConverter(forClass = Sex.class)
+@Named(value = "sexConverter")
 public class SexConverter implements Converter {
 
     @Override

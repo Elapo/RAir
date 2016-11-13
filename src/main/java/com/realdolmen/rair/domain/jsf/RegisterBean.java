@@ -146,7 +146,7 @@ public class RegisterBean {
             user.setPassword(password);
         } catch (NoSuchAlgorithmException algo) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(algo.getMessage()));
-            return "register";
+            return "pretty:register";
         }
         user.setContactInformation(new ContactInformation(email, phoneNumber, address));
         userController.register(user);

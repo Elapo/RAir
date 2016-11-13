@@ -6,6 +6,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Airport.FindByName", query = "select u from Airport u where u.name = :name")
+})
 public class Airport {
 
     @Id
