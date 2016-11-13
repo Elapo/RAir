@@ -4,6 +4,8 @@ import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.Route;
+import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.entities.user.User;
 import org.hibernate.Hibernate;
 
 import javax.inject.Inject;
@@ -39,6 +41,10 @@ public class FlightController extends AbstractController implements Serializable
 
     public List<Flight> getAllFlights() {
         return flightDao.getAllFlights();
+    }
+
+    public List<Flight> getAllFlightsByUser(Partner partner) {
+        return flightDao.getAllFlightsByUser(partner);
     }
 
     public List<Flight> getInactiveFlights() {

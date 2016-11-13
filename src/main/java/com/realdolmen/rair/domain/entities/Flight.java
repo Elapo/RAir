@@ -12,7 +12,9 @@ import java.util.Map;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f"),
-        @NamedQuery(name = "Flight.findAllByState", query = "SELECT f FROM Flight f WHERE f.active = :active")
+        @NamedQuery(name = "Flight.findAllByState", query = "SELECT f FROM Flight f WHERE f.active = :active"),
+        @NamedQuery(name = "Flight.findAllByPartner", query = "SELECT f FROM Flight f WHERE f.creator = :creator")
+
 })
 public class Flight implements Toggle {
 

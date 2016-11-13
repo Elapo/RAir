@@ -1,6 +1,7 @@
 package com.realdolmen.rair.data;
 
 import com.realdolmen.rair.domain.entities.*;
+import com.realdolmen.rair.domain.entities.user.ContactInformation;
 import com.realdolmen.rair.domain.entities.user.Partner;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +10,7 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 @Startup
@@ -23,6 +25,14 @@ public class SampleData {
     public void startup() {
         Partner partner = new Partner();
         partner.setCompanyName("Jetair");
+        ContactInformation ci = new ContactInformation("mail@jetair.be", null, null);
+        partner.setContactInformation(ci);
+        try {
+            partner.setPassword("test");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return;
+        }
 
         entityManager.persist(partner);
 

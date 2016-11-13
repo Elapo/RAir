@@ -1,6 +1,7 @@
 package com.realdolmen.rair.data.dao;
 
 import com.realdolmen.rair.domain.entities.Flight;
+import com.realdolmen.rair.domain.entities.user.Partner;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -63,7 +64,9 @@ public class FlightDao extends AbstractDao<Flight, Long> {
         return em().createNamedQuery("Flight.findAllByState", Flight.class).setParameter("active", false).getResultList();
     }
 
-
+    public List<Flight> getAllFlightsByUser(Partner partner) {
+        return em().createNamedQuery("Flight.findAllByPartner", Flight.class).setParameter("creator", partner).getResultList();
+    }
 
 
     public List<Flight> getFlightsBySearch(Flight flight) throws IllegalAccessException {

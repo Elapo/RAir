@@ -43,6 +43,10 @@ public class SessionBean implements Serializable{
         return authorizer;
     }
 
+    public boolean isLoggedIn() {
+        return authorizer != null && authorizer.getUser() != null;
+    }
+
     //endregion
 
     //region Public Methods - 

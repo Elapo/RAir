@@ -41,6 +41,13 @@
                                 </h:commandLink>
                             </h:form>
                         </h:panelGroup>
+                        <h:panelGroup rendered="#{userSession.authorizer.checkAdmin('ALLOWED') or userSession.authorizer.checkPartner('ALLOWED')}">
+                            <h:form>
+                                <h:link outcome="dashboard" class="mdl-navigation__link linkFont">
+                                    <i class="material-icons">settings</i> #{msg.adminDashboard}
+                                </h:link>
+                            </h:form>
+                        </h:panelGroup>
                         <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
                             <h:link outcome="pretty:profile" class="mdl-navigation__link linkFont">
                                 <i class="material-icons">perm_contact_calendar</i> #{msg.profile}
