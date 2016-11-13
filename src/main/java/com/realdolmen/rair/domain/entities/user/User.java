@@ -154,4 +154,9 @@ public abstract class User implements Toggle, Authorizable {
     public boolean isActive() {
         return active;
     }
+
+    @Override
+    public void setActive(boolean flag) {
+        active = flag;
+    }
 }

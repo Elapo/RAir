@@ -118,4 +118,9 @@ public class Flight implements Toggle {
     public void deactivate() {
         active = false;
     }
+
+    @Override
+    public void setActive(boolean flag) {
+        active = flag;
+    }
 }

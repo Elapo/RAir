@@ -85,6 +85,11 @@ public class Booking implements Toggle {
         active = false;
     }
 
+    @Override
+    public void setActive(boolean flag) {
+        active = flag;
+    }
+
     public BookingStatus getStatus() {
         return status;
     }

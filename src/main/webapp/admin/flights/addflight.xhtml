@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:rd="http://xmlns.jcp.org/jsf/composite/realdolmen">
 
-<ui:composition template="../WEB-INF/views/AdminTemplate.xhtml">
+<ui:composition template="../../WEB-INF/views/AdminTemplate.xhtml">
 
     <ui:define name="title">#{msg.indexAdminTitle}</ui:define>
     <ui:define name="currentTitle">#{msg.indexAdminTitle}</ui:define>
@@ -149,7 +149,7 @@
                                                    itemLabel="#{mappings['modifier.name.'.concat(availableModifier.simpleName)]}"
                                                    itemValue="#{availableModifier}"/>
 
-                                    <f:converter converterId="com.realdolmen.convert.Class" for="selectModifier"/>
+                                    <f:converter binding="#{modifierClassConverter}" for="selectModifier"/>
 
                                 </h:selectOneMenu>
                                 <h:commandButton value="Add modifier"

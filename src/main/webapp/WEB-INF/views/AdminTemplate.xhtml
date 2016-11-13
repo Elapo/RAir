@@ -31,8 +31,10 @@
             <div class="mdl-layout__drawer">
                 <span class="mdl-layout-title">Administration</span>
                 <nav class="mdl-navigation">
-                    <a href="#{request.contextPath}/admin" class="mdl-navigation__link">Dashboard</a>
-                    <a href="#{request.contextPath}/admin/flights" class="mdl-navigation__link">Flights</a>
+                        <h:link class="mdl-navigation__link" value="Dashboard" outcome="dashboard"/>
+                        <h:link class="mdl-navigation__link" value="Flights" outcome="dashFlights"/>
+                        <h:link class="mdl-navigation__link" value="Regions" outcome="dashRegions"/>
+                        <h:link class="mdl-navigation__link" value="Statistics" outcome="dashStatistics"/>
                 </nav>
             </div>
             <main class="mdl-layout__content mdl-color--grey-100">
@@ -41,6 +43,6 @@
         </div>
     </f:view>
     <script type="application/javascript" defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-    <h:outputScript library="scripts" name="global.js" />
+    <h:outputScript library="scripts" name="global.js"/>
 </h:body>
 </html>

@@ -57,6 +57,11 @@ public class Region implements Toggle {
     }
 
     @Override
+    public void setActive(boolean flag) {
+        active = flag;
+    }
+
+    @Override
     public boolean isActive() {
         return active;
     }

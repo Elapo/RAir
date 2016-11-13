@@ -1,15 +1,11 @@
 package com.realdolmen.rair.domain.jsf.converters;
 
-import com.realdolmen.rair.data.dao.AirportDao;
-import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.domain.entities.Airport;
-import com.realdolmen.rair.domain.jsf.FlightManagementBean;
+import com.realdolmen.rair.domain.jsf.flight.FlightManagementBean;
 
-import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
 

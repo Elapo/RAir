@@ -1,4 +1,4 @@
-package com.realdolmen.rair.domain.jsf;
+package com.realdolmen.rair.domain.jsf.flight;
 
 import com.realdolmen.rair.domain.controllers.FlightController;
 import com.realdolmen.rair.domain.controllers.RouteController;

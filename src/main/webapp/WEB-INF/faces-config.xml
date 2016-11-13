@@ -19,4 +19,37 @@
             <var>mappings</var>
         </resource-bundle>
     </application>
+
+    <navigation-rule>
+        <from-view-id>/admin/*</from-view-id>
+        <navigation-case>
+            <from-outcome>dashFlights</from-outcome>
+            <to-view-id>/admin/flights/flights.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>dashboard</from-outcome>
+            <to-view-id>/admin/dashboard.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>dashRegions</from-outcome>
+            <to-view-id>/admin/dashboard.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>addFlight</from-outcome>
+            <to-view-id>/admin/flights/addflight.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>dashFlightDetails</from-outcome>
+            <to-view-id>/admin/flights/flightDetails.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>dashPartnerDetails</from-outcome>
+            <to-view-id>/admin/partner/partnerDetails.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

@@ -5,6 +5,7 @@ import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.Route;
 
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -55,5 +56,18 @@ public class FlightController extends AbstractController {
 
         route.getFlights().add(flight);
         routeController.update(route);
+    }
+
+    public void updateFlightStatus(Long flightId) {
+        System.out.println(flightId);
+//        flightDao.update(flight);
+    }
+
+    public void updateFlightStatus(Flight flight) {
+        flightDao.update(flight);
+    }
+
+    public Flight getFlight(long flightId) {
+        return flightDao.find(flightId);
     }
 }
