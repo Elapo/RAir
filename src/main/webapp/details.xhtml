@@ -9,7 +9,7 @@
 
 <f:metadata>
     <f:viewParam name="flightId" value="#{details.selectedId}"/>
-    <f:event type="preRenderView" listener="#{details.details()}"/>
+    <f:viewAction action="#{details.details()}"/>
 </f:metadata>
 
 <ui:composition template="WEB-INF/views/MasterTemplate.xhtml">

@@ -12,6 +12,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 
@@ -24,9 +28,6 @@ public class DetailsBean implements Serializable{
     //endregion
 
     //region Injects +
-
-    @Inject
-    private FlightDao flightDao;
 
     @Inject
     private FlightController controller;
@@ -75,10 +76,6 @@ public class DetailsBean implements Serializable{
         this.selectedFlight = selectedFlight;
     }
 
-    public void getSelectedFlightFromDAO() {
-        this.selectedFlight = flightDao.find(selectedId);
-    }
-
     //endregion
 
     //region Public Methods +
@@ -86,18 +83,23 @@ public class DetailsBean implements Serializable{
     private void fixLazyInit() {
         Hibernate.initialize(selectedFlight.getBasePrices());
         Hibernate.initialize(selectedFlight.getAvailableSeats());
+        Hibernate.initialize(selectedFlight.getCreator());
         Hibernate.initialize(selectedFlight.getCreator().getOwnedFlights());
+        Hibernate.initialize(selectedFlight.getRoute());
+        Hibernate.initialize(selectedFlight.getRoute().getFlights());
+
     }
 
-
-    @PostConstruct
     @Transactional
     public void details() {
-        selectedFlight = controller.getFlight(selectedId);
-        fixLazyInit();
-        if(selectedFlight == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Flight '" + selectedId + "' is not found!"));
+        if (selectedId != null) {
+            selectedFlight = controller.getFlight(selectedId);
+            if (selectedFlight != null) {
+                fixLazyInit();
+                return;
+            }
         }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Flight '" + selectedId + "' is not found!", null));
     }
 
     //endregion

@@ -75,6 +75,8 @@ public class SearchBean implements Serializable {
 
     private Long selectedId;
 
+    private List<Flight> searchResults;
+
     @Inject
     private FlightDao flightDao;
 
@@ -83,8 +85,6 @@ public class SearchBean implements Serializable {
 
     @Inject
     private AirportDao airportDao;
-
-    private List<Flight> searchResults;
 
     //endregion
 

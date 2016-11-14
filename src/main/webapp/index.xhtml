@@ -92,13 +92,13 @@
                                 <i class="material-icons" style="color: #fff">search</i>
                             </div>
                             <c:if test="#{not empty search.searchResults}">
-                                <p:dataTable id="test" value="#{search.searchResults}">
+                                <p:dataTable id="test" value="#{search.searchResults}" var="r">
                                     <p:column headerText="Date of departure">
                                         <h:outputText value="#{search.dateOfDeparture}" />
                                     </p:column>
                                     <p:column headerText="Info">
                                         <h:link outcome="pretty:details" value="Details">
-                                            <f:param name="flightId" value="#{search.selectedPartner.id}"/>
+                                            <f:param name="flightId" value="#{r.id}"/>
                                         </h:link>
                                     </p:column>
                                 </p:dataTable>
