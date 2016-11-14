@@ -331,7 +331,10 @@ a {
     overflow: visible !important;
 }
 
-
+.ui-autocomplete,
+.ui-autocomplete-input{
+    width: 97% !important;
+}
 
 
 

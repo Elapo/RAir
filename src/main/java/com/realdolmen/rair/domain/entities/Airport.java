@@ -11,7 +11,10 @@ import java.io.Serializable;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Airport.FindByName", query = "select u from Airport u where u.name = :name")
+        @NamedQuery(name = "Airport.FindByName",
+                query = "select u from Airport u where u.name = :name"),
+        @NamedQuery(name = "Airport.FindLikeName",
+                query = "select u from Airport u where u.name like CONCAT('%', :name, '%')")
 })
 public class Airport implements Serializable, Toggle {
 
@@ -72,6 +75,11 @@ public class Airport implements Serializable, Toggle {
 
         return id != null ? id.equals(airport.id) : airport.id == null;
 
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     @Override

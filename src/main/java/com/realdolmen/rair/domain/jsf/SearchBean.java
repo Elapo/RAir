@@ -3,19 +3,18 @@ package com.realdolmen.rair.domain.jsf;
 import com.realdolmen.rair.data.dao.AirportDao;
 import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.data.dao.UserDao;
-import com.realdolmen.rair.domain.controllers.FlightController;
 import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.FlightClass;
 import com.realdolmen.rair.domain.entities.Route;
 import com.realdolmen.rair.domain.entities.user.Partner;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -25,6 +24,7 @@ import javax.inject.Named;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
 import javax.validation.constraints.*;
 
 
@@ -38,10 +38,11 @@ public class SearchBean implements Serializable {
 
     //region Private Member Variables +
 
-    //  partner
-
+    @NotNull(message = "- Please select an airport from where you would like to fly.")
     private Airport fromLocation;
     private Airport toLocation;
+
+    private Flight selectedFlight;
 
     @Future(message = "- Please select atleast 1 day later than now.")
     @Temporal(value = TemporalType.DATE)
@@ -72,6 +73,10 @@ public class SearchBean implements Serializable {
     @NotNull(message = "- Please select a company you would like to fly with.")
     private Partner selectedPartner;
 
+    private Long selectedId;
+
+    private List<Flight> searchResults;
+
     @Inject
     private FlightDao flightDao;
 
@@ -87,17 +92,7 @@ public class SearchBean implements Serializable {
 
     @PostConstruct
     private void getPartners() {
-        Partner p = new Partner();
-        p.setCompanyName("Bruce Wayne Co");
-        userDao.insert(p);
-        Partner p2 = new Partner();
-        p2.setCompanyName("Fresh Prince of Bel-Air");
-        userDao.insert(p2);
         this.lstPartners = userDao.findAll(Partner.class);
-
-        Airport a = new Airport();
-        a.setName("Brussel");
-        airportDao.insert(a);
     }
 
     //endregion
@@ -192,13 +187,39 @@ public class SearchBean implements Serializable {
         return lstPartners;
     }
 
+    public List<Flight> getSearchResults() {
+        return searchResults;
+    }
 
+    public Long getSelectedId() {
+        return selectedId;
+    }
+
+    public void setSelectedId(Long selectedId) {
+        this.selectedId = selectedId;
+    }
+
+    public Flight getSelectedFlight() {
+        return selectedFlight;
+    }
+
+    public void setSelectedFlight(Flight selectedFlight) {
+        this.selectedFlight = selectedFlight;
+    }
 
     //endregion
 
     //region Public Methods +
 
-    public List<Flight> search() throws IllegalAccessException {
+    public List<Airport> completeAirport(String query) {
+        if (query.length() >= 3) {
+            return airportDao.findAllAirportLike(query);
+        }
+        return new ArrayList<>();
+    }
+
+
+    public void search() throws IllegalAccessException {
         //TODO: formvalidatie
         /*FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "System Error"));
 
@@ -234,8 +255,10 @@ public class SearchBean implements Serializable {
         f.setRoute(r);
         f.setCreator(selectedPartner);
 
-        return flightDao.getFlightsBySearch(f);
+        this.searchResults = flightDao.getFlightsBySearch(f);
     }
+
+
 
     //endregion
 

@@ -28,7 +28,7 @@
                             <h:panelGroup>
                                 <label for="departureTime">Departure Time</label>
                                 <br/>
-                                <p:calendar mindate="#{flightManagementBean.today()}" pattern="MM/dd/yyyy HH:mm:ss"
+                                <p:calendar mindate="#{flightManagementBean.today()}" pattern="MM/dd/yyyy HH:mm"
                                             timeInput="true" minHour="0" minMinute="0" timeControlType="slider"
                                             showHour="true" showMinute="true"
                                             id="departureTime" value="#{flightRegistration.flight.departureTime}"

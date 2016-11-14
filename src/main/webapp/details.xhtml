@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:metadata>
+    <f:viewParam name="flightId" value="#{details.selectedId}"/>
+    <f:viewAction action="#{details.details()}"/>
+</f:metadata>
+
+<ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
+
+    <ui:define name="title">#{msg.indexUserTitle}</ui:define>
+
+    <ui:define name="main">
+        <p:outputPanel class="mdl-grid mdl-grid--no-spacing">
+            <p:outputPanel class="mdl-cell--stretch mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                <section class="paddingTop40 paddingBot40 noBG">
+                    <h:form action="#" id="form" class="searchForm">
+                        <p:messages/>
+                        <p:outputPanel rendered="#{details.selectedFlight != null}" styleClass="loginCard mdl-card mdl-shadow--2dp mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                            <div class="mdl-card__title mdl-card--expand">
+                                <span style="width: 100%; color: rgb(66,66,66); text-align: center; font-size: 22px;">
+                                    <h:outputText value="#{msg.flightDetails}"/>
+                                </span>
+                            </div>
+                            <p:outputPanel styleClass="mdl-card__supporting-text paddingBot40 paddingTop40">
+                                <p:panelGrid columns="2" columnClasses="ui-g-12 mdl-textfield--align-right" styleClass="ui-noborder" style="margin: 0 auto;">
+
+                                    <p:outputLabel value="#{msg.lblFrom}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{details.selectedFlight.route.airportA}" />
+
+                                    <p:outputLabel value="#{msg.lblTo}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{details.selectedFlight.route.airportB}"/>
+
+                                    <p:outputLabel value="#{msg.lblSeats}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{details.selectedFlight.availableSeats[search.selectedFlightClass] }"/>
+
+                                    <p:outputLabel value="#{msg.lblDepTime}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{details.selectedFlight.departureTime}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
+                                    </h:outputText>
+
+                                    <p:outputLabel value="#{msg.lblArrTime}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{details.selectedFlight.arrivalTime}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
+                                    </h:outputText>
+
+                                    <p:outputLabel value="#{msg.lblCreator}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{details.selectedFlight.creator.prettyName()}"/>
+
+                                    <p:outputLabel rendered="#{search.ticketsAdults > 0}" value="#{msg.lblTicketsAdults}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText rendered="#{search.ticketsAdults > 0}" value="#{search.ticketsAdults}"/>
+
+                                    <p:outputLabel rendered="#{search.ticketsKids > 0}" value="#{msg.lblTicketsKids}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText rendered="#{search.ticketsKids > 0}" value="#{search.ticketsKids}"/>
+
+                                    <p:outputLabel value="#{msg.lblPrice}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{details.calculatePrice()}" converter="#{currencyConverter}"/>
+
+                                </p:panelGrid>
+                            </p:outputPanel>
+                            <p:outputPanel class="mdl-card__actions mdl-card--border">
+                                <h:commandButton value="#{msg['bookNow']}" action="#{details.book()}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" style="float: right"/>
+                            </p:outputPanel>
+                            <p:outputPanel class="mdl-card__menu">
+                                <i class="material-icons" style="color: rgb(76,175,80);">flight_takeoff</i>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                    </h:form>
+                </section>
+            </p:outputPanel>
+        </p:outputPanel>
+    </ui:define>
+</ui:composition>
+
+</html>

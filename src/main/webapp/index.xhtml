@@ -28,15 +28,15 @@
                             </div>
                             <div class="mdl-card__supporting-text">
                                 <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true" style="width: 100%"/>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <h:inputText class="mdl-textfield__input" type="text" id="sample1" value="#{search.fromLocation}" converter="#{airportConverter}" required="#{empty param['form:sample2']}" requiredMessage="From or To field is required."/>
-                                    <label class="mdl-textfield__label" for="sample1"><h:outputText value="#{msg['startLocation']}"/></label>
-                                    <p:tooltip for="sample1" value="#{msg['hoverFromLocation']}" position="bottom"/>
+                                <div class="mdl-textfield mdl-js-textfield mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                    <p:autoComplete id="acMinLength" name="acMinLength" minQueryLength="3" value="#{search.fromLocation}" completeMethod="#{search.completeAirport}" converter="#{airportConverter}" effect="fade"
+                                                    placeholder="#{msg.startLocation}"/>
+                                    <p:tooltip for="acMinLength" value="#{msg['hoverFromLocation']}" position="top"/>
                                 </div>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <h:inputText class="mdl-textfield__input" type="text" id="sample2" value="#{search.toLocation}" converter="#{airportConverter}" required="#{empty param['form:sample1']}" requiredMessage="From or To field is required."/>
-                                    <label class="mdl-textfield__label" for="sample2"><h:outputText value="#{msg['destination']}"/></label>
-                                    <p:tooltip for="sample2" value="#{msg['hoverToLocation']}" position="bottom"/>
+                                <div class="mdl-textfield mdl-js-textfield mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+                                    <p:autoComplete id="acMinLength2" name="acMinLength2" minQueryLength="3" value="#{search.toLocation}" completeMethod="#{search.completeAirport}" converter="#{airportConverter}" effect="fade"
+                                                    placeholder="#{msg.destination}" />
+                                    <p:tooltip for="acMinLength2" value="#{msg['hoverToLocation']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
                                     <p:calendar id="cal1" type="text" value="#{search.dateOfDeparture}" placeholder="#{msg['selectDepartureDate']}"/>
@@ -47,11 +47,11 @@
                                     <p:tooltip for="cal2" value="#{msg['hoverArrivalDate']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <p:inputNumber id="input1" value="#{search.ticketsAdults}" placeholder="#{msg.phTicketsAdults}" maxValue="6" emptyValue="empty"/>
+                                    <p:inputNumber id="input1" value="#{search.ticketsAdults}" placeholder="#{msg.phTicketsAdults}" maxValue="6" emptyValue="empty" decimalPlaces="0"/>
                                     <p:tooltip for="input1" value="#{msg['hoverTicketAdults']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <p:inputNumber id="input2" value="#{search.ticketsKids}" placeholder="#{msg.phTicketsKids}" maxValue="6" emptyValue="empty"/>
+                                    <p:inputNumber id="input2" value="#{search.ticketsKids}" placeholder="#{msg.phTicketsKids}" maxValue="6" emptyValue="empty"  decimalPlaces="0"/>
                                     <p:tooltip for="input2" value="#{msg['hoverTicketKids']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone" style="display: block">
                                     <p:selectOneMenu id="input44" value="#{search.selectedPartner}" style="width: auto;" converter="#{partnerConverter}">
-                                        <!--<f:selectItem itemLabel="#{msg.selectPartner}" itemValue=""/ noSelectionOption="true">-->
+                                        <f:selectItem itemLabel="#{msg.selectPartner}" itemValue="#{null}"/>
                                         <f:selectItems value="#{search.lstPartners}"
                                                        var="partner"
                                                        itemLabel="#{partner.prettyName()}"
@@ -82,14 +82,27 @@
                             adults: #{search.ticketsAdults}
                             kids: #{search.ticketsKids}
                             flightclass: #{search.selectedFlightClass}
-                            company: #{search.selectedPartner}
-
+                            company: #{search.selectedPartner.id}
                             <div class="mdl-card__actions mdl-card--border" style="text-align: center">
-                                <h:commandButton value="#{msg['sendSearch']}" action="#{search.search()}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" />
+                                <h:commandButton value="#{msg['sendSearch']}" action="#{search.search()}"  class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn"/>
                             </div>
                             <div class="mdl-card__menu">
                                 <i class="material-icons" style="color: #fff">search</i>
                             </div>
+                            <c:if test="#{not empty search.searchResults}">
+                                <p:dataTable id="test" value="#{search.searchResults}" var="r">
+                                    <p:column headerText="Date of departure">
+                                        <h:outputText value="#{r.departureTime}">
+
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Info">
+                                        <h:link outcome="pretty:details" value="Details">
+                                            <f:param name="flightId" value="#{r.id}"/>
+                                        </h:link>
+                                    </p:column>
+                                </p:dataTable>
+                            </c:if>
                         </div>
                     </h:form>
                 </section>

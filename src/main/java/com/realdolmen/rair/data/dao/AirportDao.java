@@ -13,6 +13,16 @@ public class AirportDao extends AbstractDao<Airport, Long> {
     }
 
     public Airport findAirportByName(String name) {
-        return  super.em().createNamedQuery("Airport.FindByName", Airport.class).setParameter("name", name).getSingleResult();
+        List<Airport> lst = super.em().createNamedQuery("Airport.FindByName", Airport.class).setParameter("name", name).getResultList();
+
+        if ( !lst.isEmpty() ) {
+            return lst.get(0);
+        }
+
+        return null;
+    }
+
+    public List<Airport> findAllAirportLike(String name) {
+        return  super.em().createNamedQuery("Airport.FindLikeName").setParameter("name", name).getResultList();
     }
 }

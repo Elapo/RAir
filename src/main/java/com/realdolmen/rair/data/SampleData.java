@@ -5,6 +5,8 @@ import com.realdolmen.rair.domain.entities.user.CompanyUser;
 import com.realdolmen.rair.domain.entities.user.ContactInformation;
 import com.realdolmen.rair.domain.entities.user.Partner;
 import com.realdolmen.rair.domain.entities.user.RegularUser;
+import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
+import com.realdolmen.rair.domain.modifiers.MarginModifier;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -56,7 +58,15 @@ public class SampleData {
 
         Flight flight = new Flight();
         flight.setCreator(partner);
-        flight.setDepartureTime(new Date());
+
+        Date today = new Date();
+        Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+        flight.setDepartureTime(tomorrow);
+
+        Date arr = new Date(today.getTime() + (1000 * 60 * 60 * 30));
+        flight.setArrivalTime(arr);
+        flight.getAvailableSeats().put(FlightClass.BUSINESS_CLASS, 10);
+        flight.getAvailableSeats().put(FlightClass.PREMIUM_ECONOMY, 10);
 
         entityManager.persist(flight);
         partner.getOwnedFlights().add(flight);
@@ -101,6 +111,8 @@ public class SampleData {
         flight.getAvailableSeats().put(FlightClass.FIRST_CLASS, 15);
         flight.getAvailableSeats().put(FlightClass.ECONOMY_CLASS, 10);
         flight.getBasePrices().put(FlightClass.FIRST_CLASS, new BigDecimal(225));
+        flight.getPriceModifiers().add(new CreditCardModifier());
+        flight.getPriceModifiers().add(new MarginModifier());
         flight.getBasePrices().put(FlightClass.ECONOMY_CLASS, new BigDecimal(175));
         flight.setRoute(route);
         entityManager.merge(flight);
