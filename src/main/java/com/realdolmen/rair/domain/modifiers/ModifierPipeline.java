@@ -34,6 +34,8 @@ public class ModifierPipeline {
     }
 
     public BigDecimal pass(BigDecimal input, Booking booking) {
+        if (input == null)
+            return null;
         BigDecimal result = input;
 
         for (PriceModifier modifier : modifiers) {

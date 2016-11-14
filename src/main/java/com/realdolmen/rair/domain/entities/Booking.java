@@ -4,6 +4,7 @@ import com.realdolmen.rair.data.dao.Toggle;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Booking implements Toggle {
     private Date purchaseTime;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private List<Ticket> tickets;
+    private List<Ticket> tickets = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
@@ -36,7 +37,7 @@ public class Booking implements Toggle {
     private boolean active;
 
     @ManyToMany
-    private List<PriceModifier> priceModifiers;
+    private List<PriceModifier> priceModifiers = new ArrayList<>();
 
     public Long getId() {
         return id;

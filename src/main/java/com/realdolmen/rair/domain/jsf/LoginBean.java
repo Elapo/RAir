@@ -78,25 +78,26 @@ public class LoginBean {
 
     //region Public Methods +
 
-    public void logUserIn() {
+    public String logUserIn() {
         User user;
         try {
             user = userDao.find(email);
         } catch (NoResultException e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "User or password not found."));
-            return;
+            return null;
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "User or password not found."));
-            return;
+            return null;
         }
 
         byte[] bytes = passwordManager.hashText(user.getSalt(), password);
         if ( new String(bytes).equals(user.getHash()) ) {
             userController.loginUser(user);
-            return;
+            return "pretty:index";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "User or Password is not correct."));
+        return null;
     }
 
     public void logUserOut() {

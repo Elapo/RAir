@@ -2,12 +2,11 @@ package com.realdolmen.rair.domain.entities;
 
 import com.realdolmen.rair.data.dao.Toggle;
 import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @NamedQueries({
@@ -47,6 +46,9 @@ public class Flight implements Toggle {
     @Column(name = "base_price")
     @MapKeyEnumerated(EnumType.STRING)
     private Map<FlightClass, BigDecimal> basePrices = new HashMap<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<PriceModifier> priceModifiers = new ArrayList<>();
 
     private Boolean active = true;
 
@@ -124,5 +126,13 @@ public class Flight implements Toggle {
     @Override
     public void setActive(boolean flag) {
         active = flag;
+    }
+
+    public List<PriceModifier> getPriceModifiers() {
+        return priceModifiers;
+    }
+
+    public void setPriceModifiers(List<PriceModifier> priceModifiers) {
+        this.priceModifiers = priceModifiers;
     }
 }

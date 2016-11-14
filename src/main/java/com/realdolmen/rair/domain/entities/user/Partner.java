@@ -42,6 +42,7 @@ public class Partner extends User {
         this.companyName = companyName;
     }
 
+    @Override
     public String prettyName() {
         return companyName;
     }

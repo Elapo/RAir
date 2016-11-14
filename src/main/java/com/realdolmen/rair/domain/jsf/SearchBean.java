@@ -38,7 +38,7 @@ public class SearchBean implements Serializable {
 
     //region Private Member Variables +
 
-    @NotNull(message = "- Please select a airport from where you would like to fly.")
+    @NotNull(message = "- Please select an airport from where you would like to fly.")
     private Airport fromLocation;
     private Airport toLocation;
 

@@ -162,4 +162,8 @@ public abstract class User implements Toggle, Authorizable {
     public void setActive(boolean flag) {
         active = flag;
     }
+
+    public String prettyName() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
 }

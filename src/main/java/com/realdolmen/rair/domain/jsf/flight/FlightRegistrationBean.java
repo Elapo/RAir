@@ -65,7 +65,7 @@ public class FlightRegistrationBean implements Serializable {
         BigDecimal result = pipeline.pass(flight.getBasePrices().get(FlightClass.FIRST_CLASS), booking);
 //        FacesContext.getCurrentInstance().addMessage("addFlight:flightPrices", new FacesMessage("First class price: €" + result.setScale(2, RoundingMode.HALF_UP)));
 
-
+        flight.setPriceModifiers(priceModifiers);
         flightController.registerFlight(from, to, flight);
         reset();
         return "dashFlights";

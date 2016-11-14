@@ -47,9 +47,7 @@
                                     <p:tooltip for="cal2" value="#{msg['hoverArrivalDate']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <p:inputNumber id="input1" value="#{search.ticketsAdults}" placeholder="#{msg.phTicketsAdults}" maxValue="6" emptyValue="empty" decimalPlaces="0">
-
-                                    </p:inputNumber>
+                                    <p:inputNumber id="input1" value="#{search.ticketsAdults}" placeholder="#{msg.phTicketsAdults}" maxValue="6" emptyValue="empty" decimalPlaces="0"/>
                                     <p:tooltip for="input1" value="#{msg['hoverTicketAdults']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
@@ -94,7 +92,9 @@
                             <c:if test="#{not empty search.searchResults}">
                                 <p:dataTable id="test" value="#{search.searchResults}" var="r">
                                     <p:column headerText="Date of departure">
-                                        <h:outputText value="#{search.dateOfDeparture}" />
+                                        <h:outputText value="#{r.departureTime}">
+
+                                        </h:outputText>
                                     </p:column>
                                     <p:column headerText="Info">
                                         <h:link outcome="pretty:details" value="Details">
