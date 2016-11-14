@@ -25,8 +25,11 @@ public class UserDao extends AbstractDao<User, Long> {
     }
 
     public <T extends User> List<T> findAll(Class<T> c) {
-        CriteriaQuery<T> cq = (CriteriaQuery<T>) findByCriteria();
-        TypedQuery<T> q = em().createQuery(cq);
-        return q.getResultList();
+        return findByType(c);
+    }
+
+    @SuppressWarnings("all")
+    public <T extends User> List<T> findByType(Class<T> c) {
+        return (List<T>) em().createNamedQuery("User.findByType", User.class).setParameter("type", c).getResultList();
     }
 }

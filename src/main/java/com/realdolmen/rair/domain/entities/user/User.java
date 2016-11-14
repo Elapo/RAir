@@ -16,7 +16,8 @@ import java.security.NoSuchAlgorithmException;
 //@DiscriminatorColumn(columnDefinition = "DTYPE", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "users")
 @NamedQueries({
-        @NamedQuery(name = "User.FindByEmail", query = "select u from User u where u.contactInformation.email = :email")
+        @NamedQuery(name = "User.FindByEmail", query = "select u from User u where u.contactInformation.email = :email"),
+        @NamedQuery(name = "User.findByType", query = "select u from User u where type(u) = :type")
 })
 @DiscriminatorValue("User")
 public abstract class User implements Toggle, Authorizable {
