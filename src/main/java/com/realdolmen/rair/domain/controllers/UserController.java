@@ -3,6 +3,7 @@ import com.realdolmen.rair.data.dao.UserDao;
 import com.realdolmen.rair.domain.entities.user.User;
 import com.realdolmen.rair.domain.jsf.SessionBean;
 
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -51,6 +52,7 @@ public class UserController extends AbstractController {
 
     public void logOutUser() {
         session.getAuthorizer().setUser(null);
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
 
     //endregion

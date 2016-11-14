@@ -110,3 +110,7 @@ input[type="color"]:focus,
     background-color: red;
     width: 100%;
 }
+
+.align-center {
+    text-align: center;
+}

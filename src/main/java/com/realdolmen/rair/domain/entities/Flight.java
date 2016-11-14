@@ -125,4 +125,5 @@ public class Flight implements Toggle {
     public void setActive(boolean flag) {
         active = flag;
     }
+
 }

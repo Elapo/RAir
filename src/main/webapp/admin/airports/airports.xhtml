@@ -21,11 +21,12 @@
                 <div class="mdl-card__supporting-text mdl-color-text--grey-600 overflow-table mdl-cell--12-col" style="width:auto;">
                     <p:dataTable value="#{airportManagementBean.allAirports}" var="airport" reflow="true"
                                  class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
-                                 headerClass="mdl-data-table__cell--non-numeric" style="text-align: center;"
+                                 headerClass="mdl-data-table__cell--non-numeric"
                                  tableStyle="table-layout: auto;"
+                                 styleClass="align-center"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15">
+                                 rowsPerPageTemplate="10,25,50,100,200">
                         <p:column>
                             <f:facet name="header">ID</f:facet>
                             #{airport.id}
@@ -33,8 +34,8 @@
                         <p:column>
                             <f:facet name="header">Active</f:facet>
                             <h:form>
-                                <p:selectBooleanCheckbox value="#{airport.active}">
-                                    <p:ajax update="@this"/>
+                                <p:selectBooleanCheckbox value="#{airport.active}" >
+                                    <p:ajax update="@this" listener="#{airportManagementBean.airportChanged(airport)}"/>
                                 </p:selectBooleanCheckbox>
                             </h:form>
                         </p:column>

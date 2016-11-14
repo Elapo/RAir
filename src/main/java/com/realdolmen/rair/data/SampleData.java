@@ -66,12 +66,23 @@ public class SampleData {
         Region region = new Region();
         region.setName("West Europe");
 
+        Region region2 = new Region();
+        region2.setName("United States");
+
+        Region region3 = new Region();
+        region3.setName("Middle East");
+
+        entityManager.persist(region2);
+        entityManager.persist(region3);
+
         Airport airportA = new Airport();
         airportA.setName("Zaventem");
+        airportA.setAddress(new Address("Street", "10", "CIty", "PostalCode", "Country"));
         region.getAirports().add(airportA);
 
         Airport airportB = new Airport();
         airportB.setName("Charleroi");
+        airportB.setAddress(new Address("Street", "10", "CIty", "PostalCode", "Country"));
         region.getAirports().add(airportB);
 
         entityManager.persist(region);

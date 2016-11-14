@@ -9,20 +9,27 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.Valid;
 
 @Named
 @RequestScoped
 public class AirportRegistrationBean {
 
 
+    @Valid
     private Airport airport;
 
+    @Valid
     private Address address;
 
+    @Valid
     private Region region;
 
     @Inject
     private AirportDao airportDao;
+
+    @Inject
+    private AirportManagementBean airportManagementBean;
 
     @PostConstruct
     private void init() {
@@ -35,10 +42,12 @@ public class AirportRegistrationBean {
         region = null;
     }
 
-    public void registerAirport() {
+    public String registerAirport() {
         airport.setAddress(address);
         airport.setRegion(region);
         airportDao.insert(airport);
+        airportManagementBean.reset();
+        return "dashAirports";
     }
 
     public Airport getAirport() {
@@ -47,5 +56,21 @@ public class AirportRegistrationBean {
 
     public void setAirport(Airport airport) {
         this.airport = airport;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 }

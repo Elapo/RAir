@@ -1,18 +1,35 @@
 package com.realdolmen.rair.domain.entities;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Embeddable
 public class Address implements Serializable {
 
+    @NotNull
+    @Size(min = 1, message = "Street must not be empty")
     private String street;
+
+    @NotNull
+    @Size(min = 1, message = "Number must not be empty")
     private String number;
+
+    @NotNull
+    @Size(min = 1, message = "City must not be empty")
     private String city;
+
+    @NotNull
+    @Size(min = 1, message = "Postal code must not be empty")
     private String postalCode;
+
+    @NotNull
+    @Size(min = 1, message = "Country must not be empty")
     private String country;
 
     public Address() {
+
     }
 
 

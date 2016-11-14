@@ -2,6 +2,7 @@ package com.realdolmen.rair.domain.jsf.converters;
 
 import com.realdolmen.rair.data.dao.RegionDao;
 import com.realdolmen.rair.domain.entities.Region;
+import com.realdolmen.rair.domain.jsf.airport.AirportManagementBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -14,7 +15,7 @@ import javax.inject.Named;
 public class RegionConverter implements Converter {
 
     @Inject
-    private RegionDao regionDao;
+    private AirportManagementBean airportManagementBean;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
@@ -24,7 +25,7 @@ public class RegionConverter implements Converter {
 
         try {
             long id = Long.parseLong(s);
-            return regionDao.find(id);
+            return airportManagementBean.getRegionDao().find(id);
         } catch (NumberFormatException nfe) {
             throw new ConverterException("'" + s + "' was not a valid long ID", nfe);
         }
