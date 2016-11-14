@@ -68,11 +68,14 @@ public class SampleData {
 
         Date today = new Date();
         Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+        Date tomorrow2 = new Date(today.getTime() + (1000 * 60 * 60 * 26));
+        Date tomorrow3 = new Date(today.getTime() + (1000 * 60 * 60 * 29));
+        Date tomorrow4 = new Date(today.getTime() + (1000 * 60 * 60 * 27));
 
         flight.setDepartureTime(tomorrow);
-        flight2.setDepartureTime(tomorrow);
-        flight3.setDepartureTime(tomorrow);
-        flight4.setDepartureTime(tomorrow);
+        flight2.setDepartureTime(tomorrow2);
+        flight3.setDepartureTime(tomorrow3);
+        flight4.setDepartureTime(tomorrow4);
 
         Date arr = new Date(today.getTime() + (1000 * 60 * 60 * 30));
 
