@@ -1,5 +1,7 @@
 package com.realdolmen.rair.data.dao;
 
+import org.hibernate.StaleObjectStateException;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -61,7 +63,7 @@ public abstract class AbstractDao<T, I> {
     }
 
     @Transactional
-    public T update(T object) {
+    public T update(T object) throws StaleObjectStateException {
         if (object == null) {
             throw new IllegalArgumentException("Object cannot be null!");
         }

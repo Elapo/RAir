@@ -3,9 +3,13 @@ package com.realdolmen.rair.domain.modifiers;
 import com.realdolmen.rair.domain.entities.Booking;
 import com.realdolmen.rair.domain.entities.Flight;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("VolumeDiscount")
 public class VolumeDiscountModifier extends PriceModifier implements ConditionalModifier {
 
     private int numberOfTickets = 5;

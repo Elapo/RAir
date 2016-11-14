@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:rd="http://xmlns.jcp.org/jsf/composite/realdolmen">
 
 <f:metadata>
     <f:viewParam name="flightId" value="#{flightDetailsBean.flightId}"/>
@@ -19,38 +20,218 @@
 
 
     <ui:define name="main">
-        <div class="mdl-grid admin-content">
+        <h:form id="editFlight">
+            <div class="mdl-grid admin-content">
 
-            <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--6-col">
-                <div>
-                    <div class="mdl-card__title mdl-color--green-300">
-                        <h2 class="mdl-card__title-text">Available Seats</h2>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <p:messages for="editFlight" autoUpdate="true"/>
+                </div>
+
+                <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col">
+                    <div>
+                        <div class="mdl-card__title mdl-color--green-300">
+                            <h2 class="mdl-card__title-text">Flight information</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
+                             style="width: auto;">
+                            <h:panelGroup rendered="#{not empty flightDetailsBean.flight}" >
+                                <p:panelGrid columns="2" styleClass="ui-noborder">
+                                    <p:outputLabel value="Created by"/>
+                                    <h:outputText value="#{flightDetailsBean.flight.creator.companyName}"/>
+
+                                    <p:outputLabel value="From"/>
+                                    <h:outputText value="#{flightDetailsBean.flight.route.airportA}"/>
+
+                                    <p:outputLabel value="To"/>
+                                    <h:outputText value="#{flightDetailsBean.flight.route.airportB}"/>
+
+                                    <p:outputLabel value="Departure Time"/>
+                                    <p:calendar mindate="#{flightManagementBean.today()}" pattern="MM/dd/yyyy HH:mm"
+                                                timeInput="true" minHour="0" minMinute="0" timeControlType="slider"
+                                                showHour="true" showMinute="true"
+                                                id="departureTime" value="#{flightDetailsBean.flight.departureTime}"
+                                                styleClass="stretch-calendar-input"/>
+
+                                    <p:outputLabel value="Arrival Time"/>
+                                    <p:calendar mindate="#{flightManagementBean.today()}" pattern="MM/dd/yyyy HH:mm"
+                                                timeInput="true" minHour="0" minMinute="0" timeControlType="slider"
+                                                showHour="true" showMinute="true"
+                                                id="arrivalTime" value="#{flightDetailsBean.flight.arrivalTime}"
+                                                styleClass="stretch-calendar-input"/>
+                                </p:panelGrid>
+                            </h:panelGroup>
+                        </div>
                     </div>
-                    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
-                         style="width: auto;">
-                        <p:messages/>
+                </div>
 
-                        <c:if test="#{not empty flightDetailsBean.flight}">
+                <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col">
+                    <div>
+                        <div class="mdl-card__title mdl-color--green-300">
+                            <h2 class="mdl-card__title-text">Max seats</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
+                             style="width: auto;">
+                            <h:panelGroup rendered="#{not empty flightDetailsBean.flight}">
+                                <p:message for="flightClasses" tooltip="true" showSummary="true"
+                                           style="margin-bottom: 16px;"/>
 
-                        </c:if>
+                                <h:dataTable value="#{flightManagementBean.flightClasses}" var="flightClass"
+                                             class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
+                                             headerClass="mdl-data-table__cell--non-numeric" style="width: 100%"
+                                             id="flightClasses">
+                                    <h:column>
+                                        <f:facet name="header">Flight Class</f:facet>
+                                        #{flightClass.prettyName}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header"># of seats</f:facet>
+                                        <p:spinner value="#{flightDetailsBean.flight.maxSeats[flightClass]}"
+                                                   min="0" max="1000" styleClass="seat-spinner">
+                                            <f:converter binding="#{integerConverter}"/>
+                                        </p:spinner>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col">
+                    <div>
+                        <div class="mdl-card__title mdl-color--green-300">
+                            <h2 class="mdl-card__title-text">Base prices</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
+                             style="width: auto;">
+                            <h:panelGroup rendered="#{not empty flightDetailsBean.flight}">
+                                <p:message for="flightPrices"
+                                           tooltip="true"
+                                           style="margin-bottom: 16px;"/>
+
+                                <h:dataTable value="#{flightManagementBean.flightClasses}"
+                                             var="flightClass"
+                                             class="mdl-data-table mdl-js-data-table mdl-shadow--2dp"
+                                             headerClass="mdl-data-table__cell--non-numeric"
+                                             style="width: 100%"
+                                             id="flightPrices">
+                                    <h:column>
+                                        <f:facet name="header">Flight Class</f:facet>
+                                        #{flightClass.prettyName}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Price</f:facet>
+                                        <p:inputNumber value="#{flightDetailsBean.flight.basePrices[flightClass]}"
+                                                       readonly="#{userSession.authorizer.checkCompanyUser('ALLOWED')}"
+                                                       symbol="€"
+                                                       decimalPlaces="2"
+                                                       inputStyle="width: 100%;">
+                                            <f:converter binding="#{currencyConverter}"/>
+                                        </p:inputNumber>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price modifiers -->
+                <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
+                    <div class="mdl-card__title mdl-color--green-300">
+                        <h2 class="mdl-card__title-text">Price modifiers</h2>
+                    </div>
+
+                    <div class="mdl-card--expand"></div>
+
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600 mdl-grid overflow-table ui-fluid">
+
+                        <p:messages for="modifierForm" style="margin-bottom: 16px;"/>
+                        <h:panelGroup rendered="#{not empty flightDetailsBean.flight}">
+                            <p:dataTable draggableRows="true" reflow="true"
+                                         var="modifier" id="modifierTable"
+                                         value="#{flightDetailsBean.filteredModifiers}" resizableColumns="true"
+                                         tableStyleClass="modifiers-table">
+                                <p:column headerText="Modifier" style="text-align: left;">
+                                    <h:commandLink style="vertical-align: middle;"
+                                                   action="#{flightDetailsBean.removeModifier(modifier)}">
+                                        <i class="material-icons"
+                                           style="vertical-align: middle;">delete_forever</i>
+                                        <f:ajax execute="@this" render="editFlight:modifierTable"/>
+                                    </h:commandLink>
+                                    <span style="vertical-align: sub;">#{mappings['modifier.name.'.concat(modifier['class'].simpleName)]}</span>
+                                </p:column>
+
+                                <p:column headerText="Percent?" styleClass="auto-size"
+                                          style="text-align: center">
+                                    <p:selectBooleanCheckbox value="#{modifier.percentBased}">
+                                        <p:ajax update="modifierTable" listener="#{flightDetailsBean.updateFlight}"/>
+                                    </p:selectBooleanCheckbox>
+                                </p:column>
+
+                                <p:column headerText="Settings" style="text-align: left;">
+                                    <rd:PriceModifier modifier="#{modifier}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                            <h:form id="modifierForm">
+
+                                <div class="mdl-textfield--align-right" style="margin-top: 16px; width: 100%;">
+                                    <h:selectOneMenu value="#{flightDetailsBean.selectedModifier}"
+                                                     id="selectModifier">
+                                        <f:selectItems value="#{flightManagementBean.availableModifiers}"
+                                                       var="availableModifier"
+                                                       itemLabel="#{mappings['modifier.name.'.concat(availableModifier.simpleName)]}"
+                                                       itemValue="#{availableModifier}"/>
+
+                                        <f:converter binding="#{modifierClassConverter}" for="selectModifier"/>
+
+                                    </h:selectOneMenu>
+                                    <h:commandButton value="Add modifier"
+                                                     action="#{flightDetailsBean.addModifier()}"
+                                                     styleClass="mdl-button mdl-js-button mdl-js-ripple-effect"
+                                                     style="margin-left: 16px;">
+                                        <f:ajax execute="@form"
+                                                render="editFlight:modifierTable"/>
+                                    </h:commandButton>
+                                </div>
+                            </h:form>
+
+                        </h:panelGroup>
+                    </div>
+
+                    <div class="mdl-card--expand"></div>
+
+                    <!-- Flight form action buttons -->
+                    <div class="mdl-card__actions mdl-card--border mdl-textfield--align-right">
+                        <h:commandButton value="Back"
+                                         styleClass="mdl-button mdl-js-button mdl-js-ripple-effect"
+                                         action="#{flightDetailsBean.reset()}"/>
+
+                        <h:commandButton value="Update"
+                                         styleClass="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary"
+                                         action="#{flightDetailsBean.updateFlight()}"/>
+                    </div>
+                </div>
+
+
+                <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col">
+                    <div>
+                        <div class="mdl-card__title mdl-color--green-300">
+                            <h2 class="mdl-card__title-text">Bookings</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
+                             style="width: auto;">
+
+                            <h:panelGroup rendered="#{not empty flightDetailsBean.flight}">
+                                <p:dataTable value="#{flightDetailsBean.bookingList}" var="booking">
+                                    <p:column headerText="ID">#{booking.id}</p:column>
+                                    <p:column headerText="Status">#{booking.status}</p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--6-col">
-                <div>
-                    <div class="mdl-card__title mdl-color--green-300">
-                        <h2 class="mdl-card__title-text">Class details</h2>
-                    </div>
-                    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600 overflow-table"
-                         style="width: auto;">
-                        <c:if test="#{not empty flightDetailsBean.flight}">
-
-                        </c:if>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </h:form>
     </ui:define>
 </ui:composition>
 

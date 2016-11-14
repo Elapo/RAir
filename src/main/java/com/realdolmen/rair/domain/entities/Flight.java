@@ -5,6 +5,7 @@ import com.realdolmen.rair.domain.entities.user.Partner;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -22,17 +23,21 @@ public class Flight implements Toggle {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date departureTime;
 
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date arrivalTime;
 
+    @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Partner creator;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Route route;
 
+    @NotNull
     @ElementCollection
     @MapKeyColumn(name = "class")
     @JoinTable(name = "flight_available_seats")
@@ -40,6 +45,7 @@ public class Flight implements Toggle {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<FlightClass, Integer> availableSeats = new HashMap<>();
 
+    @NotNull
     @ElementCollection
     @MapKeyColumn(name = "class")
     @JoinTable(name = "flight_max_seats")
@@ -47,6 +53,7 @@ public class Flight implements Toggle {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<FlightClass, Integer> maxSeats = new HashMap<>();
 
+    @NotNull
     @ElementCollection
     @MapKeyColumn(name = "class")
     @JoinTable(name = "flight_class_base_price")
@@ -58,6 +65,9 @@ public class Flight implements Toggle {
     private List<PriceModifier> priceModifiers = new ArrayList<>();
 
     private Boolean active = true;
+
+    @Version
+    private Integer version;
 
     public Long getId() {
         return id;

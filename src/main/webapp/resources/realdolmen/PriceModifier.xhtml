@@ -16,7 +16,7 @@
 
 <cc:interface>
     <cc:attribute name="modifier" required="true" shortDescription="The modifier to use as model."/>
-    <cc:attribute name="sessionBean"/>
+    <cc:attribute name="sessionBean" type="com.realdolmen.rair.domain.jsf.SessionBean" />
 </cc:interface>
 <cc:implementation>
 
@@ -50,7 +50,7 @@
 
     <!-- Margin modifier -->
     <p:panelGrid columns="2" styleClass="ui-noborder ui-panelgrid-blank"
-                 rendered="#{cc.attrs.modifier['class'].simpleName eq 'MarginModifier'}">
+                 rendered="#{cc.attrs.modifier['class'].simpleName eq 'MarginModifier' and (not empty cc.attrs.sessionBean ? cc.attrs.sessionBean.authorizer.checkCompanyUser('ALLOWED') : true)}">
         <p:outputLabel for="marginDiscount" value="Margin"/>
         <p:inputNumber id="marginDiscount"
                        value="#{cc.attrs.modifier['margin']}"

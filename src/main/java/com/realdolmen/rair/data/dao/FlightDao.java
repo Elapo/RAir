@@ -2,6 +2,7 @@ package com.realdolmen.rair.data.dao;
 
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.entities.user.User;
 import org.hibernate.dialect.function.TemplateRenderer;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -63,7 +64,7 @@ public class FlightDao extends AbstractDao<Flight, Long> {
         return em().createNamedQuery("Flight.findAllByState", Flight.class).setParameter("active", false).getResultList();
     }
 
-    public List<Flight> getAllFlightsByUser(Partner partner) {
+    public List<Flight> getAllFlightsByUser(User partner) {
         return em().createNamedQuery("Flight.findAllByPartner", Flight.class).setParameter("creator", partner).getResultList();
     }
 

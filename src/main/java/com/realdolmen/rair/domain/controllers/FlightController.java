@@ -43,8 +43,14 @@ public class FlightController extends AbstractController implements Serializable
         return flightDao.getAllFlights();
     }
 
-    public List<Flight> getAllFlightsByUser(Partner partner) {
-        return flightDao.getAllFlightsByUser(partner);
+    @Transactional
+    public List<Flight> getAllFlightsByUser(User partner) {
+        List<Flight> flights = flightDao.getAllFlightsByUser(partner);
+        for(Flight f : flights) {
+            Hibernate.initialize(f.getAvailableSeats());
+            Hibernate.initialize(f.getMaxSeats());
+        }
+        return flights;
     }
 
     public List<Flight> getInactiveFlights() {

@@ -56,7 +56,7 @@ public class FlightRegistrationBean implements Serializable {
 
         priceModifiers = new ArrayList<>();
 
-        return null;
+        return "dashFlights";
     }
 
     public String registerFlight() {
