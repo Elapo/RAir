@@ -35,10 +35,17 @@ public class Flight implements Toggle {
 
     @ElementCollection
     @MapKeyColumn(name = "class")
-    @JoinTable(name = "flight_seats")
+    @JoinTable(name = "flight_available_seats")
     @Column(name = "available_seats")
     @MapKeyEnumerated(EnumType.STRING)
     private Map<FlightClass, Integer> availableSeats = new HashMap<>();
+
+    @ElementCollection
+    @MapKeyColumn(name = "class")
+    @JoinTable(name = "flight_max_seats")
+    @Column(name = "max_seats")
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<FlightClass, Integer> maxSeats = new HashMap<>();
 
     @ElementCollection
     @MapKeyColumn(name = "class")
@@ -134,5 +141,13 @@ public class Flight implements Toggle {
 
     public void setPriceModifiers(List<PriceModifier> priceModifiers) {
         this.priceModifiers = priceModifiers;
+    }
+
+    public Map<FlightClass, Integer> getMaxSeats() {
+        return maxSeats;
+    }
+
+    public void setMaxSeats(Map<FlightClass, Integer> maxSeats) {
+        this.maxSeats = maxSeats;
     }
 }

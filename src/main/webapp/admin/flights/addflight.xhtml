@@ -94,7 +94,7 @@
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"># of seats</f:facet>
-                                    <p:spinner value="#{flightRegistration.flight.availableSeats[flightClass]}"
+                                    <p:spinner value="#{flightRegistration.flight.maxSeats[flightClass]}"
                                                min="0" max="1000" styleClass="seat-spinner">
                                         <f:converter binding="#{integerConverter}"/>
                                     </p:spinner>

@@ -50,6 +50,7 @@ public class FlightRegistrationBean implements Serializable {
         flight = new Flight();
         Arrays.stream(FlightClass.values()).forEach(c -> {
             flight.getAvailableSeats().put(c, 0);
+            flight.getMaxSeats().put(c, 0);
             flight.getBasePrices().put(c, new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP));
         });
 
@@ -59,6 +60,8 @@ public class FlightRegistrationBean implements Serializable {
     }
 
     public String registerFlight() {
+        flight.getMaxSeats().forEach(flight.getAvailableSeats()::put);
+
         flightController.registerFlight(from, to, flight);
         reset();
         return "dashFlights";

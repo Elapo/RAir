@@ -114,6 +114,7 @@ public class DetailsBean implements Serializable{
     private void fixLazyInit() {
         Hibernate.initialize(selectedFlight.getBasePrices());
         Hibernate.initialize(selectedFlight.getAvailableSeats());
+        Hibernate.initialize(selectedFlight.getMaxSeats());
         Hibernate.initialize(selectedFlight.getCreator());
         Hibernate.initialize(selectedFlight.getCreator().getOwnedFlights());
         Hibernate.initialize(selectedFlight.getRoute());

@@ -52,7 +52,10 @@ public class FlightManagementBean implements Serializable {
     @Transactional
     public List<Flight> getAllFlights() {
         List<Flight> flights = flightController.getAllFlights();
-        flights.forEach(f -> Hibernate.initialize(f.getAvailableSeats()));
+        flights.forEach(f -> {
+            Hibernate.initialize(f.getAvailableSeats());
+            Hibernate.initialize(f.getMaxSeats());
+        });
         return flights;
     }
 

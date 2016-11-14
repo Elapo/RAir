@@ -67,8 +67,8 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">Classes</f:facet>
-                            #{flight.availableSeats.size()}
-                            <c:forEach items="#{flight.availableSeats}" var="entry">
+                            #{flight.maxSeats.size()}
+                            <c:forEach items="#{flight.maxSeats}" var="entry">
 
                             </c:forEach>
                         </p:column>
