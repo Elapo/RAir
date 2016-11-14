@@ -336,7 +336,14 @@ a {
     width: 97% !important;
 }
 
+.ui-datatable th.ui-state-default {
+    background: #83c985 !important;
+}
 
+.ui-paginator .ui-paginator-page.ui-state-active,
+.ui-datatable th.ui-state-active {
+    background: #4CAF50 !important;
+}
 
 
 

@@ -90,8 +90,8 @@
                                 <i class="material-icons" style="color: #fff">search</i>
                             </div>
                             <c:if test="#{not empty search.searchResults}">
-                                <p:dataTable id="test" value="#{search.searchResults}" var="r">
-                                    <p:column headerText="Date of departure">
+                                <p:dataTable id="test" value="#{search.searchResults}" var="r" paginator="true" rows="3">
+                                    <p:column headerText="Date of departure" sortBy="#{r.departureTime}">
                                         <h:outputText value="#{r.departureTime}">
 
                                         </h:outputText>
