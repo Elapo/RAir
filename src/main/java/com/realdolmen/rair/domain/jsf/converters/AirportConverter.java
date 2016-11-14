@@ -40,6 +40,6 @@ public class AirportConverter implements Converter {
         if(o instanceof Airport) {
             return ((Airport) o).getId().toString();
         }
-        return o.toString();
+        return null;
     }
 }

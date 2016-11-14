@@ -38,7 +38,10 @@ public class SampleData {
 
         Flight flight = new Flight();
         flight.setCreator(partner);
-        flight.setDepartureTime(new Date());
+
+        Date today = new Date();
+        Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+        flight.setDepartureTime(tomorrow);
 
         entityManager.persist(flight);
         partner.getOwnedFlights().add(flight);

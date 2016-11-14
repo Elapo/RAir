@@ -20,7 +20,6 @@ public class PartnerConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
-        System.out.println(value);
         if (value == null && value.equals("")) {
             return null;
         }
@@ -35,7 +34,7 @@ public class PartnerConverter implements Converter {
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object o) {
         if (o == null) {
-            return "PARTNER IS NULL";
+            return "-42";
         }
 
         if (o instanceof Partner) return ((Partner) o).getId().toString();

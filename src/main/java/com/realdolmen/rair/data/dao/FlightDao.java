@@ -2,12 +2,11 @@ package com.realdolmen.rair.data.dao;
 
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.user.Partner;
+import org.hibernate.dialect.function.TemplateRenderer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -115,8 +114,7 @@ public class FlightDao extends AbstractDao<Flight, Long> {
         Map<String, Object> parametermap = new HashMap<>();
 
         if ( flight.getDepartureTime()     != null ) {
-            conditions.add("f.departureTime = :depTime");
-            parametermap.put("depTime", flight.getDepartureTime());
+            conditions.add("date(f.departureTime) = :depTime");
         }
         /*if ( dateOfArrival       != null ) conditions.add( "f.dateOfArrival = :arrTime"     );
         if ( fromLocation        != null ) conditions.add( "f.fromLocation = :from"         );
@@ -141,11 +139,13 @@ public class FlightDao extends AbstractDao<Flight, Long> {
         Query qryFlights = em().createNativeQuery(result, Flight.class);
         System.out.println("*********************************" + result);
 
-        parametermap.forEach((s, o) -> {
+        /*parametermap.forEach((s, o) -> {
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + s + ": " + o);
             qryFlights.setParameter(s, o);
 
-        });
+        });*/
+
+        qryFlights.setParameter("depTime", flight.getDepartureTime(), TemporalType.DATE);
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + qryFlights);
 

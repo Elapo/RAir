@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:metadata>
+    <f:viewParam name="flightId" value="#{details.selectedId}"/>
+    <f:event type="preRenderView" listener="#{details.details()}"/>
+</f:metadata>
+
+<ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
+
+    <ui:define name="title">#{msg.indexUserTitle}</ui:define>
+
+    <ui:define name="main">
+        <div class="mdl-grid mdl-grid--no-spacing mdl-layout">
+            <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--3dp border">
+                <section class="paddingTop40 paddingBot40">
+                    <h:form id="form">
+                        <p:messages/>
+                        <c:if test="#{details.selectedFlight != null}">
+
+                            #{details.selectedFlight.basePrices}
+
+                            #{details.selectedFlight.availableSeats}
+
+                            #{details.selectedFlight.departureTime}
+
+                            #{details.selectedFlight.creator.companyName}
+
+                            #{details.selectedFlight.creator.contactInformation}
+
+                            <c:forEach items="#{details.selectedFlight.creator.ownedFlights}" var="a">#{a.creator}</c:forEach>
+
+                            #{details.selectedFlight.route.airportA}
+
+                            #{details.selectedFlight.route.airportB}
+
+                            #{details.selectedFlight.route.flights}
+
+                        </c:if>
+
+                    </h:form>
+                </section>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

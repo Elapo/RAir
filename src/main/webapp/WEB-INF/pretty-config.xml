@@ -56,4 +56,9 @@
         <view-id value="booking.xhtml" />
     </url-mapping>
 
+    <url-mapping id="details">
+        <pattern value="/details" />
+        <view-id value="details.xhtml" />
+    </url-mapping>
+
 </pretty-config>
