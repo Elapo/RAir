@@ -59,5 +59,6 @@
             <from-outcome>dashPartnerDetails</from-outcome>
             <to-view-id>/admin/partner/partnerDetails.xhtml</to-view-id>
         </navigation-case>
+
     </navigation-rule>
 </faces-config>

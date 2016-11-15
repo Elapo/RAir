@@ -47,9 +47,9 @@ html, body {
 }
 
 .ui-inputfield:focus {
-    -webkit-box-shadow: 0 0 5px #4CAF50;
-    -moz-box-shadow: 0 0 5px #4CAF50;
-    box-shadow: 0 0 5px #4CAF50;
+    -webkit-box-shadow: 0 0 5px #4CAF50 !important;
+    -moz-box-shadow: 0 0 5px #4CAF50 !important;
+    box-shadow: 0 0 5px #4CAF50 !important;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -94,7 +94,7 @@ section {
 }
 
 main {
-    background: url("http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/grid.png") repeat fixed;
+    background: url("#{resource['images/grid.png']}") repeat fixed;
     padding-top: 5px;
 }
 
@@ -295,6 +295,11 @@ a {
     color: #000;
 }
 
+.banner {
+    height: 350px;
+    width: 100%;
+}
+
 .indexBanner {
     height: 350px;
     width: 100%;
@@ -327,6 +332,10 @@ a {
     font-weight: normal;
 }
 
+.pay, .pay:hover, .pay:focus, .pay:active {
+    background: #fff !important;
+}
+
 .ui-selectonemenu .ui-selectonemenu-label {
     overflow: visible !important;
 }
@@ -336,7 +345,14 @@ a {
     width: 97% !important;
 }
 
+.ui-datatable th.ui-state-default {
+    background: #83c985 !important;
+}
 
+.ui-paginator .ui-paginator-page.ui-state-active,
+.ui-datatable th.ui-state-active {
+    background: #4CAF50 !important;
+}
 
 
 

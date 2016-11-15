@@ -13,50 +13,69 @@
 
     <ui:define name="main">
         <!-- TODO: add recover password link -->
+        <!-- TODO: check prijs calculatie blijkt ma maal 1 ipv maaltickets te zijn -->
         <div class="mdl-grid mdl-grid--no-spacing mdl-layout">
             <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--3dp border">
                 <section style="position: relative;">
                     <div class="indexBanner"></div>
-                    <div class="ribbon-wrapper-green"><div class="ribbon-green mdl-shadow--3dp"><h:outputText value="#{msg.welcomeText}"/></div></div>
-                    <h:outputText class="moreInfoBtn mdl-shadow--2dp" value="#{msg['dreams']}" />
+                    <div class="ribbon-wrapper-green">
+                        <div class="ribbon-green mdl-shadow--3dp"><h:outputText value="#{msg.welcomeText}"/></div>
+                    </div>
+                    <h:outputText class="moreInfoBtn mdl-shadow--2dp" value="#{msg['dreams']}"/>
                 </section>
                 <section class="paddingTop40 paddingBot40">
                     <h:form action="#" id="form" class="searchForm">
                         <div class="searchCard mdl-card mdl-shadow--2dp mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                             <div class="mdl-card__title mdl-card--expand">
-                                <h2 class="mdl-card__title-text mdl-shadow--16dp"><h:outputText value="#{msg['searchTitle']}"/></h2>
+                                <h2 class="mdl-card__title-text mdl-shadow--16dp"><h:outputText
+                                        value="#{msg['searchTitle']}"/></h2>
                             </div>
                             <div class="mdl-card__supporting-text">
-                                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true" style="width: 100%"/>
+                                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true"
+                                            closable="true" style="width: 100%"/>
                                 <div class="mdl-textfield mdl-js-textfield mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <p:autoComplete id="acMinLength" name="acMinLength" minQueryLength="3" value="#{search.fromLocation}" completeMethod="#{search.completeAirport}" converter="#{airportConverter}" effect="fade"
+                                    <p:autoComplete id="acMinLength" name="acMinLength" minQueryLength="3"
+                                                    value="#{search.fromLocation}"
+                                                    completeMethod="#{search.completeAirport}"
+                                                    converter="#{airportConverter}" effect="fade"
                                                     placeholder="#{msg.startLocation}"/>
                                     <p:tooltip for="acMinLength" value="#{msg['hoverFromLocation']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <p:autoComplete id="acMinLength2" name="acMinLength2" minQueryLength="3" value="#{search.toLocation}" completeMethod="#{search.completeAirport}" converter="#{airportConverter}" effect="fade"
-                                                    placeholder="#{msg.destination}" />
+                                    <p:autoComplete id="acMinLength2" name="acMinLength2" minQueryLength="3"
+                                                    value="#{search.toLocation}"
+                                                    completeMethod="#{search.completeAirport}"
+                                                    converter="#{airportConverter}" effect="fade"
+                                                    placeholder="#{msg.destination}"/>
                                     <p:tooltip for="acMinLength2" value="#{msg['hoverToLocation']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <p:calendar id="cal1" type="text" value="#{search.dateOfDeparture}" placeholder="#{msg['selectDepartureDate']}"/>
+                                    <p:calendar id="cal1" type="text" value="#{search.dateOfDeparture}"
+                                                placeholder="#{msg['selectDepartureDate']}"/>
                                     <p:tooltip for="cal1" value="#{msg['hoverDepartureDate']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <p:calendar id="cal2" type="text" value="#{search.dateOfArrival}" placeholder="#{msg['selectArrivalDate']}"/>
+                                    <p:calendar id="cal2" type="text" value="#{search.dateOfArrival}"
+                                                placeholder="#{msg['selectArrivalDate']}"/>
                                     <p:tooltip for="cal2" value="#{msg['hoverArrivalDate']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <p:inputNumber id="input1" value="#{search.ticketsAdults}" placeholder="#{msg.phTicketsAdults}" maxValue="6" emptyValue="empty" decimalPlaces="0"/>
+                                    <p:inputNumber id="input1" value="#{search.ticketsAdults}"
+                                                   placeholder="#{msg.phTicketsAdults}" maxValue="6" emptyValue="empty"
+                                                   decimalPlaces="0"/>
                                     <p:tooltip for="input1" value="#{msg['hoverTicketAdults']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--3-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-                                    <p:inputNumber id="input2" value="#{search.ticketsKids}" placeholder="#{msg.phTicketsKids}" maxValue="6" emptyValue="empty"  decimalPlaces="0"/>
+                                    <p:inputNumber id="input2" value="#{search.ticketsKids}"
+                                                   placeholder="#{msg.phTicketsKids}" maxValue="6" emptyValue="empty"
+                                                   decimalPlaces="0"/>
                                     <p:tooltip for="input2" value="#{msg['hoverTicketKids']}" position="top"/>
                                 </div>
                                 <div class="mdl-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                                    <p:selectOneMenu id="input3" value="#{search.selectedFlightClass}" style="width: auto;">
-                                        <f:selectItem itemLabel="#{msg.selectFlightClass}" itemValue="" noSelectionOption="true"/>
+                                    <p:selectOneMenu id="input3" value="#{search.selectedFlightClass}"
+                                                     style="width: auto;">
+                                        <f:selectItem itemLabel="#{msg.selectFlightClass}" itemValue=""
+                                                      noSelectionOption="true"/>
                                         <f:selectItems value="#{search.flightEnum}"
                                                        var="class"
                                                        itemLabel="#{class.getPrettyName()}"
@@ -64,8 +83,10 @@
                                     </p:selectOneMenu>
                                     <p:tooltip for="input3" value="#{msg['hoverFlightClass']}" position="top"/>
                                 </div>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone" style="display: block">
-                                    <p:selectOneMenu id="input44" value="#{search.selectedPartner}" style="width: auto;" converter="#{partnerConverter}">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col-desktop mdl-cell--1-offset-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone"
+                                     style="display: block">
+                                    <p:selectOneMenu id="input44" value="#{search.selectedPartner}" style="width: auto;"
+                                                     converter="#{partnerConverter}">
                                         <f:selectItem itemLabel="#{msg.selectPartner}" itemValue="#{null}"/>
                                         <f:selectItems value="#{search.lstPartners}"
                                                        var="partner"
@@ -75,40 +96,40 @@
                                     <p:tooltip for="input44" value="#{msg['hoverPartner']}" position="top"/>
                                 </div>
                             </div>
-                            from: #{search.fromLocation}
-                            to: #{search.toLocation}
-                            dep: #{search.dateOfDeparture}
-                            arr: #{search.dateOfArrival}
-                            adults: #{search.ticketsAdults}
-                            kids: #{search.ticketsKids}
-                            flightclass: #{search.selectedFlightClass}
-                            company: #{search.selectedPartner.id}
                             <div class="mdl-card__actions mdl-card--border" style="text-align: center">
-                                <h:commandButton value="#{msg['sendSearch']}" action="#{search.search()}"  class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn"/>
+                                <h:commandButton value="#{msg['sendSearch']}" action="#{search.search()}"
+                                                 class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn"/>
                             </div>
                             <div class="mdl-card__menu">
                                 <i class="material-icons" style="color: #fff">search</i>
                             </div>
-                            <c:if test="#{not empty search.searchResults}">
-                                <p:dataTable id="test" value="#{search.searchResults}" var="r">
-                                    <p:column headerText="Date of departure">
-                                        <h:outputText value="#{r.departureTime}">
-
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Info">
-                                        <h:link outcome="pretty:details" value="Details">
-                                            <f:param name="flightId" value="#{r.id}"/>
-                                        </h:link>
-                                    </p:column>
-                                </p:dataTable>
-                            </c:if>
+                            <p:dataTable value="#{search.searchResults}" var="r" paginator="true" rows="3" style="text-align: center">
+                                <p:column headerText="#{msg.colDeparture}" sortBy="#{r.departureTime}">
+                                    <h:outputText value="#{r.departureTime}">
+                                        <f:convertDateTime type="time" pattern="MM/dd/yy HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg.colArrival}" sortBy="#{r.arrivalTime}">
+                                    <h:outputText value="#{r.arrivalTime}">
+                                        <f:convertDateTime type="time" pattern="MM/dd/yy HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg.colPrice}" sortBy="#{search.price(r)}">
+                                    <h:outputText value="€ #{search.price(r)}"/>
+                                </p:column>
+                                <p:column headerText="#{msg.info}">
+                                    <h:link outcome="pretty:details" value="#{msg.details}">
+                                        <f:param name="flightId" value="#{r.id}"/>
+                                    </h:link>
+                                </p:column>
+                            </p:dataTable>
                         </div>
                     </h:form>
                 </section>
                 <hr></hr>
                 <section class="paddingTop20 paddingBot20">
-                    <h2 style="text-align: center; color: rgb(66,66,66);"><h:outputText value="#{msg['dealsTitle']}"/></h2>
+                    <h2 style="text-align: center; color: rgb(66,66,66);"><h:outputText value="#{msg['dealsTitle']}"/>
+                    </h2>
                     <form action="#" id="form2">
                         <div class="mdl-grid">
                             <div class="mdl-layout-spacer"></div>
@@ -137,7 +158,7 @@
                             <div class="topDeals mdl-card mdl-shadow--2dp mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
                                 <h:link outcome="index">
                                     <div class="mdl-card__title mdl-card--expand deal3">
-                                </div>
+                                    </div>
                                     <div class="mdl-card__supporting-text">
                                         <h:outputText value="#{msg['bestBeaches']}" escape="false"/>
                                     </div>

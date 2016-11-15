@@ -36,11 +36,16 @@ public class LoginBean {
     @Inject
     private UserController userController;
 
+    @Inject
+    private SessionBean sessionBean;
+
     @Size(min = 1, message = "- Password field can't be empty.")
     private String password;
 
     @Pattern(message = "- E-mail is not a valid e-mail address.", regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")
     private String email;
+
+    private String page;
 
     //endregion	 
 
@@ -74,29 +79,52 @@ public class LoginBean {
         this.email = email;
     }
 
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
     //endregion
 
     //region Public Methods +
 
-    public String logUserIn() {
-        User user;
-        try {
-            user = userDao.find(email);
-        } catch (NoResultException e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "User or password not found."));
-            return null;
-        } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "User or password not found."));
-            return null;
-        }
+    public void setup() {
+        if ( page != null ) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "You need to log in first before you can book."));
+    }
 
-        byte[] bytes = passwordManager.hashText(user.getSalt(), password);
-        if ( new String(bytes).equals(user.getHash()) ) {
-            userController.loginUser(user);
-            return "pretty:index";
+    public String logUserIn() {
+        if ( !sessionBean.isLoggedIn() ) {
+            User user;
+            try {
+                user = userDao.find(email);
+            } catch (NoResultException e){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "User or password not found."));
+                return null;
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "User or password not found."));
+                return null;
+            }
+
+            byte[] bytes = passwordManager.hashText(user.getSalt(), password);
+            if ( new String(bytes).equals(user.getHash()) ) {
+                userController.loginUser(user);
+                if ( page != null ) {
+                    switch( page.toLowerCase().trim() ) {
+                        case "payment": {
+                            page = null;
+                            return "pretty:payment";
+                        }
+                    }
+                }
+                return "pretty:index";
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "User or Password is not correct."));
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "User or Password is not correct."));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Attention!", "You're already logged in.."));
         return null;
     }
 
@@ -118,8 +146,9 @@ public class LoginBean {
         logUserIn();
     }
 
-    public void logUserOut() {
+    public String logUserOut() {
         userController.logOutUser();
+        return "index?faces-redirect=true";
     }
 
     //endregion

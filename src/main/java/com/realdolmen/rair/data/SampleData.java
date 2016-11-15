@@ -1,21 +1,24 @@
+
+
+
 package com.realdolmen.rair.data;
 
-import com.realdolmen.rair.domain.entities.*;
-import com.realdolmen.rair.domain.entities.user.CompanyUser;
-import com.realdolmen.rair.domain.entities.user.ContactInformation;
-import com.realdolmen.rair.domain.entities.user.Partner;
-import com.realdolmen.rair.domain.entities.user.RegularUser;
-import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
-import com.realdolmen.rair.domain.modifiers.MarginModifier;
+        import com.realdolmen.rair.domain.entities.*;
+        import com.realdolmen.rair.domain.entities.user.CompanyUser;
+        import com.realdolmen.rair.domain.entities.user.ContactInformation;
+        import com.realdolmen.rair.domain.entities.user.Partner;
+        import com.realdolmen.rair.domain.entities.user.RegularUser;
+        import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
+        import com.realdolmen.rair.domain.modifiers.MarginModifier;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.math.BigDecimal;
-import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+        import javax.annotation.PostConstruct;
+        import javax.ejb.Singleton;
+        import javax.ejb.Startup;
+        import javax.persistence.EntityManager;
+        import javax.persistence.PersistenceContext;
+        import java.math.BigDecimal;
+        import java.security.NoSuchAlgorithmException;
+        import java.util.Date;
 
 @Startup
 @Singleton
@@ -224,7 +227,5 @@ public class SampleData {
         entityManager.merge(flight2);
         entityManager.merge(flight3);
         entityManager.merge(flight4);
-
-
     }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
+
+    <ui:define name="title">#{msg.thankYouTitle}</ui:define>
+
+    <ui:define name="main">
+        <!-- content here -->
+        <div class="mdl-grid mdl-layout">
+            <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone border">
+                <section class="paddingTop40 paddingBot40">
+                    <h:form action="#" id="form" class="searchForm">
+                        <p:dataTable value="#{search.searchResults}" var="r" paginator="true" rows="3" style="text-align: center">
+                            <p:column headerText="#{msg.colDeparture}" sortBy="#{r.departureTime}">
+                                <h:outputText value="#{r.departureTime}">
+                                    <f:convertDateTime type="time" pattern="MM/dd/yy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg.colArrival}" sortBy="#{r.arrivalTime}">
+                                <h:outputText value="#{r.arrivalTime}">
+                                    <f:convertDateTime type="time" pattern="MM/dd/yy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg.colPrice}" sortBy="#{search.price(r)}">
+                                <h:outputText value="€ #{search.price(r)}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.info}">
+                                <h:link outcome="pretty:details" value="#{msg.details}">
+                                    <f:param name="flightId" value="#{r.id}"/>
+                                </h:link>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </section>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

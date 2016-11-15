@@ -1,9 +1,8 @@
 package com.realdolmen.rair.domain.builder;
 
-import com.realdolmen.rair.domain.entities.Booking;
-import com.realdolmen.rair.domain.entities.BookingStatus;
-import com.realdolmen.rair.domain.entities.Flight;
-import com.realdolmen.rair.domain.entities.Ticket;
+import com.realdolmen.rair.domain.entities.*;
+import com.realdolmen.rair.domain.entities.user.RegularUser;
+import com.realdolmen.rair.domain.entities.user.User;
 import com.realdolmen.rair.domain.modifiers.MarginModifier;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
@@ -18,6 +17,10 @@ public class BookingBuilder {
     private Date purchaseTime;
     private BookingStatus status = BookingStatus.PENDING;
     private Flight flight;
+
+    private PaymentMethod method;
+
+    private User regularUser;
 
     private boolean active = true;
 
@@ -51,13 +54,17 @@ public class BookingBuilder {
         return this;
     }
 
+    public BookingBuilder user(User user) {
+        this.regularUser = user;
+        return this;
+    }
+
     public Booking build() throws IllegalStateException {
         if (flight == null) {
             throw new IllegalStateException("Flight must be filled in!");
         }
         Booking booking = new Booking();
         booking.setTickets(tickets);
-        priceModifiers.add(new MarginModifier());
         booking.setPriceModifiers(priceModifiers);
         booking.setPurchaseTime(purchaseTime);
         booking.setStatus(status);
@@ -66,6 +73,19 @@ public class BookingBuilder {
         else
             booking.deactivate();
         booking.setFlight(flight);
+        booking.setPaymentMethod(method);
+
+        for(Ticket ticket : tickets) {
+            ticket.setBooking(booking);
+            if(regularUser != null && regularUser instanceof RegularUser) {
+                ticket.setOwner((RegularUser) regularUser);
+            }
+        }
         return booking;
+    }
+
+    public BookingBuilder paymentMethod(PaymentMethod paymentMethod) {
+        this.method = paymentMethod;
+        return this;
     }
 }
