@@ -4,8 +4,10 @@ import com.realdolmen.rair.domain.entities.*;
 import com.realdolmen.rair.domain.entities.user.RegularUser;
 import com.realdolmen.rair.domain.entities.user.User;
 import com.realdolmen.rair.domain.modifiers.MarginModifier;
+import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +24,20 @@ public class BookingBuilder {
 
     private User regularUser;
 
+    private FlightClass flightClass;
+
     private boolean active = true;
 
     public BookingBuilder addTicket(Ticket ticket) {
         tickets.add(ticket);
+        return this;
+    }
+
+    public BookingBuilder addTickets(int size) {
+        for (int i = 0; i < size; i++) {
+            addTicket(new Ticket());
+        }
+
         return this;
     }
 
@@ -59,6 +71,11 @@ public class BookingBuilder {
         return this;
     }
 
+    public BookingBuilder flightClass(FlightClass fc) {
+        flightClass = fc;
+        return this;
+    }
+
     public Booking build() throws IllegalStateException {
         if (flight == null) {
             throw new IllegalStateException("Flight must be filled in!");
@@ -81,6 +98,11 @@ public class BookingBuilder {
                 ticket.setOwner((RegularUser) regularUser);
             }
         }
+
+        ModifierPipeline pipeline = ModifierPipeline.loadIntoOrder(priceModifiers);
+        BigDecimal basePrice = flight.getBasePrices().get(flightClass);
+        BigDecimal result = pipeline.pass(basePrice, booking).multiply(new BigDecimal(tickets.size()));
+        booking.setFinalPrice(result);
         return booking;
     }
 

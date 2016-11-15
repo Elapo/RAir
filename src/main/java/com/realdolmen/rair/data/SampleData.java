@@ -1,24 +1,23 @@
-
-
-
 package com.realdolmen.rair.data;
 
-        import com.realdolmen.rair.domain.entities.*;
-        import com.realdolmen.rair.domain.entities.user.CompanyUser;
-        import com.realdolmen.rair.domain.entities.user.ContactInformation;
-        import com.realdolmen.rair.domain.entities.user.Partner;
-        import com.realdolmen.rair.domain.entities.user.RegularUser;
-        import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
-        import com.realdolmen.rair.domain.modifiers.MarginModifier;
+import com.realdolmen.rair.domain.builder.BookingBuilder;
+import com.realdolmen.rair.domain.entities.*;
+import com.realdolmen.rair.domain.entities.user.CompanyUser;
+import com.realdolmen.rair.domain.entities.user.ContactInformation;
+import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.entities.user.RegularUser;
+import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
+import com.realdolmen.rair.domain.modifiers.MarginModifier;
 
-        import javax.annotation.PostConstruct;
-        import javax.ejb.Singleton;
-        import javax.ejb.Startup;
-        import javax.persistence.EntityManager;
-        import javax.persistence.PersistenceContext;
-        import java.math.BigDecimal;
-        import java.security.NoSuchAlgorithmException;
-        import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+
 
 @Startup
 @Singleton
@@ -227,5 +226,54 @@ public class SampleData {
         entityManager.merge(flight2);
         entityManager.merge(flight3);
         entityManager.merge(flight4);
+
+        BookingBuilder bookingBuilder1 = new BookingBuilder();
+        bookingBuilder1.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.COMPLETE)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .flightClass(FlightClass.BUSINESS_CLASS)
+                .addTickets(2)
+                .user(ru);
+
+        BookingBuilder bookingBuilder2 = new BookingBuilder();
+        bookingBuilder2.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.COMPLETE)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .addTickets(4)
+                .flightClass(FlightClass.PREMIUM_ECONOMY)
+                .user(ru);
+
+        BookingBuilder bookingBuilder3 = new BookingBuilder();
+        bookingBuilder3.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.PENDING)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .addTickets(3)
+                .flightClass(FlightClass.FIRST_CLASS)
+                .user(ru);
+
+        BookingBuilder bookingBuilder4 = new BookingBuilder();
+        bookingBuilder4.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.CANCELLED)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .addTickets(6)
+                .flightClass(FlightClass.ECONOMY_CLASS)
+                .user(ru);
+
+        entityManager.persist(bookingBuilder1.build());
+        entityManager.persist(bookingBuilder2.build());
+        entityManager.persist(bookingBuilder3.build());
+        entityManager.persist(bookingBuilder4.build());
     }
 }

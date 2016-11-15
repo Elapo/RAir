@@ -12,7 +12,8 @@
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>
             /WEB-INF/faces-config.xml,
-            /admin/airports/airport-navigation-rules.xml
+            /admin/airports/airport-navigation-rules.xml,
+            /admin/statistics/statistics-navigation-rules.xml
         </param-value>
     </context-param>
 
