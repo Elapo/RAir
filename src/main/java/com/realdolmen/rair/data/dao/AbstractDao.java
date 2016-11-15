@@ -11,9 +11,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractDao<T, I> {
+public abstract class AbstractDao<T, I> implements Serializable {
 
     @PersistenceContext
     private EntityManager em;

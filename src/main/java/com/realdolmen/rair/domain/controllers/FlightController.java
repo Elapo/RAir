@@ -8,13 +8,16 @@ import com.realdolmen.rair.domain.entities.user.Partner;
 import com.realdolmen.rair.domain.entities.user.User;
 import org.hibernate.Hibernate;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
 @Named
+@SessionScoped
 public class FlightController extends AbstractController implements Serializable {
 
     @Inject
@@ -42,6 +45,10 @@ public class FlightController extends AbstractController implements Serializable
     @Transactional
     public List<Flight> getAllFlights() {
         return flightDao.getAllFlights();
+    }
+
+    public EntityManager em() {
+        return flightDao.em();
     }
 
     @Transactional

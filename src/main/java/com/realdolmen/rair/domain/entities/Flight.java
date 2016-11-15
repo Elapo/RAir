@@ -160,4 +160,30 @@ public class Flight implements Toggle {
     public void setMaxSeats(Map<FlightClass, Integer> maxSeats) {
         this.maxSeats = maxSeats;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Flight flight = (Flight) o;
+
+        if (id != null ? !id.equals(flight.id) : flight.id != null) return false;
+        if (availableSeats != null ? !availableSeats.equals(flight.availableSeats) : flight.availableSeats != null)
+            return false;
+        if (maxSeats != null ? !maxSeats.equals(flight.maxSeats) : flight.maxSeats != null) return false;
+        if (basePrices != null ? !basePrices.equals(flight.basePrices) : flight.basePrices != null) return false;
+        return priceModifiers != null ? priceModifiers.equals(flight.priceModifiers) : flight.priceModifiers == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (availableSeats != null ? availableSeats.hashCode() : 0);
+        result = 31 * result + (maxSeats != null ? maxSeats.hashCode() : 0);
+        result = 31 * result + (basePrices != null ? basePrices.hashCode() : 0);
+        result = 31 * result + (priceModifiers != null ? priceModifiers.hashCode() : 0);
+        return result;
+    }
 }

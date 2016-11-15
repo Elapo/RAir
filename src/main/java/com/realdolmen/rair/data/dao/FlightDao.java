@@ -3,15 +3,18 @@ package com.realdolmen.rair.data.dao;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.user.Partner;
 import com.realdolmen.rair.domain.entities.user.User;
+import org.hibernate.Hibernate;
 import org.hibernate.dialect.function.TemplateRenderer;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Metamodel;
+import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-@ApplicationScoped
+@SessionScoped
 public class FlightDao extends AbstractDao<Flight, Long> {
 
     @Inject
@@ -56,8 +60,14 @@ public class FlightDao extends AbstractDao<Flight, Long> {
 
     }
 
+    @Transactional
     public List<Flight> getAllFlights() {
-        return em().createNamedQuery("Flight.findAll", Flight.class).getResultList();
+        List<Flight> flights = em().createNamedQuery("Flight.findAll", Flight.class).getResultList();
+        for(Flight flight : flights) {
+            Hibernate.initialize(flight.getMaxSeats());
+            Hibernate.initialize(flight.getAvailableSeats());
+        }
+        return flights;
     }
 
     public List<Flight> getInactiveFlights() {
@@ -114,7 +124,7 @@ public class FlightDao extends AbstractDao<Flight, Long> {
         List<String> conditions = new ArrayList<>();
         Map<String, Object> parametermap = new HashMap<>();
 
-        if ( flight.getDepartureTime()     != null ) {
+        if (flight.getDepartureTime() != null) {
             conditions.add("date(f.departureTime) = :depTime");
         }
         /*if ( dateOfArrival       != null ) conditions.add( "f.dateOfArrival = :arrTime"     );
@@ -132,7 +142,7 @@ public class FlightDao extends AbstractDao<Flight, Long> {
 
                 jpqlQuery.append(condition).append(" AND ");
             }
-             result = jpqlQuery.substring(0, jpqlQuery.length() - 5);
+            result = jpqlQuery.substring(0, jpqlQuery.length() - 5);
         } else {
             result = jpqlQuery.append(conditions.get(0)).toString();
         }

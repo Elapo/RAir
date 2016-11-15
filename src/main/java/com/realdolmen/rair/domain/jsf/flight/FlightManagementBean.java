@@ -28,6 +28,7 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
@@ -154,10 +155,6 @@ public class FlightManagementBean implements Serializable {
             flights = flightController.getAllFlightsByUser(sessionBean.getAuthorizer().getUser());
         } else {
             flights = flightController.getAllFlights();
-            for(Flight flight : flights) {
-                Hibernate.initialize(flight.getMaxSeats());
-                Hibernate.initialize(flight.getAvailableSeats());
-            }
         }
         for (FlightClass flightClass : getFlightClasses()) {
             flightClassMap.put(flightClass, 0);
