@@ -295,6 +295,11 @@ a {
     color: #000;
 }
 
+.banner {
+    height: 350px;
+    width: 100%;
+}
+
 .indexBanner {
     height: 350px;
     width: 100%;

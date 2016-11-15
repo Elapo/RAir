@@ -1,6 +1,7 @@
 package com.realdolmen.rair.domain.jsf;
 
 
+import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.domain.builder.BookingBuilder;
 import com.realdolmen.rair.domain.controllers.BookingController;
 import com.realdolmen.rair.domain.controllers.FlightController;
@@ -46,6 +47,9 @@ public class DetailsBean implements Serializable {
 
     @Inject
     private BookingController bookingController;
+
+    @Inject
+    private FlightDao flightDao;
 
     //endregion
 
@@ -255,6 +259,7 @@ public class DetailsBean implements Serializable {
         reserveSeats();
 
         try {
+            flightDao.update(selectedFlight);
             bookingController.registerBooking(booking);
         } catch (StaleObjectStateException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The data you have is out of date.", null));
