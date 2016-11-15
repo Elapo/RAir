@@ -20,7 +20,7 @@
         <p:outputPanel class="mdl-grid mdl-grid--no-spacing">
             <p:outputPanel class="mdl-cell--stretch mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <section class="paddingTop40 paddingBot40 noBG">
-                    <h:form action="#" id="form" class="searchForm">
+                    <h:form id="form" class="searchForm">
                         <p:outputPanel rendered="#{details.selectedFlight != null}" styleClass="loginCard mdl-card mdl-shadow--2dp mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                             <p:outputPanel class="mdl-card__title mdl-card--expand">
                                 <span style="width: 100%; color: rgb(66,66,66); text-align: center; font-size: 22px;">
@@ -28,8 +28,7 @@
                                 </span>
                             </p:outputPanel>
                             <p:outputPanel styleClass="mdl-card__supporting-text paddingBot40 paddingTop40">
-                                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true"
-                                            closable="true" style="width: 100%"/>
+
                                 <p:panelGrid columns="2" columnClasses="mdl-textfield--align-right" styleClass="ui-noborder" style="margin: 0 auto;">
 
                                     <p:outputLabel value="#{msg.lblFrom}" style="text-align: right; width: 100%;"/>
@@ -54,6 +53,9 @@
                                     <p:outputLabel value="#{msg.lblCreator}" style="text-align: right; width: 100%;"/>
                                     <h:outputText value="#{details.selectedFlight.creator.prettyName()}"/>
 
+                                    <p:outputLabel value="#{msg.lblFlightClass}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{search.selectedFlightClass.prettyName}"/>
+
                                     <p:outputLabel rendered="#{search.ticketsAdults > 0}" value="#{msg.lblTicketsAdults}" style="text-align: right; width: 100%;"/>
                                     <h:outputText rendered="#{search.ticketsAdults > 0}" value="#{search.ticketsAdults}"/>
 
@@ -61,7 +63,7 @@
                                     <h:outputText rendered="#{search.ticketsKids > 0}" value="#{search.ticketsKids}"/>
 
                                     <p:outputLabel value="#{msg.lblPrice}" style="text-align: right; width: 100%;"/>
-                                    <h:outputText value="#{details.calculatePrice()}" converter="#{currencyConverter}"/>
+                                    <h:outputText value="€ #{details.calculatePrice(true)}"/>
 
                                 </p:panelGrid>
 
@@ -71,13 +73,14 @@
                                     <h:outputText value="#{msg.paymentOptions}"/><i class="material-icons" style="color: rgb(76,175,80); float: right;">payment</i>
                                 </span>
                             </p:outputPanel>
+                            <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true"
+                                        closable="true" style="width: 95%; margin: 0 auto;"/>
                             <p:selectOneRadio id="pay" value="#{details.paymentMethod}" class="sexEnum" style="margin: 0 auto; width: 30%; padding-top: 20px;">
-                                <f:selectItem itemLabel="#{msg.visa}" itemValue="#{msg.visa}" />
-                                <f:selectItem itemLabel="#{msg.endorsement}" itemValue="#{msg.endorsement}" />
-                                <p:ajax event="valueChange" update="rdo" />
+                                <f:selectItems value="#{details.paymentMethods}" var="p" itemLabel="#{mappings['paymentMethod.'.concat(p.name())]}"/>
+                                <p:ajax event="valueChange" update="@form" />
                             </p:selectOneRadio>
                             <p:outputPanel id="rdo">
-                                <p:outputPanel rendered="#{details.paymentMethod eq msg.visa}" styleClass="mdl-card__supporting-text paddingBot40 paddingTop40">
+                                <p:outputPanel rendered="#{details.paymentMethod eq 'CREDIT_CARD'}" styleClass="mdl-card__supporting-text paddingBot40 paddingTop40">
                                     <p:panelGrid columns="1" columnClasses="mdl-textfield--align-left" styleClass="ui-noborder" style="margin: 0 auto;">
                                         <p:outputLabel for="cc" value="Visa:" />
                                         <p:inputMask id="cc" value="#{details.cc}" mask="9999-9999-9999-9999" styleClass="pay"/>
@@ -88,15 +91,15 @@
                                         <p:tooltip for="ccd" value="#{msg.hoverExpireDate}" position="top"/>
                                     </p:panelGrid>
                                 </p:outputPanel>
-                                <p:outputPanel rendered="#{details.paymentMethod eq msg.endorsement}" styleClass="mdl-card__supporting-text paddingBot40 paddingTop40">
+                                <p:outputPanel rendered="#{details.paymentMethod eq 'ENDORSEMENT'}" styleClass="mdl-card__supporting-text paddingBot40 paddingTop40">
                                     <p:panelGrid columns="1" columnClasses="mdl-textfield--align-left" styleClass="ui-noborder" style="margin: 0 auto;">
-                                        overschrijving
+                                        <h:outputText value="#{msg.endorsementDetails} #{details.selectedFlight.id}" escape="false"/>
                                     </p:panelGrid>
                                 </p:outputPanel>
                             </p:outputPanel>
-                            <p:outputPanel class="mdl-card__actions mdl-card--border">
-                                <h:commandButton value="#{msg['continue']}" action="#{details.book()}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" style="float: right"/>
-                            </p:outputPanel>
+                            <h:panelGroup class="mdl-card__actions mdl-card--border">
+                                <h:commandButton value="#{msg['continue']}" action="#{details.pay()}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect searchBtn" style="float: right"/>
+                            </h:panelGroup>
                             <p:outputPanel class="mdl-card__menu">
                                 <i class="material-icons" style="color: rgb(76,175,80);">flight_takeoff</i>
                             </p:outputPanel>

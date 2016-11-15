@@ -1,29 +1,33 @@
 package com.realdolmen.rair.domain.jsf;
 
-import com.realdolmen.rair.data.dao.FlightDao;
+
 import com.realdolmen.rair.domain.builder.BookingBuilder;
+import com.realdolmen.rair.domain.controllers.BookingController;
 import com.realdolmen.rair.domain.controllers.FlightController;
-import com.realdolmen.rair.domain.entities.Flight;
-import com.realdolmen.rair.domain.entities.Ticket;
+import com.realdolmen.rair.domain.entities.*;
 import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 import org.hibernate.Hibernate;
+import org.hibernate.StaleObjectStateException;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.constraints.*;
+import javax.ws.rs.core.UriBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.util.Date;
 
 
 @Named(value = "details")
 @SessionScoped
-public class DetailsBean implements Serializable{
+public class DetailsBean implements Serializable {
 
     //region CONSTANTS -
 
@@ -40,6 +44,9 @@ public class DetailsBean implements Serializable{
     @Inject
     private SearchBean searchBean;
 
+    @Inject
+    private BookingController bookingController;
+
     //endregion
 
     //region Private Member Variables +
@@ -48,15 +55,17 @@ public class DetailsBean implements Serializable{
 
     private Flight selectedFlight;
 
-    @Size(min = 16, max = 16)
-    @Pattern(regexp = "^4[0-9]{12}(?:[0-9]{3})?$", message = "- Not a valid visa cardnumber.")
+    @Size(min = 19, max = 19)
     private String cc;
 
     @Size(min = 5, max = 5)
-    @Pattern(regexp = "/^(0[1-9]|1[0-2])\\/?([0-9]{4}|[0-9]{2})$/;", message = "- Not a valid expire date.")
     private String ccd;
 
-    private String paymentMethod;
+    private PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARD;
+
+    private Booking booking;
+
+    private String urlForQR;
 
     //endregion
 
@@ -70,18 +79,23 @@ public class DetailsBean implements Serializable{
 
     //region Constructors +
 
-    public DetailsBean() {}
+    public DetailsBean() {
+    }
 
     //endregion
 
     //region Public Properties +
 
 
-    public String getPaymentMethod() {
+    public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public PaymentMethod[] getPaymentMethods() {
+        return PaymentMethod.values();
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
@@ -117,30 +131,51 @@ public class DetailsBean implements Serializable{
         this.ccd = ccd;
     }
 
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    public String getUrlForQR() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
+        URI uri = URI.create(req.getRequestURL().toString());
+        return uri.getScheme() + "://" + uri.getHost() + ":" + uri.getPort();
+    }
+
     //endregion
 
     //region Public Methods +
 
-    public BigDecimal calculatePrice() {
+    public BigDecimal calculatePrice(boolean includePaymentMethod) {
         BookingBuilder builder = new BookingBuilder();
         builder.flight(selectedFlight);
+        if (includePaymentMethod)
+            builder.paymentMethod(paymentMethod);
+        else
+            builder.paymentMethod(null);
 
-        for(PriceModifier modifier : selectedFlight.getPriceModifiers()) {
+        for (PriceModifier modifier : selectedFlight.getPriceModifiers()) {
             builder.addModifier(modifier);
         }
 
         int kids = 0;
-        if(searchBean.getTicketsKids() != null) {
+        if (searchBean.getTicketsKids() != null) {
             kids = searchBean.getTicketsKids();
         }
-        for(int i = 0; i < searchBean.getTicketsAdults() + kids; i++) {
+        for (int i = 0; i < searchBean.getTicketsAdults() + kids; i++) {
             Ticket ticket = new Ticket();
             builder.addTicket(ticket);
         }
         ModifierPipeline pricePipeline = ModifierPipeline.loadIntoOrder(selectedFlight.getPriceModifiers());
 
         BigDecimal basePrice = selectedFlight.getBasePrices().get(searchBean.getSelectedFlightClass());
-        return pricePipeline.pass(basePrice, builder.build());
+        if (searchBean.getTicketsKids() != null)
+            return pricePipeline.pass(basePrice, builder.build()).multiply(new BigDecimal(searchBean.getTicketsAdults() + (searchBean.getTicketsKids())));
+        return pricePipeline.pass(basePrice, builder.build()).multiply(new BigDecimal(searchBean.getTicketsAdults()));
     }
 
     private void fixLazyInit() {
@@ -162,15 +197,71 @@ public class DetailsBean implements Serializable{
                 return;
             }
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Flight '" + selectedId + "' is not found!", null));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Flight '" + selectedId + "' is not found!", null));
     }
 
     public String book() {
-        if ( !sessionBean.isLoggedIn() ) {
+        if (!sessionBean.isLoggedIn()) {
 
             return "login?faces-redirect=true&page=payment";
         }
-        return "WEB-INF/views/payment.xhtml";
+        return "pretty:payment";
+    }
+
+    public String tyContinue() {
+        return "pretty:profile";
+    }
+
+    public void reserveSeats() {
+        int seats = selectedFlight.getAvailableSeats().get(searchBean.getSelectedFlightClass());
+
+        int numberOfTickets = searchBean.getTicketsAdults();
+        if ( searchBean.getTicketsKids() != null ) numberOfTickets += searchBean.getTicketsKids();
+        selectedFlight.getAvailableSeats().put(searchBean.getSelectedFlightClass(), seats - numberOfTickets );
+    }
+
+    @Transactional
+    public String pay() {
+        BookingBuilder b = new BookingBuilder();
+
+        int tickets = 0;
+        if (searchBean.getTicketsKids() != null) {
+            tickets = searchBean.getTicketsKids();
+        }
+
+        tickets += searchBean.getTicketsAdults();
+
+        Ticket t;
+        for (int i = 0; i < tickets; i++) {
+            t = new Ticket();
+            t.setFlightClass(searchBean.getSelectedFlightClass());
+            b.addTicket(t);
+        }
+
+        b.purchasedOn(new Date());
+        b.flight(selectedFlight);
+        if (paymentMethod == PaymentMethod.CREDIT_CARD) b.status(BookingStatus.COMPLETE);
+        else b.status(BookingStatus.PENDING);
+
+        selectedFlight.getPriceModifiers().forEach(priceModifier -> {
+            priceModifier.setId(null);
+            b.addModifier(priceModifier);
+        });
+
+        booking = b.build();
+
+        booking.setPaymentMethod(paymentMethod);
+
+        reserveSeats();
+
+        try {
+            bookingController.registerBooking(booking);
+        } catch (StaleObjectStateException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The data you have is out of date.", null));
+            return "pretty:index";
+        }
+
+        return "/WEB-INF/views/thankyou.xhtml";
     }
 
     //endregion

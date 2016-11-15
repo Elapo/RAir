@@ -116,7 +116,7 @@ public class LoginBean {
                     switch( page.toLowerCase().trim() ) {
                         case "payment": {
                             page = null;
-                            return "WEB-INF/views/payment.xhtml";
+                            return "pretty:payment";
                         }
                     }
                 }

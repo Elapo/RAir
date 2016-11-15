@@ -54,6 +54,9 @@
                                     <p:outputLabel value="#{msg.lblCreator}" style="text-align: right; width: 100%;"/>
                                     <h:outputText value="#{details.selectedFlight.creator.prettyName()}"/>
 
+                                    <p:outputLabel value="#{msg.lblFlightClass}" style="text-align: right; width: 100%;"/>
+                                    <h:outputText value="#{search.selectedFlightClass.prettyName}"/>
+
                                     <p:outputLabel rendered="#{search.ticketsAdults > 0}" value="#{msg.lblTicketsAdults}" style="text-align: right; width: 100%;"/>
                                     <h:outputText rendered="#{search.ticketsAdults > 0}" value="#{search.ticketsAdults}"/>
 
@@ -61,7 +64,7 @@
                                     <h:outputText rendered="#{search.ticketsKids > 0}" value="#{search.ticketsKids}"/>
 
                                     <p:outputLabel value="#{msg.lblPrice}" style="text-align: right; width: 100%;"/>
-                                    <h:outputText value="#{details.calculatePrice()}" converter="#{currencyConverter}"/>
+                                    <h:outputText value="€ #{details.calculatePrice(false)}"/>
 
                                 </p:panelGrid>
                             </p:outputPanel>

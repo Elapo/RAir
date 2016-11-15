@@ -31,7 +31,7 @@
                     <nav class="mdl-navigation mdl-layout--large-screen-only">
                         <h:panelGroup rendered="#{userSession.authorizer.checkUser('GUEST')}">
                             <h:link outcome="pretty:login" class="mdl-navigation__link linkFont">
-                            <i class="material-icons">vpn_key</i> #{msg.login}
+                                <i class="material-icons">vpn_key</i> #{msg.login}
                             </h:link>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
@@ -42,14 +42,12 @@
                             </h:form>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{userSession.authorizer.checkAdmin('ALLOWED') or userSession.authorizer.checkPartner('ALLOWED') or userSession.authorizer.checkCompanyUser('ALLOWED')}">
-                            <h:form>
                                 <h:link outcome="dashboard" class="mdl-navigation__link linkFont">
                                     <i class="material-icons">settings</i> #{msg.adminDashboard}
                                 </h:link>
-                            </h:form>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
-                            <h:link outcome="pretty:profile" class="mdl-navigation__link linkFont">
+                        <h:panelGroup rendered="#{userSession.authorizer.checkRegularUser('ALLOWED')}">
+                            <h:link outcome="profile" class="mdl-navigation__link linkFont">
                                 <i class="material-icons">perm_contact_calendar</i> #{msg.profile}
                             </h:link>
                         </h:panelGroup>

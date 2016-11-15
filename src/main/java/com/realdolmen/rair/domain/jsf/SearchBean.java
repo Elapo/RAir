@@ -220,7 +220,6 @@ public class SearchBean implements Serializable {
         return new ArrayList<>();
     }
 
-
     private void initLazy(Flight flight) {
         Hibernate.initialize(flight.getPriceModifiers());
     }
@@ -230,7 +229,6 @@ public class SearchBean implements Serializable {
         Flight f = flightDao.find(flight.getId());
         BookingBuilder builder = new BookingBuilder();
         builder.flight(f);
-
         initLazy(f);
 
         for(PriceModifier modifier : f.getPriceModifiers()) {
@@ -249,7 +247,8 @@ public class SearchBean implements Serializable {
         ModifierPipeline pricePipeline = ModifierPipeline.loadIntoOrder(f.getPriceModifiers());
 
         BigDecimal basePrice = f.getBasePrices().get(getSelectedFlightClass());
-        return pricePipeline.pass(basePrice, builder.build());
+        if ( getTicketsKids() != null ) return pricePipeline.pass(basePrice, builder.build()).multiply(new BigDecimal(getTicketsAdults() + getTicketsKids()));
+        return pricePipeline.pass(basePrice, builder.build()).multiply(new BigDecimal(getTicketsAdults()));
     }
 
     public void search() throws IllegalAccessException {
