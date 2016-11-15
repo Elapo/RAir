@@ -16,6 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.constraints.*;
@@ -174,6 +175,8 @@ public class DetailsBean implements Serializable {
             Ticket ticket = new Ticket();
             builder.addTicket(ticket);
         }
+
+        builder.flightClass(searchBean.getSelectedFlightClass());
         ModifierPipeline pricePipeline = ModifierPipeline.loadIntoOrder(selectedFlight.getPriceModifiers());
 
         BigDecimal basePrice = selectedFlight.getBasePrices().get(searchBean.getSelectedFlightClass());
@@ -220,8 +223,8 @@ public class DetailsBean implements Serializable {
         int seats = selectedFlight.getAvailableSeats().get(searchBean.getSelectedFlightClass());
 
         int numberOfTickets = searchBean.getTicketsAdults();
-        if ( searchBean.getTicketsKids() != null ) numberOfTickets += searchBean.getTicketsKids();
-        selectedFlight.getAvailableSeats().put(searchBean.getSelectedFlightClass(), seats - numberOfTickets );
+        if (searchBean.getTicketsKids() != null) numberOfTickets += searchBean.getTicketsKids();
+        selectedFlight.getAvailableSeats().put(searchBean.getSelectedFlightClass(), seats - numberOfTickets);
     }
 
     @Transactional
@@ -244,6 +247,8 @@ public class DetailsBean implements Serializable {
 
         b.purchasedOn(new Date());
         b.flight(selectedFlight);
+        b.flightClass(searchBean.getSelectedFlightClass());
+
         if (paymentMethod == PaymentMethod.CREDIT_CARD) b.status(BookingStatus.COMPLETE);
         else b.status(BookingStatus.PENDING);
 
@@ -261,9 +266,9 @@ public class DetailsBean implements Serializable {
         try {
             flightDao.update(selectedFlight);
             bookingController.registerBooking(booking);
-        } catch (StaleObjectStateException e) {
+        } catch (StaleObjectStateException | OptimisticLockException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The data you have is out of date.", null));
-            return "pretty:index";
+            return null;
         }
 
         return "/WEB-INF/views/thankyou.xhtml";

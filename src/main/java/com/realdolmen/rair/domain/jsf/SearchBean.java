@@ -231,23 +231,26 @@ public class SearchBean implements Serializable {
         builder.flight(f);
         initLazy(f);
 
-        for(PriceModifier modifier : f.getPriceModifiers()) {
+        for (PriceModifier modifier : f.getPriceModifiers()) {
             builder.addModifier(modifier);
         }
 
         int kids = 0;
-        if(getTicketsKids() != null) {
+        if (getTicketsKids() != null) {
             kids = getTicketsKids();
         }
         int ticketsAdults = getTicketsAdults();
-        for(int i = 0; i < (ticketsAdults + kids); i++) {
+        for (int i = 0; i < (ticketsAdults + kids); i++) {
             Ticket ticket = new Ticket();
             builder.addTicket(ticket);
         }
+
+        builder.flightClass(getSelectedFlightClass());
         ModifierPipeline pricePipeline = ModifierPipeline.loadIntoOrder(f.getPriceModifiers());
 
         BigDecimal basePrice = f.getBasePrices().get(getSelectedFlightClass());
-        if ( getTicketsKids() != null ) return pricePipeline.pass(basePrice, builder.build()).multiply(new BigDecimal(getTicketsAdults() + getTicketsKids()));
+        if (getTicketsKids() != null)
+            return pricePipeline.pass(basePrice, builder.build()).multiply(new BigDecimal(getTicketsAdults() + getTicketsKids()));
         return pricePipeline.pass(basePrice, builder.build()).multiply(new BigDecimal(getTicketsAdults()));
     }
 
@@ -278,7 +281,6 @@ public class SearchBean implements Serializable {
         }*/
 
 
-
         Flight f = new Flight();
         f.setDepartureTime(dateOfDeparture);
         Route r = new Route();
@@ -289,7 +291,6 @@ public class SearchBean implements Serializable {
 
         this.searchResults = flightDao.getFlightsBySearch(f);
     }
-
 
 
     //endregion

@@ -80,6 +80,18 @@ public class BookingBuilder {
         if (flight == null) {
             throw new IllegalStateException("Flight must be filled in!");
         }
+
+        if (flightClass == null) {
+            throw new IllegalStateException("Flight class must be filled in!");
+        }
+
+        if (flight.getBasePrices() == null) {
+            throw new IllegalStateException("Base prices must be filled in!");
+        }
+
+        if (priceModifiers == null) {
+            throw new IllegalStateException("Price modifiers must not be null!");
+        }
         Booking booking = new Booking();
         booking.setTickets(tickets);
         booking.setPriceModifiers(priceModifiers);
@@ -92,15 +104,18 @@ public class BookingBuilder {
         booking.setFlight(flight);
         booking.setPaymentMethod(method);
 
-        for(Ticket ticket : tickets) {
+        for (Ticket ticket : tickets) {
             ticket.setBooking(booking);
-            if(regularUser != null && regularUser instanceof RegularUser) {
+            if (regularUser != null && regularUser instanceof RegularUser) {
                 ticket.setOwner((RegularUser) regularUser);
             }
         }
 
         ModifierPipeline pipeline = ModifierPipeline.loadIntoOrder(priceModifiers);
+
         BigDecimal basePrice = flight.getBasePrices().get(flightClass);
+
+
         BigDecimal result = pipeline.pass(basePrice, booking).multiply(new BigDecimal(tickets.size()));
         booking.setFinalPrice(result);
         return booking;
