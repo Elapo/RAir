@@ -16,10 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -51,6 +48,16 @@ public class DetailsBean implements Serializable{
 
     private Flight selectedFlight;
 
+    @Size(min = 16, max = 16)
+    @Pattern(regexp = "^4[0-9]{12}(?:[0-9]{3})?$", message = "- Not a valid visa cardnumber.")
+    private String cc;
+
+    @Size(min = 5, max = 5)
+    @Pattern(regexp = "/^(0[1-9]|1[0-2])\\/?([0-9]{4}|[0-9]{2})$/;", message = "- Not a valid expire date.")
+    private String ccd;
+
+    private String paymentMethod;
+
     //endregion
 
     //region Private Properties -
@@ -69,6 +76,15 @@ public class DetailsBean implements Serializable{
 
     //region Public Properties +
 
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
     public Long getSelectedId() {
         return selectedId;
     }
@@ -84,6 +100,26 @@ public class DetailsBean implements Serializable{
     public void setSelectedFlight(Flight selectedFlight) {
         this.selectedFlight = selectedFlight;
     }
+
+    public String getCc() {
+        return cc;
+    }
+
+    public void setCc(String cc) {
+        this.cc = cc;
+    }
+
+    public String getCcd() {
+        return ccd;
+    }
+
+    public void setCcd(String ccd) {
+        this.ccd = ccd;
+    }
+
+    //endregion
+
+    //region Public Methods +
 
     public BigDecimal calculatePrice() {
         BookingBuilder builder = new BookingBuilder();
@@ -106,10 +142,6 @@ public class DetailsBean implements Serializable{
         BigDecimal basePrice = selectedFlight.getBasePrices().get(searchBean.getSelectedFlightClass());
         return pricePipeline.pass(basePrice, builder.build());
     }
-
-    //endregion
-
-    //region Public Methods +
 
     private void fixLazyInit() {
         Hibernate.initialize(selectedFlight.getBasePrices());
@@ -135,11 +167,10 @@ public class DetailsBean implements Serializable{
 
     public String book() {
         if ( !sessionBean.isLoggedIn() ) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"You need to log in before booking.", null));
-            return null;
-        }
 
-        return "pretty:booking";
+            return "login?faces-redirect=true&page=payment";
+        }
+        return "WEB-INF/views/payment.xhtml";
     }
 
     //endregion

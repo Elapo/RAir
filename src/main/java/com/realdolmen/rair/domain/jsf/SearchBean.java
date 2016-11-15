@@ -3,14 +3,15 @@ package com.realdolmen.rair.domain.jsf;
 import com.realdolmen.rair.data.dao.AirportDao;
 import com.realdolmen.rair.data.dao.FlightDao;
 import com.realdolmen.rair.data.dao.UserDao;
-import com.realdolmen.rair.domain.entities.Airport;
-import com.realdolmen.rair.domain.entities.Flight;
-import com.realdolmen.rair.domain.entities.FlightClass;
-import com.realdolmen.rair.domain.entities.Route;
+import com.realdolmen.rair.domain.builder.BookingBuilder;
+import com.realdolmen.rair.domain.entities.*;
 import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
+import com.realdolmen.rair.domain.modifiers.PriceModifier;
 import org.hibernate.Hibernate;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Temporal;
@@ -218,6 +220,37 @@ public class SearchBean implements Serializable {
         return new ArrayList<>();
     }
 
+
+    private void initLazy(Flight flight) {
+        Hibernate.initialize(flight.getPriceModifiers());
+    }
+
+    @Transactional
+    public BigDecimal price(Flight flight) {
+        Flight f = flightDao.find(flight.getId());
+        BookingBuilder builder = new BookingBuilder();
+        builder.flight(f);
+
+        initLazy(f);
+
+        for(PriceModifier modifier : f.getPriceModifiers()) {
+            builder.addModifier(modifier);
+        }
+
+        int kids = 0;
+        if(getTicketsKids() != null) {
+            kids = getTicketsKids();
+        }
+        int ticketsAdults = getTicketsAdults();
+        for(int i = 0; i < (ticketsAdults + kids); i++) {
+            Ticket ticket = new Ticket();
+            builder.addTicket(ticket);
+        }
+        ModifierPipeline pricePipeline = ModifierPipeline.loadIntoOrder(f.getPriceModifiers());
+
+        BigDecimal basePrice = f.getBasePrices().get(getSelectedFlightClass());
+        return pricePipeline.pass(basePrice, builder.build());
+    }
 
     public void search() throws IllegalAccessException {
         //TODO: formvalidatie

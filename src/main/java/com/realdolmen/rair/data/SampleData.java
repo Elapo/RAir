@@ -1,21 +1,24 @@
+
+
+
 package com.realdolmen.rair.data;
 
-import com.realdolmen.rair.domain.entities.*;
-import com.realdolmen.rair.domain.entities.user.CompanyUser;
-import com.realdolmen.rair.domain.entities.user.ContactInformation;
-import com.realdolmen.rair.domain.entities.user.Partner;
-import com.realdolmen.rair.domain.entities.user.RegularUser;
-import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
-import com.realdolmen.rair.domain.modifiers.MarginModifier;
+        import com.realdolmen.rair.domain.entities.*;
+        import com.realdolmen.rair.domain.entities.user.CompanyUser;
+        import com.realdolmen.rair.domain.entities.user.ContactInformation;
+        import com.realdolmen.rair.domain.entities.user.Partner;
+        import com.realdolmen.rair.domain.entities.user.RegularUser;
+        import com.realdolmen.rair.domain.modifiers.CreditCardModifier;
+        import com.realdolmen.rair.domain.modifiers.MarginModifier;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.math.BigDecimal;
-import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+        import javax.annotation.PostConstruct;
+        import javax.ejb.Singleton;
+        import javax.ejb.Startup;
+        import javax.persistence.EntityManager;
+        import javax.persistence.PersistenceContext;
+        import java.math.BigDecimal;
+        import java.security.NoSuchAlgorithmException;
+        import java.util.Date;
 
 @Startup
 @Singleton
@@ -32,6 +35,11 @@ public class SampleData {
         ContactInformation ci = new ContactInformation("mail@jetair.be", null, new Address("Street", "Number", "City", "2942", "Belgium"));
         partner.setContactInformation(ci);
 
+        Partner partner2 = new Partner();
+        partner2.setCompanyName("Ryan Air");
+        ContactInformation ci2 = new ContactInformation("mail@ryanair.be", null, new Address("Street", "Number", "City", "2942", "Belgium"));
+        partner2.setContactInformation(ci2);
+
         CompanyUser cu = new CompanyUser();
         cu.setFirstName("Company");
         cu.setLastName("Worker");
@@ -45,6 +53,7 @@ public class SampleData {
 
         try {
             partner.setPassword("test");
+            partner2.setPassword("test");
             cu.setPassword("test");
             ru.setPassword("test");
         } catch (NoSuchAlgorithmException e) {
@@ -55,6 +64,7 @@ public class SampleData {
         entityManager.persist(partner);
         entityManager.persist(cu);
         entityManager.persist(ru);
+        entityManager.persist(partner2);
 
         Flight flight = new Flight();
         Flight flight2 = new Flight();
@@ -62,9 +72,9 @@ public class SampleData {
         Flight flight4 = new Flight();
 
         flight.setCreator(partner);
-        flight2.setCreator(partner);
+        flight2.setCreator(partner2);
         flight3.setCreator(partner);
-        flight4.setCreator(partner);
+        flight4.setCreator(partner2);
 
         Date today = new Date();
         Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
@@ -124,17 +134,8 @@ public class SampleData {
         flight4.getMaxSeats().put(FlightClass.FIRST_CLASS, 15);
         flight4.getMaxSeats().put(FlightClass.ECONOMY_CLASS, 10);
 
-        entityManager.persist(flight);
-        entityManager.persist(flight2);
-        entityManager.persist(flight3);
-        entityManager.persist(flight4);
-
-        partner.getOwnedFlights().add(flight);
-        partner.getOwnedFlights().add(flight2);
-        partner.getOwnedFlights().add(flight3);
-        partner.getOwnedFlights().add(flight4);
-
         entityManager.merge(partner);
+        entityManager.merge(partner2);
 
         Region region = new Region();
         region.setName("West Europe");
@@ -174,6 +175,10 @@ public class SampleData {
         route.getFlights().add(flight4);
         entityManager.persist(route);
 
+        flight.setRoute(route);
+        flight2.setRoute(route);
+        flight3.setRoute(route);
+        flight4.setRoute(route);
 
         flight.getBasePrices().put(FlightClass.FIRST_CLASS, new BigDecimal(225));
         flight.getBasePrices().put(FlightClass.ECONOMY_CLASS, new BigDecimal(175));
@@ -207,7 +212,20 @@ public class SampleData {
         flight4.getPriceModifiers().add(new CreditCardModifier());
         flight4.getPriceModifiers().add(new MarginModifier());
 
-        flight.setRoute(route);
+
+        entityManager.persist(flight);
+        entityManager.persist(flight2);
+        entityManager.persist(flight3);
+        entityManager.persist(flight4);
+
+        partner.getOwnedFlights().add(flight);
+        partner2.getOwnedFlights().add(flight2);
+        partner.getOwnedFlights().add(flight3);
+        partner2.getOwnedFlights().add(flight4);
+
         entityManager.merge(flight);
+        entityManager.merge(flight2);
+        entityManager.merge(flight3);
+        entityManager.merge(flight4);
     }
 }
