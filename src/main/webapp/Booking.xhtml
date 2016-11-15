@@ -7,12 +7,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-<f:metadata>
-
-    <f:viewAction action="#{profile.setup()}"/>
-
-</f:metadata>
-
 <ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
 
     <ui:define name="title">#{msg.thankYouTitle}</ui:define>
@@ -23,7 +17,7 @@
             <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone border">
                 <section class="paddingTop40 paddingBot40">
                     <h:form action="#" id="form" class="searchForm">
-                        <p:dataTable value="#{profile.lstBookings}" var="r" style="text-align: center">
+                        <p:dataTable value="#{profile.lstBookings}" var="r" paginator="true" rows="3" style="text-align: center">
                             <p:column headerText="#{msg.colDeparture}" sortBy="#{r.flight.route.airportA}">
                                 <h:outputText value="#{r.flight.route.airportA}"/>
                             </p:column>

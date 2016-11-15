@@ -14,7 +14,7 @@ import java.util.List;
         @NamedQuery(name = "Booking.findByFlight", query = "SELECT b FROM Booking b WHERE b.flight = :flight"),
         @NamedQuery(name="Booking.findByStatus", query = "SELECT b FROM Booking b WHERE b.status = :status"),
         @NamedQuery(name="Booking.countByStatus", query = "SELECT count(b) FROM Booking b WHERE b.status = :status"),
-        @NamedQuery(name = "Booking.findByUser", query = "SELECT b FROM Booking b INNER JOIN FETCH b.tickets t WHERE t.owner = :user")
+        @NamedQuery(name = "Booking.findByUser", query = "SELECT DISTINCT b FROM Booking b JOIN FETCH b.tickets t WHERE t.owner = :user")
 })
 public class Booking implements Toggle {
 

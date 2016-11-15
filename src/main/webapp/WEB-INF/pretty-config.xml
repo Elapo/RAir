@@ -53,7 +53,7 @@
 
     <url-mapping id="profile">
         <pattern value="/profile" />
-        <view-id value="booking.xhtml" />
+        <view-id value="profile.xhtml" />
     </url-mapping>
 
     <url-mapping id="details">
@@ -64,6 +64,11 @@
     <url-mapping id="payment">
         <pattern value="/payment" />
         <view-id value="payment.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="booking">
+        <pattern value="/booking" />
+        <view-id value="booking.xhtml" />
     </url-mapping>
 
 </pretty-config>

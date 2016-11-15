@@ -264,17 +264,19 @@ public class DetailsBean implements Serializable {
 
         booking.setPaymentMethod(paymentMethod);
 
+        this.selectedFlight = flightDao.find(selectedFlight.getId());
+
         reserveSeats();
 
         try {
             flightDao.update(selectedFlight);
             bookingController.registerBooking(booking);
         } catch (StaleObjectStateException | OptimisticLockException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The data you have is out of date.", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The data you have is out of date, please try again.", null));
             return null;
         }
 
-        return "/WEB-INF/views/thankyou.xhtml";
+        return "thankyou.xhtml";
     }
 
     //endregion

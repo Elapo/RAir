@@ -4,6 +4,7 @@ import com.realdolmen.rair.data.dao.BookingDao;
 import com.realdolmen.rair.domain.builder.BookingBuilder;
 import com.realdolmen.rair.domain.entities.Booking;
 import com.realdolmen.rair.domain.entities.Ticket;
+import com.realdolmen.rair.domain.entities.user.User;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
 import javax.inject.Inject;
@@ -39,5 +40,9 @@ public class BookingController extends AbstractController {
             input = mod.modify(modifiers, booking.getFlight(), booking, input);
         }
         return input;
+    }
+
+    public List<Booking> getBookingsByUser(User u) {
+        return bookingDao.getBookingsByUser(u);
     }
 }
