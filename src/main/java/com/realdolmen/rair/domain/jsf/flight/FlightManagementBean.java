@@ -142,6 +142,7 @@ public class FlightManagementBean implements Serializable {
         return airportDao;
     }
 
+    @Transactional
     public void flightStatusChanged(Flight event) {
         flightController.updateFlightStatus(event);
         reset();
@@ -153,6 +154,10 @@ public class FlightManagementBean implements Serializable {
             flights = flightController.getAllFlightsByUser(sessionBean.getAuthorizer().getUser());
         } else {
             flights = flightController.getAllFlights();
+            for(Flight flight : flights) {
+                Hibernate.initialize(flight.getMaxSeats());
+                Hibernate.initialize(flight.getAvailableSeats());
+            }
         }
         for (FlightClass flightClass : getFlightClasses()) {
             flightClassMap.put(flightClass, 0);

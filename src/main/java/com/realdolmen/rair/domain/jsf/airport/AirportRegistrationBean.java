@@ -1,6 +1,7 @@
 package com.realdolmen.rair.domain.jsf.airport;
 
 import com.realdolmen.rair.data.dao.AirportDao;
+import com.realdolmen.rair.domain.MailService;
 import com.realdolmen.rair.domain.entities.Address;
 import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Region;
@@ -27,6 +28,9 @@ public class AirportRegistrationBean {
 
     @Inject
     private AirportDao airportDao;
+
+    @Inject
+    private MailService mailService;
 
     @Inject
     private AirportManagementBean airportManagementBean;

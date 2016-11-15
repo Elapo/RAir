@@ -39,6 +39,7 @@ public class FlightController extends AbstractController implements Serializable
         return flightDao.getActiveFlights();
     }
 
+    @Transactional
     public List<Flight> getAllFlights() {
         return flightDao.getAllFlights();
     }
