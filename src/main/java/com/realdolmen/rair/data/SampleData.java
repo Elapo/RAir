@@ -1,5 +1,6 @@
 package com.realdolmen.rair.data;
 
+import com.realdolmen.rair.domain.builder.BookingBuilder;
 import com.realdolmen.rair.domain.entities.*;
 import com.realdolmen.rair.domain.entities.user.CompanyUser;
 import com.realdolmen.rair.domain.entities.user.ContactInformation;
@@ -225,6 +226,12 @@ public class SampleData {
         entityManager.merge(flight3);
         entityManager.merge(flight4);
 
-
+        BookingBuilder bookingBuilder1 = new BookingBuilder();
+        bookingBuilder1.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.COMPLETE)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD);
     }
 }

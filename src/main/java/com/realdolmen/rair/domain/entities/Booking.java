@@ -11,7 +11,8 @@ import java.util.List;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Booking.findByFlight", query = "SELECT b FROM Booking b WHERE b.flight = :flight"),
-        @NamedQuery(name="Booking.findByStatus", query = "SELECT b FROM Booking b WHERE b.status = :status")
+        @NamedQuery(name="Booking.findByStatus", query = "SELECT b FROM Booking b WHERE b.status = :status"),
+        @NamedQuery(name="Booking.countByStatus", query = "SELECT count(b) FROM Booking b WHERE b.status = :status")
 })
 public class Booking implements Toggle {
 
