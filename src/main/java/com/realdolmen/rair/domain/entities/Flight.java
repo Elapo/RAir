@@ -67,7 +67,7 @@ public class Flight implements Toggle {
     private Boolean active = true;
 
     @Version
-    private Integer version;
+    private Integer version = 0;
 
     public Long getId() {
         return id;

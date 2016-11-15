@@ -74,7 +74,7 @@
 
     <route id="1000" airportA_id="1000" airportB_id="2000"/>
 
-    <flight id="1000" creator_id="2000" route_id="1000"/>
+    <flight id="1000" creator_id="2000" route_id="1000" departuretime="2049-10-18 12:35:00" arrivaltime="2050-10-18 12:35:00" version="1"/>
 
     <flight_class_base_price flight_id="1000" base_price="100" class="FIRST_CLASS" />
     <flight_available_seats flight_id="1000" available_seats="45" class="FIRST_CLASS" />

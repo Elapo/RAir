@@ -96,6 +96,9 @@ public class UserTest extends JpaPersistenceTest {
                 new ContactInformation("john.doe@realdolmen.com", "+32(0)12 34 56 78", address));
         Flight flight = new Flight();
         ru.getOwnedFlights().add(flight);
+        flight.setDepartureTime(new Date());
+        flight.setArrivalTime(new Date());
+        flight.setCreator(ru);
         entityManager().persist(ru);
 
         assertNotNull(ru.getId());
@@ -112,6 +115,9 @@ public class UserTest extends JpaPersistenceTest {
                 new ContactInformation("john.doe@realdolmen.com", "+32(0)12 34 56 78", address));
         Flight flight = new Flight();
         ru.getOwnedFlights().add(flight);
+        flight.setCreator(ru);
+        flight.setDepartureTime(new Date());
+        flight.setArrivalTime(new Date());
         entityManager().persist(ru);
 
         entityManager().remove(ru);
