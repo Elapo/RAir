@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
+
 @Startup
 @Singleton
 public class SampleData {

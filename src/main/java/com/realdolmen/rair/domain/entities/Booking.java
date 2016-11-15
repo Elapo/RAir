@@ -37,7 +37,7 @@ public class Booking implements Toggle {
 
     private boolean active;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<PriceModifier> priceModifiers = new ArrayList<>();
 
     public Long getId() {

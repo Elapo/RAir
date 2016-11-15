@@ -34,6 +34,7 @@
 
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <exception-type>javax.el.ELException</exception-type>
         <location>/login.xhtml</location>
     </error-page>
 </web-app>
