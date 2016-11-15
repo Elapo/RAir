@@ -25,9 +25,13 @@ public class BookingStatisticsBean implements Serializable {
     @PostConstruct
     @Transactional
     private void init() {
+        initPendingCompleteChart();
+    }
+
+    private void initPendingCompleteChart() {
         completeAndPendingBookings = new PieChartModel();
 
-        for(BookingStatus status : BookingStatus.values()) {
+        for (BookingStatus status : BookingStatus.values()) {
             long size = bookingDao.em().createNamedQuery("Booking.countByStatus", Long.class).setParameter("status", status).getSingleResult();
             completeAndPendingBookings.set(status.name(), size);
         }

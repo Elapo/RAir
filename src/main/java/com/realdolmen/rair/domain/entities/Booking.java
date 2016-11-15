@@ -4,6 +4,7 @@ import com.realdolmen.rair.data.dao.Toggle;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,8 @@ public class Booking implements Toggle {
     private Flight flight;
 
     private boolean active;
+
+    private BigDecimal finalPrice;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<PriceModifier> priceModifiers = new ArrayList<>();
@@ -114,5 +117,13 @@ public class Booking implements Toggle {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
     }
 }

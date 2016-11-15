@@ -6,6 +6,8 @@ import com.realdolmen.rair.domain.entities.Airport;
 import com.realdolmen.rair.domain.entities.Booking;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.FlightClass;
+import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.jsf.SessionBean;
 import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
@@ -41,6 +43,9 @@ public class FlightRegistrationBean implements Serializable {
     @Inject
     private RouteController routeController;
 
+    @Inject
+    private SessionBean sessionBean;
+
     @PostConstruct
     private void init() {
         reset();
@@ -60,8 +65,13 @@ public class FlightRegistrationBean implements Serializable {
     }
 
     public String registerFlight() {
-        flight.getMaxSeats().forEach(flight.getAvailableSeats()::put);
+        if (flight.getDepartureTime().after(flight.getArrivalTime())) {
+            FacesContext.getCurrentInstance().addMessage("addFlight", new FacesMessage("Arrival time must be after departure time!"));
+            return null;
+        }
 
+        flight.getMaxSeats().forEach(flight.getAvailableSeats()::put);
+        flight.setCreator((Partner) sessionBean.getAuthorizer().getUser());
         flightController.registerFlight(from, to, flight);
         reset();
         return "dashFlights";
@@ -100,7 +110,7 @@ public class FlightRegistrationBean implements Serializable {
     }
 
     public void addModifier() {
-        if(selectedModifier != null) {
+        if (selectedModifier != null) {
             try {
                 priceModifiers.add(selectedModifier.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {

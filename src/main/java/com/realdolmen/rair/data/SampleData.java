@@ -233,6 +233,47 @@ public class SampleData {
                 .status(BookingStatus.COMPLETE)
                 .addModifier(new CreditCardModifier())
                 .addModifier(new MarginModifier())
-                .paymentMethod(PaymentMethod.CREDIT_CARD);
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .flightClass(FlightClass.BUSINESS_CLASS)
+                .addTickets(2)
+                .user(ru);
+
+        BookingBuilder bookingBuilder2 = new BookingBuilder();
+        bookingBuilder2.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.COMPLETE)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .addTickets(4)
+                .flightClass(FlightClass.PREMIUM_ECONOMY)
+                .user(ru);
+
+        BookingBuilder bookingBuilder3 = new BookingBuilder();
+        bookingBuilder3.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.PENDING)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .addTickets(3)
+                .flightClass(FlightClass.FIRST_CLASS)
+                .user(ru);
+
+        BookingBuilder bookingBuilder4 = new BookingBuilder();
+        bookingBuilder4.flight(flight)
+                .purchasedOn(new Date())
+                .status(BookingStatus.CANCELLED)
+                .addModifier(new CreditCardModifier())
+                .addModifier(new MarginModifier())
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .addTickets(6)
+                .flightClass(FlightClass.ECONOMY_CLASS)
+                .user(ru);
+
+        entityManager.persist(bookingBuilder1.build());
+        entityManager.persist(bookingBuilder2.build());
+        entityManager.persist(bookingBuilder3.build());
+        entityManager.persist(bookingBuilder4.build());
     }
 }
