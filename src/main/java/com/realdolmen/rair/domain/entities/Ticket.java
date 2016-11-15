@@ -1,6 +1,7 @@
 package com.realdolmen.rair.domain.entities;
 
 import com.realdolmen.rair.domain.entities.user.RegularUser;
+import com.realdolmen.rair.domain.entities.user.User;
 
 import javax.persistence.*;
 
@@ -18,7 +19,7 @@ public class Ticket {
     private Booking booking;
 
     @ManyToOne
-    private RegularUser owner;
+    private User owner;
 
     public Long getId() {
         return id;
@@ -36,11 +37,11 @@ public class Ticket {
         this.flightClass = flightClass;
     }
 
-    public RegularUser getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(RegularUser owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

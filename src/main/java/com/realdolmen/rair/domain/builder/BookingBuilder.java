@@ -1,9 +1,7 @@
 package com.realdolmen.rair.domain.builder;
 
 import com.realdolmen.rair.domain.entities.*;
-import com.realdolmen.rair.domain.entities.user.RegularUser;
 import com.realdolmen.rair.domain.entities.user.User;
-import com.realdolmen.rair.domain.modifiers.MarginModifier;
 import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
@@ -22,7 +20,7 @@ public class BookingBuilder {
 
     private PaymentMethod method;
 
-    private User regularUser;
+    private User user;
 
     private FlightClass flightClass;
 
@@ -67,7 +65,7 @@ public class BookingBuilder {
     }
 
     public BookingBuilder user(User user) {
-        this.regularUser = user;
+        this.user = user;
         return this;
     }
 
@@ -106,8 +104,8 @@ public class BookingBuilder {
 
         for (Ticket ticket : tickets) {
             ticket.setBooking(booking);
-            if (regularUser != null && regularUser instanceof RegularUser) {
-                ticket.setOwner((RegularUser) regularUser);
+            if (user != null) {
+                ticket.setOwner(user);
             }
         }
 

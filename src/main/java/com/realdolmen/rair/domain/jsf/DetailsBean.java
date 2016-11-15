@@ -6,6 +6,7 @@ import com.realdolmen.rair.domain.builder.BookingBuilder;
 import com.realdolmen.rair.domain.controllers.BookingController;
 import com.realdolmen.rair.domain.controllers.FlightController;
 import com.realdolmen.rair.domain.entities.*;
+import com.realdolmen.rair.domain.entities.user.Partner;
 import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 import org.hibernate.Hibernate;
@@ -190,7 +191,9 @@ public class DetailsBean implements Serializable {
         Hibernate.initialize(selectedFlight.getAvailableSeats());
         Hibernate.initialize(selectedFlight.getMaxSeats());
         Hibernate.initialize(selectedFlight.getCreator());
-        Hibernate.initialize(selectedFlight.getCreator().getOwnedFlights());
+        if (selectedFlight.getCreator() instanceof Partner) {
+            Hibernate.initialize(((Partner) selectedFlight.getCreator()).getOwnedFlights());
+        }
         Hibernate.initialize(selectedFlight.getRoute());
         Hibernate.initialize(selectedFlight.getPriceModifiers());
     }

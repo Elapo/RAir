@@ -71,7 +71,7 @@ public class FlightRegistrationBean implements Serializable {
         }
 
         flight.getMaxSeats().forEach(flight.getAvailableSeats()::put);
-        flight.setCreator((Partner) sessionBean.getAuthorizer().getUser());
+        flight.setCreator(sessionBean.getAuthorizer().getUser());
         flightController.registerFlight(from, to, flight);
         reset();
         return "dashFlights";

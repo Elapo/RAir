@@ -41,7 +41,10 @@ public class FlightDao extends AbstractDao<Flight, Long> {
         object.getRoute().getFlights().remove(object);
         object.setRoute(null);
 
-        object.getCreator().getOwnedFlights().remove(object);
+        if(object.getCreator() instanceof Partner) {
+            Partner partner = (Partner) object.getCreator();
+            partner.getOwnedFlights().remove(object);
+        }
         super.remove(object);
     }
 

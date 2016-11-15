@@ -2,6 +2,7 @@ package com.realdolmen.rair.domain.entities;
 
 import com.realdolmen.rair.data.dao.Toggle;
 import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.entities.user.User;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
 
 import javax.persistence.*;
@@ -31,7 +32,7 @@ public class Flight implements Toggle {
     private Date arrivalTime;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    private Partner creator;
+    private User creator;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Route route;
@@ -92,11 +93,11 @@ public class Flight implements Toggle {
         this.arrivalTime = arrivalTime;
     }
 
-    public Partner getCreator() {
+    public User getCreator() {
         return creator;
     }
 
-    public void setCreator(Partner creator) {
+    public void setCreator(User creator) {
         this.creator = creator;
     }
 

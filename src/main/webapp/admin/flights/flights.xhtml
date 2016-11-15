@@ -46,10 +46,11 @@
 
                             <c:choose>
                                 <c:when test="#{not empty flight.creator}">
-                                    <h:link value="#{flight.creator.companyName}"
-                                            outcome="partner/partnerDetails">
-                                        <f:param name="partnerId" value="#{flight.creator.id}"/>
-                                    </h:link>
+                                    <!--<h:link value=""-->
+                                            <!--outcome="partner/partnerDetails">-->
+                                        <!--<f:param name="partnerId" value="#{flight.creator.id}"/>-->
+                                    <!--</h:link>-->
+                                    #{flight.creator.prettyName}
                                 </c:when>
                                 <c:otherwise>Unknown</c:otherwise>
                             </c:choose>

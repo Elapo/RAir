@@ -1,11 +1,13 @@
 package com.realdolmen.rair.domain;
 
 import com.realdolmen.rair.domain.builder.MailBuilder;
+import com.realdolmen.rair.domain.jsf.SessionBean;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import java.util.Properties;
 
 @Named
@@ -45,6 +47,9 @@ public class MailService {
     }
 
     public void sendMail(Message mail) throws MessagingException {
+        if (SessionBean.DEBUG_MODE) {
+            mail.setRecipient(Message.RecipientType.TO, new InternetAddress("noreply.rair@gmail.com"));
+        }
         Transport.send(mail);
     }
 }
