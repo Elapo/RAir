@@ -31,10 +31,25 @@
             <div class="mdl-layout__drawer">
                 <span class="mdl-layout-title">Administration</span>
                 <nav class="mdl-navigation">
-                    <h:link class="mdl-navigation__link" value="Dashboard" outcome="dashboard"/>
-                    <h:link class="mdl-navigation__link" value="Flights" outcome="dashFlights"/>
-                    <h:link class="mdl-navigation__link" value="Airports" rendered="#{userSession.authorizer.checkCompanyUser('ALLOWED')}" outcome="dashAirports"/>
-                    <h:link class="mdl-navigation__link" value="Statistics" outcome="dashStatistics"/>
+                    <h:link class="mdl-navigation__link" outcome="dashboard">
+                        <i class="material-icons">dashboard</i> Dashboard
+                    </h:link>
+                    <h:link class="mdl-navigation__link" outcome="dashFlights">
+                        <i class="material-icons">local_airport</i> Flights
+                    </h:link>
+                    <h:link class="mdl-navigation__link" rendered="#{userSession.authorizer.checkCompanyUser('ALLOWED')}" outcome="dashAirports">
+                        <i class="material-icons">account_balance</i> Airports
+                    </h:link>
+                    <h:link class="mdl-navigation__link" outcome="dashStatistics">
+                        <i class="material-icons">insert_chart</i> Statistics
+                    </h:link>
+                    <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
+                        <h:form>
+                            <h:commandLink action="#{login.logAdminUserOut}" class="mdl-navigation__link linkFont">
+                                <i class="material-icons">power_settings_new</i> #{msg.logOut}
+                            </h:commandLink>
+                        </h:form>
+                    </h:panelGroup>
                 </nav>
             </div>
             <main class="mdl-layout__content mdl-color--grey-100">

@@ -151,6 +151,11 @@ public class LoginBean {
         return "index?faces-redirect=true";
     }
 
+    public String logAdminUserOut() {
+        userController.logOutUser();
+        return "index";
+    }
+
     //endregion
 
 }
