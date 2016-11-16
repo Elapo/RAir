@@ -28,7 +28,7 @@ public class BookingBean implements Serializable {
 
     //region Private Member Variables +
 
-    private Integer bookId;
+    private Long bookId;
 
     private Booking booking;
 
@@ -50,11 +50,11 @@ public class BookingBean implements Serializable {
 
     //region Public Properties +
 
-    public Integer getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(Integer bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
@@ -70,13 +70,9 @@ public class BookingBean implements Serializable {
 
     //region Public Methods +
 
-    //Todo: cant load param from url
     public void loadBooking() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Map<String, String> paramMap = context.getExternalContext().getRequestParameterMap();
-        String id = paramMap.get("bookId");
         try {
-            this.booking = bookingDao.find(Long.valueOf(id));
+            this.booking = bookingDao.find(bookId);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

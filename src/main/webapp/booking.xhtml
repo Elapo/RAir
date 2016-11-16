@@ -10,13 +10,14 @@
 <f:metadata>
 
     <f:viewParam name="bookId" value="#{booking.bookId}"/>
-    <!--<f:viewAction action="#{booking.loadBooking()}" if="#{booking.bookId == null}"/>-->
+    <f:viewAction action="#{booking.loadBooking()}"/>
+    <!--<f:event type="preRenderView" listener="#{booking.loadBooking()}"/>-->
 
 </f:metadata>
 
 <ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
 
-    <ui:define name="title">#{msg.thankYouTitle}</ui:define>
+    <ui:define name="title">#{msg.bookingTitle}</ui:define>
 
     <ui:define name="main">
         <!-- content here -->
@@ -25,21 +26,30 @@
                 <section class="paddingTop40 paddingBot40">
                     <h3 align="center">#{msg.booking}</h3>
 
-                    <p:panelGrid columns="2" columnClasses="ui-g-12 mdl-textfield--align-right" styleClass="ui-noborder" style="margin: 0 auto;">
+                    <p:panelGrid columns="2" columnClasses="ui-g-12 mdl-textfield--align-right" styleClass="ui-noborder border mdl-shadow--3dp" style="margin: 0 auto;">
+                        <p:outputLabel value="#{msg.lblBookingStatus}" style="width: 100%;"/>
+                        <h:outputText value="#{booking.booking.status}" />
+
+                        <p:outputLabel value="#{msg.lblDepTime}" style="width: 100%;"/>
+                        <h:outputText value="#{booking.booking.flight.departureTime}"/>
+
+                        <p:outputLabel value="#{msg.lblArrTime}" style="width: 100%;"/>
+                        <h:outputText value="#{booking.booking.flight.arrivalTime}"/>
+
                         <p:outputLabel value="#{msg.lblFrom}" style="width: 100%;"/>
-                        <h:outputText value="0" />
+                        <h:outputText value="#{booking.booking.flight.route.airportA}"/>
 
                         <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
-                        <h:outputText value="0"/>
+                        <h:outputText value="#{booking.booking.flight.route.airportB}"/>
 
-                        <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
-                        <h:outputText value="0"/>
+                        <p:outputLabel value="#{msg.lblPurchaseTime}" style="width: 100%;"/>
+                        <h:outputText value="#{booking.booking.purchaseTime}"/>
 
-                        <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
-                        <h:outputText value="0"/>
+                        <p:outputLabel value="#{msg.lblPrice}" style="width: 100%;"/>
+                        <h:outputText value="#{booking.booking.finalPrice}"/>
 
-                        <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
-                        <h:outputText value="0"/>
+                        <div/>
+                        <p:barcode value="#{details.urlForQR}#{request.contextPath}/booking?bookId=#{booking.bookId}" type="qr"/>
                     </p:panelGrid>
                 </section>
             </div>

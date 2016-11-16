@@ -255,7 +255,6 @@ public class SearchBean implements Serializable {
     }
 
     public void search() throws IllegalAccessException {
-        //TODO: formvalidatie
         /*FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "System Error"));
 
         StringBuilder jpqlQuery = new StringBuilder("SELECT f FROM Flight f WHERE ");

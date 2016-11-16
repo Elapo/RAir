@@ -265,8 +265,6 @@ public class DetailsBean implements Serializable {
 
         booking.setPaymentMethod(paymentMethod);
 
-        this.selectedFlight = flightDao.find(selectedFlight.getId());
-
         reserveSeats();
 
         try {
@@ -277,7 +275,7 @@ public class DetailsBean implements Serializable {
             return null;
         }
 
-        return "thankyou.xhtml";
+        return "thankyou?faces-redirect=true";
     }
 
     //endregion

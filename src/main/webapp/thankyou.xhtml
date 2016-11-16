@@ -23,7 +23,7 @@
                                 <div class="paddingTop40 paddingBot40 mdl-cell--10-col-desktop mdl-cell--1-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: center">
                                     <h2><h:outputText value="#{msg.thanks}"/></h2>
                                     <h:outputText value="#{msg.qrCode}" style="display: block; text-align: left"/>
-                                    <p:barcode value="#{details.urlForQR}#{request.contextPath}/bookId=#{details.booking.id}" type="qr"/>
+                                    <p:barcode value="#{details.urlForQR}#{request.contextPath}/booking?bookId=#{details.booking.id}" type="qr"/>
                                     <h:outputText value="#{msg.qrCode2}" style="display: block; text-align: right"/>
                                 </div>
                             </div>
