@@ -219,7 +219,7 @@ public class DetailsBean implements Serializable {
     }
 
     public String tyContinue() {
-        return "pretty:profile";
+        return "pretty:booking?bookId=" + booking.getId().toString();
     }
 
     public void reserveSeats() {
@@ -230,6 +230,7 @@ public class DetailsBean implements Serializable {
         selectedFlight.getAvailableSeats().put(searchBean.getSelectedFlightClass(), seats - numberOfTickets);
     }
 
+    // TODO: error/Crash if refresh page thankyou
     @Transactional
     public String pay() {
         BookingBuilder b = new BookingBuilder();
@@ -264,8 +265,6 @@ public class DetailsBean implements Serializable {
 
         booking.setPaymentMethod(paymentMethod);
 
-        this.selectedFlight = flightDao.find(selectedFlight.getId());
-
         reserveSeats();
 
         try {
@@ -276,7 +275,7 @@ public class DetailsBean implements Serializable {
             return null;
         }
 
-        return "thankyou.xhtml";
+        return "thankyou?faces-redirect=true";
     }
 
     //endregion

@@ -6,13 +6,16 @@ import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.user.User;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 @Named(value = "profile")
-@RequestScoped
-public class ProfileBean {
+@SessionScoped
+public class ProfileBean implements Serializable {
 
     //region CONSTANTS -
 
@@ -38,7 +41,7 @@ public class ProfileBean {
 
     //endregion
 
-    //region Private Methods - 
+    //region Private Methods +
 
     private List<Booking> getBookingsOfUser() {
         return bookingController.getBookingsByUser(sessionBean.getAuthorizer().getUser());

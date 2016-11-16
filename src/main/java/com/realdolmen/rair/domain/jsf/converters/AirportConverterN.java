@@ -24,8 +24,6 @@ public class AirportConverterN implements Converter {
         if (s != null && !s.equals("")) {
             return flightManagementBean.getAirportDao().findAirportByName(s);
         }
-
-        // TODO: 13/11/2016 choose converter
         return null;
     }
 

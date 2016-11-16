@@ -66,12 +66,40 @@
                 </div>
             </header>
             <div class="mdl-layout__drawer mdl-layout--small-screen-only">
-                <h:link outcome="index" class="mdl-navigation__link mdl-layout-title home" value="RAir"/>
+
                 <nav class="mdl-navigation">
-                    <span><h:link outcome="index" class="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons" style="float: right;">vpn_key</i></h:link></span>
-                    <span><h:link outcome="index" class="mdl-navigation__link linkFont" value="#{msg.about} "><i class="material-icons" style="float: right;">info</i></h:link></span>
-                    <span><h:link outcome="index" class="mdl-navigation__link linkFont" value="#{msg.contact} "><i class="material-icons" style="float: right;">contact_phone</i></h:link></span>
-                    <span><h:link outcome="languages" class="mdl-navigation__link linkFont" value="#{msg.languages} "><i class="material-icons" style="float: right;">language</i></h:link></span>
+                    <span class="mdl-layout-title"><a href="#{request.contextPath}" class="mdl-navigation__link home">RAir <i class="material-icons">flight_takeoff</i></a></span>
+                    <h:panelGroup rendered="#{userSession.authorizer.checkUser('GUEST')}">
+                        <span><h:link outcome="pretty:login" class="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons" style="float: right;">vpn_key</i></h:link></span>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
+                        <h:form>
+                            <h:commandLink action="#{login.logUserOut()}" class="mdl-navigation__link linkFont">
+                                <i class="material-icons">power_settings_new</i> #{msg.logOut}
+                            </h:commandLink>
+                        </h:form>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{userSession.authorizer.checkAdmin('ALLOWED') or userSession.authorizer.checkPartner('ALLOWED') or userSession.authorizer.checkCompanyUser('ALLOWED')}">
+                        <h:link outcome="dashboard" class="mdl-navigation__link linkFont">
+                            <i class="material-icons">settings</i> #{msg.adminDashboard}
+                        </h:link>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{userSession.authorizer.checkRegularUser('ALLOWED')}">
+                        <h:link outcome="profile" class="mdl-navigation__link linkFont">
+                            <i class="material-icons">perm_contact_calendar</i> #{msg.profile}
+                        </h:link>
+                    </h:panelGroup>
+                    <span><h:link outcome="pretty:about" class="mdl-navigation__link linkFont"><i class="material-icons">info</i> #{msg.about}</h:link></span>
+                    <span><h:link outcome="pretty:contact" class="mdl-navigation__link linkFont"><i class="material-icons">contact_phone</i> #{msg.contact}</h:link></span>
+                    <span style="width: 100%;"><button style="float: left; margin-left: 10px; padding: 20px;" id="demo-menu-top-left" class="mdl-navigation__link mdl-button mdl-js-button mdl-button--icon linkFont"><i class="material-icons">language</i></button></span>
+                    <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="demo-menu-top-left">
+                        <h:form>
+                            <li class="mdl-menu__item lang"><span><h:graphicImage library="images" name="Belgium.png"/></span><h:commandLink action="#{language.changeLocale('nl', 'BE')}" value=" #{msg.pickLangNL}" style="color: rgb(66,66,66)"/></li>
+                            <li class="mdl-menu__item lang"><span><h:graphicImage library="images" name="United_Kingdom.png"/></span><h:commandLink action="#{language.changeLocale('en', 'GB')}" value=" #{msg.pickLangEN}" style="color: rgb(66,66,66)"/></li>
+                            <li disabled="true" class="mdl-menu__item"><span><h:graphicImage library="images" name="France.png"/></span><h:commandLink disabled="true" action="#" value=" #{msg.pickLangFR}"/></li>
+                            <li disabled="true" class="mdl-menu__item"><span><h:graphicImage library="images" name="Germany.png"/></span><h:commandLink disabled="true" action="#" value=" #{msg.pickLangGER}"/></li>
+                        </h:form>
+                    </ul>
                 </nav>
             </div>
             <main class="mdl-layout__content">

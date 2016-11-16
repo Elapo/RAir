@@ -33,7 +33,7 @@ public class RegisterBean {
     private String lastName;
     private String firstName;
 
-    private Date birthDate = new Date();
+    private Date birthDate;
     private Sex selectedSex;
 
     @Pattern(message = "- E-mail is not a valid e-mail address.", regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")
@@ -46,15 +46,7 @@ public class RegisterBean {
     @Size(min = 5, message = "- Password is required and atleast exist out of 5 characters.")
     private String password;
 
-    //endregion	 
-
-    //region Private Properties -
-
     //endregion
-
-    //region Private Methods - 
-
-    //endregion	
 
     //region Constructors +
 

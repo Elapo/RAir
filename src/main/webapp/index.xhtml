@@ -12,10 +12,8 @@
     <ui:define name="title">#{msg.indexUserTitle}</ui:define>
 
     <ui:define name="main">
-        <!-- TODO: add recover password link -->
-        <!-- TODO: check prijs calculatie blijkt ma maal 1 ipv maaltickets te zijn -->
         <div class="mdl-grid mdl-grid--no-spacing mdl-layout">
-            <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--3dp border">
+            <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--3dp border" style="margin-top: 2px;">
                 <section style="position: relative;">
                     <div class="indexBanner"></div>
                     <div class="ribbon-wrapper-green">
@@ -109,7 +107,7 @@
                                         <f:convertDateTime type="time" pattern="MM/dd/yy HH:mm"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="#{msg.colArrival}" sortBy="#{r.arrivalTime}">
+                                <p:column headerText="#{msg.colArrival}" sortBy="#{r.arrivalTime}" styleClass="mdl-cell--hide-phone">
                                     <h:outputText value="#{r.arrivalTime}">
                                         <f:convertDateTime type="time" pattern="MM/dd/yy HH:mm"/>
                                     </h:outputText>
