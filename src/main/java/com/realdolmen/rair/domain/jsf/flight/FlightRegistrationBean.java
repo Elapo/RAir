@@ -1,5 +1,6 @@
 package com.realdolmen.rair.domain.jsf.flight;
 
+import com.realdolmen.rair.data.dao.UserDao;
 import com.realdolmen.rair.domain.controllers.FlightController;
 import com.realdolmen.rair.domain.controllers.RouteController;
 import com.realdolmen.rair.domain.entities.Airport;
@@ -7,6 +8,7 @@ import com.realdolmen.rair.domain.entities.Booking;
 import com.realdolmen.rair.domain.entities.Flight;
 import com.realdolmen.rair.domain.entities.FlightClass;
 import com.realdolmen.rair.domain.entities.user.Partner;
+import com.realdolmen.rair.domain.entities.user.User;
 import com.realdolmen.rair.domain.jsf.SessionBean;
 import com.realdolmen.rair.domain.modifiers.ModifierPipeline;
 import com.realdolmen.rair.domain.modifiers.PriceModifier;
@@ -17,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -36,6 +39,12 @@ public class FlightRegistrationBean implements Serializable {
     private Class<PriceModifier> selectedModifier;
 
     private List<PriceModifier> priceModifiers;
+
+    @Inject
+    private UserDao userDao;
+
+    @Inject
+    private FlightManagementBean flightManagementBean;
 
     @Inject
     private FlightController flightController;
@@ -64,6 +73,7 @@ public class FlightRegistrationBean implements Serializable {
         return "dashFlights";
     }
 
+    @Transactional
     public String registerFlight() {
         if (flight.getDepartureTime().after(flight.getArrivalTime())) {
             FacesContext.getCurrentInstance().addMessage("addFlight", new FacesMessage("Arrival time must be after departure time!"));
@@ -71,9 +81,11 @@ public class FlightRegistrationBean implements Serializable {
         }
 
         flight.getMaxSeats().forEach(flight.getAvailableSeats()::put);
-        flight.setCreator(sessionBean.getAuthorizer().getUser());
+        User user = userDao.find(sessionBean.getAuthorizer().getUser().getId());
+        flight.setCreator(user);
         flightController.registerFlight(from, to, flight);
         reset();
+        flightManagementBean.reset();
         return "dashFlights";
     }
 
