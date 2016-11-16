@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+
+    <f:viewParam name="bookId" value="#{booking.bookId}"/>
+    <!--<f:viewAction action="#{booking.loadBooking()}" if="#{booking.bookId == null}"/>-->
+
+</f:metadata>
+
+<ui:composition template="WEB-INF/views/MasterTemplate.xhtml">
+
+    <ui:define name="title">#{msg.thankYouTitle}</ui:define>
+
+    <ui:define name="main">
+        <!-- content here -->
+        <p:outputPanel class="mdl-grid mdl-layout">
+            <div class="mdl-cell--stretch mdl-cell--4-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone border mdl-shadow--3dp border" style="margin: 0 auto;">
+                <section class="paddingTop40 paddingBot40">
+                    <h3 align="center">#{msg.booking}</h3>
+
+                    <p:panelGrid columns="2" columnClasses="ui-g-12 mdl-textfield--align-right" styleClass="ui-noborder" style="margin: 0 auto;">
+                        <p:outputLabel value="#{msg.lblFrom}" style="width: 100%;"/>
+                        <h:outputText value="0" />
+
+                        <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
+                        <h:outputText value="0"/>
+
+                        <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
+                        <h:outputText value="0"/>
+
+                        <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
+                        <h:outputText value="0"/>
+
+                        <p:outputLabel value="#{msg.lblTo}" style="width: 100%;"/>
+                        <h:outputText value="0"/>
+                    </p:panelGrid>
+                </section>
+            </div>
+        </p:outputPanel>
+    </ui:define>
+</ui:composition>
+
+</html>

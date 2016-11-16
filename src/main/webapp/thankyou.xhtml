@@ -17,13 +17,13 @@
             <div class="mdl-cell--stretch mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <section class="paddingTop40 paddingBot40 noBG">
                     <h:form action="#" id="form" class="searchForm">
-                        <div class="registerCard mdl-card mdl-shadow--2dp mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                        <div class="registerCard mdl-card mdl-shadow--3dp mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                             <div class="mdl-card__title mdl-card--expand"></div>
                             <div class="mdl-card__supporting-text">
                                 <div class="paddingTop40 paddingBot40 mdl-cell--10-col-desktop mdl-cell--1-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: center">
                                     <h2><h:outputText value="#{msg.thanks}"/></h2>
                                     <h:outputText value="#{msg.qrCode}" style="display: block; text-align: left"/>
-                                    <p:barcode value="#{details.urlForQR}#{request.contextPath}/booking?id=#{details.booking.id}" type="qr"/>
+                                    <p:barcode value="#{details.urlForQR}#{request.contextPath}/bookId=#{details.booking.id}" type="qr"/>
                                     <h:outputText value="#{msg.qrCode2}" style="display: block; text-align: right"/>
                                 </div>
                             </div>

@@ -219,7 +219,7 @@ public class DetailsBean implements Serializable {
     }
 
     public String tyContinue() {
-        return "pretty:profile";
+        return "pretty:booking?bookId=" + booking.getId().toString();
     }
 
     public void reserveSeats() {
@@ -230,6 +230,7 @@ public class DetailsBean implements Serializable {
         selectedFlight.getAvailableSeats().put(searchBean.getSelectedFlightClass(), seats - numberOfTickets);
     }
 
+    // TODO: error/Crash if refresh page thankyou
     @Transactional
     public String pay() {
         BookingBuilder b = new BookingBuilder();
