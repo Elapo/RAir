@@ -70,7 +70,9 @@
                 <nav class="mdl-navigation">
                     <span class="mdl-layout-title"><a href="#{request.contextPath}" class="mdl-navigation__link home">RAir <i class="material-icons">flight_takeoff</i></a></span>
                     <h:panelGroup rendered="#{userSession.authorizer.checkUser('GUEST')}">
-                        <span><h:link outcome="pretty:login" class="mdl-navigation__link linkFont" value="#{msg.login} "><i class="material-icons" style="float: right;">vpn_key</i></h:link></span>
+                        <h:link outcome="pretty:login" class="mdl-navigation__link linkFont ">
+                            <i class="material-icons">vpn_key</i> #{msg.login}
+                        </h:link>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{not userSession.authorizer.checkUser('GUEST')}">
                         <h:form>
