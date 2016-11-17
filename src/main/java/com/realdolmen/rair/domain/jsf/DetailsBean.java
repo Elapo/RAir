@@ -264,7 +264,12 @@ public class DetailsBean implements Serializable {
         booking = b.build();
 
         booking.setPaymentMethod(paymentMethod);
+        int nrOfSeats = selectedFlight.getAvailableSeats().get(searchBean.getSelectedFlightClass());
 
+        if(nrOfSeats < booking.getTickets().size()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not enough seats available!", null));
+            return null;
+        }
         reserveSeats();
 
         try {
